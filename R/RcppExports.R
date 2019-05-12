@@ -2,26 +2,26 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 IF_mean <- function(returns) {
-    .Call('_IFs_IF_mean', PACKAGE = 'IFs', returns)
+    .Call(`_IFs_IF_mean`, returns)
 }
 
 IF_SD <- function(returns) {
-    .Call('_IFs_IF_SD', PACKAGE = 'IFs', returns)
+    .Call(`_IFs_IF_SD`, returns)
 }
 
 IF_SR <- function(returns, rf) {
-    .Call('_IFs_IF_SR', PACKAGE = 'IFs', returns, rf)
+    .Call(`_IFs_IF_SR`, returns, rf)
 }
 
 IF_SoR_mean <- function(returns, rf) {
-    .Call('_IFs_IF_SoR_mean', PACKAGE = 'IFs', returns, rf)
+    .Call(`_IFs_IF_SoR_mean`, returns, rf)
 }
 
 IF_OmegaRatio <- function(returns, cst) {
-    .Call('_IFs_IF_OmegaRatio', PACKAGE = 'IFs', returns, cst)
+    .Call(`_IFs_IF_OmegaRatio`, returns, cst)
 }
 
 IF_SSD <- function(returns, rf) {
-    .Call('_IFs_IF_SSD', PACKAGE = 'IFs', returns, rf)
+    .Call(`_IFs_IF_SSD`, returns, rf)
 }
 

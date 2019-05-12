@@ -51,7 +51,7 @@ Influence function of ESratio
 \code{IF.ESratio} returns the data and plots the shape of either the IF or the IF TS for the Expected Shortfall Ratio.
 }
 \examples{
-Plot of IF with nuisance parameter with return value
+# Plot of IF with nuisance parameter with return value
 outIF <- IF.ESratio(returns=NULL, evalShape=TRUE, retVals=NULL, parsESratio.IF=list(mu=0.01, q.alpha=-0.0541, ES.alpha=0.0777, ES.ratio=0.129),
                     IFplot=TRUE, IFprint=TRUE)
 

@@ -49,7 +49,7 @@ Influence function of the ES.
 \code{IF.ES} returns the data and plots the shape of either the IF or the IF TS for the ES
 }
 \examples{
-Plot of IF with nuisance parameter with return value
+# Plot of IF with nuisance parameter with return value
 outIF <- IF.ES(returns=NULL, evalShape=TRUE, retVals=NULL, parsES.IF=list(q.alpha=-0.0847, es.alpha=0.273),
                IFplot=TRUE, IFprint=TRUE)
 

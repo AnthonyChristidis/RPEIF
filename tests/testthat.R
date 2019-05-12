@@ -1,4 +1,4 @@
 library(testthat)
-library(InfluenceFunctions)
+library(IFs)
 
-test_check("InfluenceFunctions")
+test_check("IFs")

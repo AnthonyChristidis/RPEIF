@@ -51,7 +51,7 @@ Influence function of the SR.
 \code{IF.SR} returns the data and plots the shape of either the IF or the IF TS for the SR
 }
 \examples{
-Plot of IF with nuisance parameter with return value
+# Plot of IF with nuisance parameter with return value
 outIF <- IF.SR(returns=NULL, evalShape=TRUE, retVals=NULL, parsSR.IF=list(mu.e=0.01, sd=0.05, sr=0.69),
                IFplot=TRUE, IFprint=TRUE)
 

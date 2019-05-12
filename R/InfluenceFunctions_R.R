@@ -155,7 +155,7 @@ IF <- function(risk,
 #' @author Anthony-Alexander Christidis, \email{anthony.christidis@stat.ubc.ca}
 #' 
 #' @examples
-#' Plot of IF with nuisance parameter with return value
+#' # Plot of IF with nuisance parameter with return value
 #' outIF <- IF.mean(returns=NULL, evalShape=TRUE, retVals=NULL, parsMean.IF=list(mu=0.005),
 #'                  IFplot=TRUE, IFprint=TRUE)
 #'
@@ -336,7 +336,7 @@ IF.mean <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsMean.IF=lis
 #' @author Anthony-Alexander Christidis, \email{anthony.christidis@stat.ubc.ca}
 #'
 #' @examples
-#' Plot of IF with nuisance parameter with return value
+#' # Plot of IF with nuisance parameter with return value
 #' outIF <- IF.SD(returns=NULL, evalShape=TRUE, retVals=NULL, parsSD.IF=list(mu=0.005, sd=0.07),
 #'                IFplot=TRUE, IFprint=TRUE)
 #'
@@ -522,7 +522,7 @@ IF.SD <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSD.IF=list(mu
 #' @author Anthony-Alexander Christidis, \email{anthony.christidis@stat.ubc.ca}
 #'
 #' @examples
-#' Plot of IF with nuisance parameter with return value
+#' # Plot of IF with nuisance parameter with return value
 #' outIF <- IF.VaR(returns=NULL, evalShape=TRUE, retVals=NULL, parsVaR.IF=list(q.alpha=-0.0847, fq.alpha=2.507),
 #'                 IFplot=TRUE, IFprint=TRUE)
 #'
@@ -710,7 +710,7 @@ IF.VaR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsVaR.IF=list(
 #' @export
 #'
 #' @examples
-#' Plot of IF with nuisance parameter with return value
+#' # Plot of IF with nuisance parameter with return value
 #' outIF <- IF.ES(returns=NULL, evalShape=TRUE, retVals=NULL, parsES.IF=list(q.alpha=-0.0847, es.alpha=0.273),
 #'                IFplot=TRUE, IFprint=TRUE)
 #'
@@ -901,7 +901,7 @@ IF.ES <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsES.IF=list(q.
 #' @export
 #'
 #' @examples
-#' Plot of IF with nuisance parameter with return value
+#' # Plot of IF with nuisance parameter with return value
 #' outIF <- IF.SR(returns=NULL, evalShape=TRUE, retVals=NULL, parsSR.IF=list(mu.e=0.01, sd=0.05, sr=0.69),
 #'                IFplot=TRUE, IFprint=TRUE)
 #'
@@ -1267,7 +1267,7 @@ IF.SoR.const <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSoR_C.
 #' @export
 #'
 #' @examples
-#' Plot of IF with nuisance parameter with return value
+#' # Plot of IF with nuisance parameter with return value
 #' outIF <- IF.SoR(returns=NULL, evalShape=TRUE, retVals=NULL, parsSoR.IF=list(mu=0.01, lpm2=0.00898, sor.c=0.3337, 
 #'                                                                             ssd=0.0354, smean=-0.0199, sor.mu=0.2929),
 #'                  IFplot=TRUE, IFprint=TRUE)
@@ -1408,7 +1408,7 @@ IF.SoR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSoR.IF=list(
 #' @export
 #'
 #' @examples
-#' Plot of IF with nuisance parameter with return value
+#' # Plot of IF with nuisance parameter with return value
 #' outIF <- IF.ESratio(returns=NULL, evalShape=TRUE, retVals=NULL, parsESratio.IF=list(mu=0.01, q.alpha=-0.0541, ES.alpha=0.0777, ES.ratio=0.129),
 #'                     IFplot=TRUE, IFprint=TRUE)
 #'
@@ -1596,6 +1596,7 @@ IF.ESratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsESratio.
 #' @param IFplot If TRUE, the plot of the IF shape or IF TS of the returns is produced.
 #' @param IFprint If TRUE, the data for the IF shape or the IF TS of the returns is returned.
 #' @param alpha The tail probability of interest.
+#' @param rf Risk-free interest rate.
 #' @param prewhiten Boolean variable to indicate if the IF TS is pre-whitened (TRUE) or not (FALSE).
 #' @param ar.prewhiten.order Order of AR parameter for the pre-whitening. Default is AR(1).
 #' @param cleanOutliers Boolean variable to indicate whether the pre-whitenning of the influence functions TS should be done through a robust filter.
@@ -1611,7 +1612,7 @@ IF.ESratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsESratio.
 #' @author Anthony-Alexander Christidis, \email{anthony.christidis@stat.ubc.ca}
 #'
 #' @examples
-#' Plot of IF with nuisance parameter with return value
+#' # Plot of IF with nuisance parameter with return value
 #' outIF <- IF.VaRratio(returns=NULL, evalShape=TRUE, retVals=NULL, parsVaRratio.IF=list(mu=0.1, q.alpha=-0.0541, fq.alpha=3.99, VaR.ratio=0.185),
 #'                      IFplot=TRUE, IFprint=TRUE)
 #'
@@ -1683,6 +1684,13 @@ IF.VaRratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsVaRrati
     stop("alpha should be numeric")
   } else if(any(alpha < 0, alpha > 1)) {
     stop("alpha should be a numeric value between 0 and 1.")
+  }
+  
+  # Checking data for rf value
+  if(!inherits(rf, "numeric")){
+    stop("rf should be numeric")
+  } else if(any(rf < 0, rf > 1)) {
+    stop("rf should be a numeric value between 0 and 1.")
   }
   
   # Checking robust cleaning method specified
@@ -1805,7 +1813,7 @@ IF.VaRratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsVaRrati
 #' @export
 #'
 #' @examples
-#' Plot of IF with nuisance parameter with return value
+#' # Plot of IF with nuisance parameter with return value
 #' outIF <- IF.RachR(returns=NULL, evalShape=TRUE, retVals=NULL, parsRachev.IF=list(q.alpha=-0.0541, es.alpha=0.0777, q.beta=0.0741, eg.beta=0.0977, rach.r=1.257),
 #'                   IFplot=TRUE, IFprint=TRUE)
 #'
@@ -2035,7 +2043,7 @@ LPM <- function(returns, const = 0, order = 1, ...){
 #' @export
 #'
 #' @examples
-#' Plot of IF with nuisance parameter with return value
+#' # Plot of IF with nuisance parameter with return value
 #' outIF <- IF.LPM(returns=NULL, evalShape=TRUE, retVals=NULL, parsLPM.IF=list(lpm1=0.0255, lpm2=0.00218),
 #'                 IFplot=TRUE, IFprint=TRUE)
 #'
@@ -2258,7 +2266,7 @@ IF.LPM <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsLPM.IF=list(
 #' @export
 #'
 #' @examples
-#' Plot of IF with nuisance parameter with return value
+#' # Plot of IF with nuisance parameter with return value
 #' outIF <- IF.Omega(returns=NULL, evalShape=TRUE, retVals=NULL, parsOmegaRatio.IF=list(lpm1=0.0153, upm1=0.0253, omega=1.652),
 #'                   IFplot=TRUE, IFprint=TRUE)
 #'
@@ -2452,7 +2460,7 @@ IF.Omega <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsOmegaRatio
 #' @export
 #'
 #' @examples
-#' Plot of IF with nuisance parameter with return value
+#' # Plot of IF with nuisance parameter with return value
 #' outIF <- IF.SSD(returns=NULL, evalShape=TRUE, retVals=NULL, parsSSD.IF=list(mu=0.005, ssd=0.0495, smean=-0.0279),
 #'                 IFplot=TRUE, IFprint=TRUE)
 #'

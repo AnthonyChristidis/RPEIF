@@ -51,7 +51,7 @@ Influence function of Omega Ratio.
 \code{IF.OmegaRatio} returns the data and plots the shape of either the IF or the IF TS for the Omega Ratio.
 }
 \examples{
-Plot of IF with nuisance parameter with return value
+# Plot of IF with nuisance parameter with return value
 outIF <- IF.Omega(returns=NULL, evalShape=TRUE, retVals=NULL, parsOmegaRatio.IF=list(lpm1=0.0153, upm1=0.0253, omega=1.652),
                   IFplot=TRUE, IFprint=TRUE)
 

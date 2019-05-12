@@ -28,6 +28,8 @@ IF.VaRratio(returns = NULL, evalShape = FALSE, retVals = NULL,
 
 \item{alpha}{The tail probability of interest.}
 
+\item{rf}{Risk-free interest rate.}
+
 \item{prewhiten}{Boolean variable to indicate if the IF TS is pre-whitened (TRUE) or not (FALSE).}
 
 \item{ar.prewhiten.order}{Order of AR parameter for the pre-whitening. Default is AR(1).}
@@ -49,7 +51,7 @@ Influence function of the VaRratio.
 \code{IF.VaRratio} returns the data and plots the shape of either the IF or the IF TS for the VaR Ratio.
 }
 \examples{
-Plot of IF with nuisance parameter with return value
+# Plot of IF with nuisance parameter with return value
 outIF <- IF.VaRratio(returns=NULL, evalShape=TRUE, retVals=NULL, parsVaRratio.IF=list(mu=0.1, q.alpha=-0.0541, fq.alpha=3.99, VaR.ratio=0.185),
                      IFplot=TRUE, IFprint=TRUE)
 

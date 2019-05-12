@@ -54,7 +54,7 @@ Influence function of Rachev Ratio.
 \code{IF.Rachev} returns the data and plots the shape of either the IF or the IF TS for the Rachev Ratio.
 }
 \examples{
-Plot of IF with nuisance parameter with return value
+# Plot of IF with nuisance parameter with return value
 outIF <- IF.RachR(returns=NULL, evalShape=TRUE, retVals=NULL, parsRachev.IF=list(q.alpha=-0.0541, es.alpha=0.0777, q.beta=0.0741, eg.beta=0.0977, rach.r=1.257),
                   IFplot=TRUE, IFprint=TRUE)
 

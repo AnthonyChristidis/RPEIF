@@ -49,7 +49,7 @@ Influence function of the VaR.
 \code{IF.VaR} returns the data and plots the shape of either the IF or the IF TS for the Value at Risk
 }
 \examples{
-Plot of IF with nuisance parameter with return value
+# Plot of IF with nuisance parameter with return value
 outIF <- IF.VaR(returns=NULL, evalShape=TRUE, retVals=NULL, parsVaR.IF=list(q.alpha=-0.0847, fq.alpha=2.507),
                 IFplot=TRUE, IFprint=TRUE)
 

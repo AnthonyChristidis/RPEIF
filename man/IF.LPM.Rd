@@ -51,7 +51,7 @@ Influence function of LPM.
 \code{IF.LPM} returns the data and plots the shape of either the IF or the IF TS for the LPM
 }
 \examples{
-Plot of IF with nuisance parameter with return value
+# Plot of IF with nuisance parameter with return value
 outIF <- IF.LPM(returns=NULL, evalShape=TRUE, retVals=NULL, parsLPM.IF=list(lpm1=0.0255, lpm2=0.00218),
                 IFplot=TRUE, IFprint=TRUE)
 

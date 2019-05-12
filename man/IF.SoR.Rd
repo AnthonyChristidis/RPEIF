@@ -54,7 +54,7 @@ Influence function of SoR_C.
 \code{IF.SoR} returns the data and plots the shape of either the IF or the IF TS for the Sortino Ratio
 }
 \examples{
-Plot of IF with nuisance parameter with return value
+# Plot of IF with nuisance parameter with return value
 outIF <- IF.SoR(returns=NULL, evalShape=TRUE, retVals=NULL, parsSoR.IF=list(mu=0.01, lpm2=0.00898, sor.c=0.3337, 
                                                                             ssd=0.0354, smean=-0.0199, sor.mu=0.2929),
                  IFplot=TRUE, IFprint=TRUE)

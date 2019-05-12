@@ -51,7 +51,7 @@ Influence function of SSD.
 \code{IF.SSD} returns the data and plots the shape of either the IF or the IF TS for the SSD
 }
 \examples{
-Plot of IF with nuisance parameter with return value
+# Plot of IF with nuisance parameter with return value
 outIF <- IF.SSD(returns=NULL, evalShape=TRUE, retVals=NULL, parsSSD.IF=list(mu=0.005, ssd=0.0495, smean=-0.0279),
                 IFplot=TRUE, IFprint=TRUE)
 

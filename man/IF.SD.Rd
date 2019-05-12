@@ -49,7 +49,7 @@ Influence function of the standard deviation.
 \code{IF.SD} returns the data and plots the shape of either the IF or the IF TS for the standard deviation
 }
 \examples{
-Plot of IF with nuisance parameter with return value
+# Plot of IF with nuisance parameter with return value
 outIF <- IF.SD(returns=NULL, evalShape=TRUE, retVals=NULL, parsSD.IF=list(mu=0.005, sd=0.07),
                IFplot=TRUE, IFprint=TRUE)
 

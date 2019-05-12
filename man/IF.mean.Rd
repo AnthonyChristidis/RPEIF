@@ -49,7 +49,7 @@ Influence function for the specified risk measure.
 \code{IF.mean} returns the data and plots the shape of either the IF or the IF TS for the mean.
 }
 \examples{
-Plot of IF with nuisance parameter with return value
+# Plot of IF with nuisance parameter with return value
 outIF <- IF.mean(returns=NULL, evalShape=TRUE, retVals=NULL, parsMean.IF=list(mu=0.005),
                  IFplot=TRUE, IFprint=TRUE)
 
