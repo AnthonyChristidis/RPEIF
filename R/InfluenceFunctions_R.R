@@ -40,7 +40,8 @@ NULL
 #'                     
 #' # Plot of IF using wrapper function and with a specified TS 
 #' outIF <- IF(risk="mean",
-#'             returns=edhec[,"CA"], evalShape=TRUE, retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
+#'             returns=edhec[,"CA"], evalShape=TRUE, 
+#'             retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
 #'             IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
@@ -165,11 +166,13 @@ IF <- function(risk,
 #' 
 #' # Plot of IF a specified TS 
 #' outIF <- IF.mean(risk="mean",
-#'                  returns=edhec[,"CA"], evalShape=TRUE, retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
+#'                  returns=edhec[,"CA"], evalShape=TRUE, 
+#'                  retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
 #'                  IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
-#' outIF <- IF.mean(returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisance.par=NULL,
+#' outIF <- IF.mean(returns=edhec[,"CA"], evalShape=FALSE, 
+#'                  retVals=NULL, nuisance.par=NULL,
 #'                  IFplot=TRUE, IFprint=TRUE,
 #'                  compile=TRUE, prewhiten=FALSE,
 #'                  cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
@@ -346,11 +349,13 @@ IF.mean <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsMean.IF=lis
 #' 
 #' # Plot of IF a specified TS 
 #' outIF <- IF.SD(risk="mean",
-#'                returns=edhec[,"CA"], evalShape=TRUE, retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
+#'                returns=edhec[,"CA"], evalShape=TRUE, 
+#'                retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
 #'                IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
-#' outIF <- IF.SD(returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisance.par=NULL,
+#' outIF <- IF.SD(returns=edhec[,"CA"], evalShape=FALSE, 
+#'                retVals=NULL, nuisance.par=NULL,
 #'                IFplot=TRUE, IFprint=TRUE,
 #'                compile=TRUE, prewhiten=FALSE,
 #'                cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
@@ -523,7 +528,8 @@ IF.SD <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSD.IF=list(mu
 #'
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
-#' outIF <- IF.VaR(returns=NULL, evalShape=TRUE, retVals=NULL, parsVaR.IF=list(q.alpha=-0.0847, fq.alpha=2.507),
+#' outIF <- IF.VaR(returns=NULL, evalShape=TRUE, 
+#'                 retVals=NULL, parsVaR.IF=list(q.alpha=-0.0847, fq.alpha=2.507),
 #'                 IFplot=TRUE, IFprint=TRUE)
 #'
 #' data(edhec, package="PerformanceAnalytics")
@@ -532,13 +538,15 @@ IF.SD <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSD.IF=list(mu
 #' 
 #' # Plot of IF a specified TS 
 #' outIF <- IF.VaR(risk="mean",
-#'                 returns=edhec[,"CA"], evalShape=TRUE, retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
+#'                 returns=edhec[,"CA"], evalShape=TRUE, 
+#'                 retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
 #'                 IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
-#' outIF <- IF.VaR(returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisance.par=NULL,
+#' outIF <- IF.VaR(returns=edhec[,"CA"], evalShape=FALSE, 
+#'                 retVals=NULL, nuisance.par=NULL,
 #'                 IFplot=TRUE, IFprint=TRUE,
-#'                 compile=TRUE, prewhiten=FALSE,
+#'                 prewhiten=FALSE,
 #'                 cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 #'
 IF.VaR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsVaR.IF=list(q.alpha=-0.0847, fq.alpha=2.507), k=4,
@@ -711,7 +719,8 @@ IF.VaR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsVaR.IF=list(
 #'
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
-#' outIF <- IF.ES(returns=NULL, evalShape=TRUE, retVals=NULL, parsES.IF=list(q.alpha=-0.0847, es.alpha=0.273),
+#' outIF <- IF.ES(returns=NULL, evalShape=TRUE, 
+#'                retVals=NULL, parsES.IF=list(q.alpha=-0.0847, es.alpha=0.273),
 #'                IFplot=TRUE, IFprint=TRUE)
 #'
 #' data(edhec, package="PerformanceAnalytics")
@@ -720,13 +729,15 @@ IF.VaR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsVaR.IF=list(
 #' 
 #' # Plot of IF a specified TS 
 #' outIF <- IF.ES(risk="mean",
-#'                returns=edhec[,"CA"], evalShape=TRUE, retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
+#'                returns=edhec[,"CA"], evalShape=TRUE, 
+#'                retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
 #'                IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
-#' outIF <- IF.ES(returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisance.par=NULL,
+#' outIF <- IF.ES(returns=edhec[,"CA"], evalShape=FALSE, 
+#'                retVals=NULL, nuisance.par=NULL,
 #'                IFplot=TRUE, IFprint=TRUE,
-#'                compile=TRUE, prewhiten=FALSE,
+#'                prewhiten=FALSE,
 #'                cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 #'
 IF.ES <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsES.IF=list(q.alpha=-0.0847, es.alpha=0.273), k=4,
@@ -902,7 +913,8 @@ IF.ES <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsES.IF=list(q.
 #'
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
-#' outIF <- IF.SR(returns=NULL, evalShape=TRUE, retVals=NULL, parsSR.IF=list(mu.e=0.01, sd=0.05, sr=0.69),
+#' outIF <- IF.SR(returns=NULL, evalShape=TRUE, 
+#'                retVals=NULL, parsSR.IF=list(mu.e=0.01, sd=0.05, sr=0.69),
 #'                IFplot=TRUE, IFprint=TRUE)
 #'
 #' data(edhec, package="PerformanceAnalytics")
@@ -911,11 +923,13 @@ IF.ES <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsES.IF=list(q.
 #' 
 #' # Plot of IF a specified TS 
 #' outIF <- IF.SR(risk="mean",
-#'                returns=edhec[,"CA"], evalShape=TRUE, retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
+#'                returns=edhec[,"CA"], evalShape=TRUE, 
+#'                retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
 #'                IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
-#' outIF <- IF.SR(returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisance.par=NULL,
+#' outIF <- IF.SR(returns=edhec[,"CA"], evalShape=FALSE, 
+#'                retVals=NULL, nuisance.par=NULL,
 #'                IFplot=TRUE, IFprint=TRUE,
 #'                compile=TRUE, prewhiten=FALSE,
 #'                cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
@@ -1252,6 +1266,7 @@ IF.SoR.const <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSoR_C.
 #' @param threshold Parameter of threshold is either "mean" or "const". Default is "mean".
 #' @param const The threshold if threshold is "const". 
 #' @param rf Risk-free interest rate.
+#' @param compile Boolean variable to indicate if the IF TS should be computed using compiled code (C++) (TRUE) or not (FALSE).
 #' @param prewhiten Boolean variable to indicate if the IF TS is pre-whitened (TRUE) or not (FALSE).
 #' @param ar.prewhiten.order Order of AR parameter for the pre-whitening. Default is AR(1).
 #' @param cleanOutliers Boolean variable to indicate whether the pre-whitenning of the influence functions TS should be done through a robust filter.
@@ -1268,8 +1283,9 @@ IF.SoR.const <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSoR_C.
 #'
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
-#' outIF <- IF.SoR(returns=NULL, evalShape=TRUE, retVals=NULL, parsSoR.IF=list(mu=0.01, lpm2=0.00898, sor.c=0.3337, 
-#'                                                                             ssd=0.0354, smean=-0.0199, sor.mu=0.2929),
+#' outIF <- IF.SoR(returns=NULL, evalShape=TRUE, 
+#'                 retVals=NULL, parsSoR.IF=list(mu=0.01, lpm2=0.00898, sor.c=0.3337, 
+#'                                               ssd=0.0354, smean=-0.0199, sor.mu=0.2929),
 #'                  IFplot=TRUE, IFprint=TRUE)
 #'
 #' data(edhec, package="PerformanceAnalytics")
@@ -1278,19 +1294,21 @@ IF.SoR.const <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSoR_C.
 #' 
 #' # Plot of IF a specified TS 
 #' outIF <- IF.SoR(risk="mean",
-#'                  returns=edhec[,"CA"], evalShape=TRUE, retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
+#'                  returns=edhec[,"CA"], evalShape=TRUE, 
+#'                  retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
 #'                  IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
-#' outIF <- IF.SoR(returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisance.par=NULL,
-#'                  IFplot=TRUE, IFprint=TRUE,
-#'                  compile=TRUE, prewhiten=FALSE,
-#'                  cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
+#' outIF <- IF.SoR(returns=edhec[,"CA"], evalShape=FALSE, 
+#'                 retVals=NULL, nuisance.par=NULL,
+#'                 IFplot=TRUE, IFprint=TRUE,
+#'                 compile=TRUE, prewhiten=FALSE,
+#'                 cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 #'
 IF.SoR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSoR.IF=list(mu=0.01, lpm2=0.00898, sor.c=0.3337, 
                                                                                 ssd=0.0354, smean=-0.0199, sor.mu=0.2929), k=4,
                    IFplot=FALSE, IFprint=TRUE,
-                   threshold=c("mean", "const")[1], const=0, rf=0, prewhiten=FALSE, ar.prewhiten.order=1,
+                   compile=TRUE, threshold=c("mean", "const")[1], const=0, rf=0, prewhiten=FALSE, ar.prewhiten.order=1,
                    cleanOutliers=FALSE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05,
                    ...){
   
@@ -1409,7 +1427,8 @@ IF.SoR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSoR.IF=list(
 #'
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
-#' outIF <- IF.ESratio(returns=NULL, evalShape=TRUE, retVals=NULL, parsESratio.IF=list(mu=0.01, q.alpha=-0.0541, ES.alpha=0.0777, ES.ratio=0.129),
+#' outIF <- IF.ESratio(returns=NULL, evalShape=TRUE, 
+#'                     retVals=NULL, parsESratio.IF=list(mu=0.01, q.alpha=-0.0541, ES.alpha=0.0777, ES.ratio=0.129),
 #'                     IFplot=TRUE, IFprint=TRUE)
 #'
 #' data(edhec, package="PerformanceAnalytics")
@@ -1418,13 +1437,15 @@ IF.SoR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSoR.IF=list(
 #' 
 #' # Plot of IF a specified TS 
 #' outIF <- IF.ESratio(risk="mean",
-#'                     returns=edhec[,"CA"], evalShape=TRUE, retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
+#'                     returns=edhec[,"CA"], evalShape=TRUE, 
+#'                     retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
 #'                     IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
-#' outIF <- IF.ESratio(returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisance.par=NULL,
+#' outIF <- IF.ESratio(returns=edhec[,"CA"], evalShape=FALSE, 
+#'                     retVals=NULL, nuisance.par=NULL,
 #'                     IFplot=TRUE, IFprint=TRUE,
-#'                     compile=TRUE, prewhiten=FALSE,
+#'                     prewhiten=FALSE,
 #'                     cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 #'
 IF.ESratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsESratio.IF=list(mu=0.01, q.alpha=-0.0541, ES.alpha=0.0777, ES.ratio=0.129), k=4,
@@ -1613,7 +1634,8 @@ IF.ESratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsESratio.
 #'
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
-#' outIF <- IF.VaRratio(returns=NULL, evalShape=TRUE, retVals=NULL, parsVaRratio.IF=list(mu=0.1, q.alpha=-0.0541, fq.alpha=3.99, VaR.ratio=0.185),
+#' outIF <- IF.VaRratio(returns=NULL, evalShape=TRUE, 
+#'                      retVals=NULL, parsVaRratio.IF=list(mu=0.1, q.alpha=-0.0541, fq.alpha=3.99, VaR.ratio=0.185),
 #'                      IFplot=TRUE, IFprint=TRUE)
 #'
 #' data(edhec, package="PerformanceAnalytics")
@@ -1622,13 +1644,15 @@ IF.ESratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsESratio.
 #' 
 #' # Plot of IF a specified TS 
 #' outIF <- IF.VaRratio(risk="mean",
-#'                      returns=edhec[,"CA"], evalShape=TRUE, retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
+#'                      returns=edhec[,"CA"], evalShape=TRUE, 
+#'                      retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
 #'                      IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
-#' outIF <- IF.VaRratio(returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisance.par=NULL,
+#' outIF <- IF.VaRratio(returns=edhec[,"CA"], evalShape=FALSE, 
+#'                      retVals=NULL, nuisance.par=NULL,
 #'                      IFplot=TRUE, IFprint=TRUE,
-#'                      compile=TRUE, prewhiten=FALSE,
+#'                      prewhiten=FALSE,
 #'                      cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 #'
 IF.VaRratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsVaRratio.IF=list(mu=0.1, q.alpha=-0.0541, fq.alpha=3.99, VaR.ratio=0.185), k=4,
@@ -1814,7 +1838,9 @@ IF.VaRratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsVaRrati
 #'
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
-#' outIF <- IF.RachR(returns=NULL, evalShape=TRUE, retVals=NULL, parsRachev.IF=list(q.alpha=-0.0541, es.alpha=0.0777, q.beta=0.0741, eg.beta=0.0977, rach.r=1.257),
+#' outIF <- IF.RachR(returns=NULL, evalShape=TRUE, 
+#'                   retVals=NULL, parsRachev.IF=list(q.alpha=-0.0541, es.alpha=0.0777, 
+#'                                                    q.beta=0.0741, eg.beta=0.0977, rach.r=1.257),
 #'                   IFplot=TRUE, IFprint=TRUE)
 #'
 #' data(edhec, package="PerformanceAnalytics")
@@ -1823,13 +1849,15 @@ IF.VaRratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsVaRrati
 #' 
 #' # Plot of IF a specified TS 
 #' outIF <- IF.RachR(risk="mean",
-#'                   returns=edhec[,"CA"], evalShape=TRUE, retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
+#'                   returns=edhec[,"CA"], evalShape=TRUE, 
+#'                   retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
 #'                   IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
-#' outIF <- IF.RachR(returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisance.par=NULL,
+#' outIF <- IF.RachR(returns=edhec[,"CA"], evalShape=FALSE, 
+#'                   retVals=NULL, nuisance.par=NULL,
 #'                   IFplot=TRUE, IFprint=TRUE,
-#'                   compile=TRUE, prewhiten=FALSE,
+#'                   prewhiten=FALSE,
 #'                   cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 #'
 IF.RachR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsRachev.IF=list(q.alpha=-0.0541, es.alpha=0.0777, q.beta=0.0741, eg.beta=0.0977, rach.r=1.257), k=4,
@@ -2044,7 +2072,8 @@ LPM <- function(returns, const = 0, order = 1, ...){
 #'
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
-#' outIF <- IF.LPM(returns=NULL, evalShape=TRUE, retVals=NULL, parsLPM.IF=list(lpm1=0.0255, lpm2=0.00218),
+#' outIF <- IF.LPM(returns=NULL, evalShape=TRUE, 
+#'                 retVals=NULL, parsLPM.IF=list(lpm1=0.0255, lpm2=0.00218),
 #'                 IFplot=TRUE, IFprint=TRUE)
 #'
 #' data(edhec, package="PerformanceAnalytics")
@@ -2053,13 +2082,15 @@ LPM <- function(returns, const = 0, order = 1, ...){
 #' 
 #' # Plot of IF a specified TS 
 #' outIF <- IF.LPM(risk="mean",
-#'                 returns=edhec[,"CA"], evalShape=TRUE, retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
+#'                 returns=edhec[,"CA"], evalShape=TRUE, 
+#'                 retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
 #'                 IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
-#' outIF <- IF.LPM(returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisance.par=NULL,
+#' outIF <- IF.LPM(returns=edhec[,"CA"], evalShape=FALSE, 
+#'                 retVals=NULL, nuisance.par=NULL,
 #'                 IFplot=TRUE, IFprint=TRUE,
-#'                 compile=TRUE, prewhiten=FALSE,
+#'                 prewhiten=FALSE,
 #'                 cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 #'
 IF.LPM <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsLPM.IF=list(lpm1=0.0255, lpm2=0.00218), k=4,
@@ -2267,7 +2298,8 @@ IF.LPM <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsLPM.IF=list(
 #'
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
-#' outIF <- IF.Omega(returns=NULL, evalShape=TRUE, retVals=NULL, parsOmegaRatio.IF=list(lpm1=0.0153, upm1=0.0253, omega=1.652),
+#' outIF <- IF.Omega(returns=NULL, evalShape=TRUE, 
+#'                   retVals=NULL, parsOmegaRatio.IF=list(lpm1=0.0153, upm1=0.0253, omega=1.652),
 #'                   IFplot=TRUE, IFprint=TRUE)
 #'
 #' data(edhec, package="PerformanceAnalytics")
@@ -2276,11 +2308,13 @@ IF.LPM <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsLPM.IF=list(
 #' 
 #' # Plot of IF a specified TS 
 #' outIF <- IF.Omega(risk="mean",
-#'                   returns=edhec[,"CA"], evalShape=TRUE, retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
+#'                   returns=edhec[,"CA"], evalShape=TRUE, 
+#'                   retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
 #'                   IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
-#' outIF <- IF.Omega(returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisance.par=NULL,
+#' outIF <- IF.Omega(returns=edhec[,"CA"], evalShape=FALSE, 
+#'                   retVals=NULL, nuisance.par=NULL,
 #'                   IFplot=TRUE, IFprint=TRUE,
 #'                   compile=TRUE, prewhiten=FALSE,
 #'                   cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
@@ -2461,7 +2495,8 @@ IF.Omega <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsOmegaRatio
 #'
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
-#' outIF <- IF.SSD(returns=NULL, evalShape=TRUE, retVals=NULL, parsSSD.IF=list(mu=0.005, ssd=0.0495, smean=-0.0279),
+#' outIF <- IF.SSD(returns=NULL, evalShape=TRUE, 
+#'                 retVals=NULL, parsSSD.IF=list(mu=0.005, ssd=0.0495, smean=-0.0279),
 #'                 IFplot=TRUE, IFprint=TRUE)
 #'
 #' data(edhec, package="PerformanceAnalytics")
@@ -2470,11 +2505,13 @@ IF.Omega <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsOmegaRatio
 #' 
 #' # Plot of IF a specified TS 
 #' outIF <- IF.SSD(risk="mean",
-#'                 returns=edhec[,"CA"], evalShape=TRUE, retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
+#'                 returns=edhec[,"CA"], evalShape=TRUE, 
+#'                 retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
 #'                 IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
-#' outIF <- IF.SSD(returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisance.par=NULL,
+#' outIF <- IF.SSD(returns=edhec[,"CA"], evalShape=FALSE, 
+#'                 retVals=NULL, nuisance.par=NULL,
 #'                 IFplot=TRUE, IFprint=TRUE,
 #'                 compile=TRUE, prewhiten=FALSE,
 #'                 cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)

@@ -50,7 +50,8 @@ Influence function of the VaR.
 }
 \examples{
 # Plot of IF with nuisance parameter with return value
-outIF <- IF.VaR(returns=NULL, evalShape=TRUE, retVals=NULL, parsVaR.IF=list(q.alpha=-0.0847, fq.alpha=2.507),
+outIF <- IF.VaR(returns=NULL, evalShape=TRUE, 
+                retVals=NULL, parsVaR.IF=list(q.alpha=-0.0847, fq.alpha=2.507),
                 IFplot=TRUE, IFprint=TRUE)
 
 data(edhec, package="PerformanceAnalytics")
@@ -59,13 +60,15 @@ colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
 
 # Plot of IF a specified TS 
 outIF <- IF.VaR(risk="mean",
-                returns=edhec[,"CA"], evalShape=TRUE, retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
+                returns=edhec[,"CA"], evalShape=TRUE, 
+                retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
                 IFplot=TRUE, IFprint=TRUE)
 
 # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
-outIF <- IF.VaR(returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisance.par=NULL,
+outIF <- IF.VaR(returns=edhec[,"CA"], evalShape=FALSE, 
+                retVals=NULL, nuisance.par=NULL,
                 IFplot=TRUE, IFprint=TRUE,
-                compile=TRUE, prewhiten=FALSE,
+                prewhiten=FALSE,
                 cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 
 }

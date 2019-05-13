@@ -79,7 +79,7 @@ arma::vec IF_OmegaRatio(const arma::vec & returns, const double & cst){
   // Computing Omega+
   double Omega_p = sum(returns(returns>=cst)-cst)/N;
   // Computing Omega-
-  double Omega_m = sum(cst-returns(returns<=cst))/N;
+  double Omega_m = sum(cst-returns(returns<=cst))/N; 
   // Computing the IF vector for Omega Ratio
   arma::vec IF_Omega_vector = ((returns - cst) % (returns >= cst) - Omega_p)/ Omega_m;
   IF_Omega_vector = IF_Omega_vector - Omega_p / pow(Omega_m,2) * ((cst - returns) % (returns <= cst) - Omega_m);

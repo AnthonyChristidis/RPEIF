@@ -52,7 +52,8 @@ Influence function of the SR.
 }
 \examples{
 # Plot of IF with nuisance parameter with return value
-outIF <- IF.SR(returns=NULL, evalShape=TRUE, retVals=NULL, parsSR.IF=list(mu.e=0.01, sd=0.05, sr=0.69),
+outIF <- IF.SR(returns=NULL, evalShape=TRUE, 
+               retVals=NULL, parsSR.IF=list(mu.e=0.01, sd=0.05, sr=0.69),
                IFplot=TRUE, IFprint=TRUE)
 
 data(edhec, package="PerformanceAnalytics")
@@ -61,11 +62,13 @@ colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
 
 # Plot of IF a specified TS 
 outIF <- IF.SR(risk="mean",
-               returns=edhec[,"CA"], evalShape=TRUE, retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
+               returns=edhec[,"CA"], evalShape=TRUE, 
+               retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
                IFplot=TRUE, IFprint=TRUE)
 
 # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
-outIF <- IF.SR(returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisance.par=NULL,
+outIF <- IF.SR(returns=edhec[,"CA"], evalShape=FALSE, 
+               retVals=NULL, nuisance.par=NULL,
                IFplot=TRUE, IFprint=TRUE,
                compile=TRUE, prewhiten=FALSE,
                cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)

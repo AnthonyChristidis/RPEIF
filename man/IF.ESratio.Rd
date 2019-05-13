@@ -52,7 +52,8 @@ Influence function of ESratio
 }
 \examples{
 # Plot of IF with nuisance parameter with return value
-outIF <- IF.ESratio(returns=NULL, evalShape=TRUE, retVals=NULL, parsESratio.IF=list(mu=0.01, q.alpha=-0.0541, ES.alpha=0.0777, ES.ratio=0.129),
+outIF <- IF.ESratio(returns=NULL, evalShape=TRUE, 
+                    retVals=NULL, parsESratio.IF=list(mu=0.01, q.alpha=-0.0541, ES.alpha=0.0777, ES.ratio=0.129),
                     IFplot=TRUE, IFprint=TRUE)
 
 data(edhec, package="PerformanceAnalytics")
@@ -61,13 +62,15 @@ colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
 
 # Plot of IF a specified TS 
 outIF <- IF.ESratio(risk="mean",
-                    returns=edhec[,"CA"], evalShape=TRUE, retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
+                    returns=edhec[,"CA"], evalShape=TRUE, 
+                    retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
                     IFplot=TRUE, IFprint=TRUE)
 
 # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
-outIF <- IF.ESratio(returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisance.par=NULL,
+outIF <- IF.ESratio(returns=edhec[,"CA"], evalShape=FALSE, 
+                    retVals=NULL, nuisance.par=NULL,
                     IFplot=TRUE, IFprint=TRUE,
-                    compile=TRUE, prewhiten=FALSE,
+                    prewhiten=FALSE,
                     cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 
 }

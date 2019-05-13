@@ -59,7 +59,8 @@ colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
                     
 # Plot of IF using wrapper function and with a specified TS 
 outIF <- IF(risk="mean",
-            returns=edhec[,"CA"], evalShape=TRUE, retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
+            returns=edhec[,"CA"], evalShape=TRUE, 
+            retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
             IFplot=TRUE, IFprint=TRUE)
 
 # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
