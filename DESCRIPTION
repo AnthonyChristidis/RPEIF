@@ -18,7 +18,8 @@ Imports: Rcpp (>= 0.12.17),
     PerformanceAnalytics, 
     xts,
     zoo,
-    RobStatTM
+    RobStatTM,
+    stats
 Depends:
 LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 6.1.1
