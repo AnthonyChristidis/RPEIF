@@ -74,7 +74,7 @@ arma::vec IF_SoR_mean(const arma::vec & returns, const double & rf){
 arma::vec IF_OmegaRatio(const arma::vec & returns, const double & cst){
   
   // Returning length of returns vector
-  arma::uword N = returns.n_elem; 
+  arma::uword N = returns.n_elem;  
   
   // Computing Omega+
   double Omega_p = sum(returns(returns>=cst)-cst)/N;

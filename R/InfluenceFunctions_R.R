@@ -1,5 +1,5 @@
-#' @useDynLib IFs
-#' @importFrom Rcpp sourceCpp
+#' @useDynLib IFs, .registration = TRUE
+#' @importFrom Rcpp evalCpp
 NULL
 #'
 #' @import stats
