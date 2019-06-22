@@ -147,7 +147,7 @@ IF.LPM <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsLPM.IF=list(
         if(isTRUE(IFplot)){
           plot(IFvals[,1], IFvals[,2], type="l", 
                xlab="r", ylab="IF", col="blue", lwd=1, 
-               main="LPM",
+               main=ifelse(order==1, "LPM1", "LPM2"),
                panel.first=grid(), cex.lab=1.25)
           abline(h=0, v=0)
         }
