@@ -58,7 +58,7 @@ LPM <- function(returns, const = 0, order = 1, ...){
 #'                 prewhiten=FALSE,
 #'                 cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 #'
-IF.LPM <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsLPM.IF=list(lpm1=0.0255, lpm2=0.00218), k=4,
+IF.LPM <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsLPM.IF=list(lpm1=0.00198, lpm2=0.000021), k=4,
                    IFplot=FALSE, IFprint=TRUE,
                    const=0, order=1, prewhiten=FALSE, ar.prewhiten.order=1,
                    cleanOutliers=FALSE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05,

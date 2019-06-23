@@ -15,7 +15,7 @@ IF.SoR.mean <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSoR_M.I
         if(isTRUE(IFplot)){
           plot(IFvals[,1], IFvals[,2], type="l", 
                xlab="r", ylab="IF", col="blue", lwd=1, 
-               main="Influence Function - SoRmu",
+               main="SoRmu",
                panel.first=grid(), cex.lab=1.25)
           abline(h=0, v=0)
         }
@@ -223,8 +223,8 @@ IF.SoR.const <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSoR_C.
 #'                 compile=TRUE, prewhiten=FALSE,
 #'                 cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 #'
-IF.SoR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSoR.IF=list(mu=0.01, lpm2=0.00898, sor.c=0.3337, 
-                                                                                ssd=0.0354, smean=-0.0199, sor.mu=0.2929), k=4,
+IF.SoR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSoR.IF=list(mu=0.005, lpm2=0.000021, sor.c=1.092, 
+                                                                                ssd=0.0071, smean=-0.004, sor.mu=0.707), k=4,
                    IFplot=FALSE, IFprint=TRUE,
                    compile=TRUE, threshold=c("mean", "const")[1], const=0, rf=0, prewhiten=FALSE, ar.prewhiten.order=1,
                    cleanOutliers=FALSE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05,

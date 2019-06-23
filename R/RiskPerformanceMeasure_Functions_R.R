@@ -161,7 +161,7 @@ IF.SoR_M.fn <- function(x, returns, parsSoR_M.IF, rf=0){
     ssd <- parsSoR_M.IF$ssd
     smean <- parsSoR_M.IF$smean
     # IF computation for null returns
-    IF.SoR_M <- -sor.mu * (x - mu.hat)^2*(x<=mu.hat)/(2*ssd) + (x - mu.hat)/ssd + sor.mu*smean*(x-mu.hat)/ssd + sor.mu/2
+    IF.SoR_M <- -sor.mu * (x - mu.hat)^2*(x<=mu.hat)/(2*ssd^2) + (x - mu.hat)*(1/ssd + sor.mu*smean/ssd^2) + sor.mu/2
     # Return value for null returns
     return(IF.SoR_M)
   } else{
@@ -356,7 +356,6 @@ IF.LPM.fn <- function(x, returns, parsLPM.IF, const=0, order=1){
       IF.LPM <- (x - const)^2 * (x <= const)
       LPM.stored <- parsLPM.IF$lpm2
       IF.LPM <- IF.LPM - LPM.stored^2
-      IF.LPM <- IF.LPM / 2 / LPM.stored
     }
     # Return value for the risk measure
     return(IF.LPM)
@@ -388,7 +387,7 @@ IF.OmegaRatio.fn <- function(x, returns, parsOmega.IF, const=0){
     upm1 <- parsOmega.IF$upm1
     omega <- parsOmega.IF$omega
     # IF computation for null returns
-    IF.Omega <- 1/lpm1*((x-const)*(x>=const)-upm1) - upm1/lpm1^2*((const-x)*(x<-const)-lpm1)
+    IF.Omega <- 1/lpm1*((x-const)*(x>=const)-upm1) - omega/lpm1*((const-x)*(x<-const)-lpm1)
     # Return value for null returns
     return(IF.Omega)
   } else{
@@ -417,7 +416,7 @@ IF.SSD.fn <- function(x, returns, parsSSD.IF, rf=0){
     ssd <- parsSSD.IF$ssd
     smean <- parsSSD.IF$smean
     # Return value if nuisance parameters are given
-    IF.SSD <- ((x - mu.hat)^2 * (x <= mu.hat) - 2*smean * (x-mu.hat) - ssd)/(2*ssd)
+    IF.SSD <- ((x - mu.hat)^2 * (x <= mu.hat) - 2*smean * (x-mu.hat) - ssd^2)/(2*ssd)
     return(IF.SSD)
   } else{
     # Computing the mean of the returns

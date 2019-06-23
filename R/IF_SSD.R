@@ -49,7 +49,7 @@
 #'                 compile=TRUE, prewhiten=FALSE,
 #'                 cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 #'
-IF.SSD <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSSD.IF=list(mu=0.005, ssd=0.0495, smean=-0.0279), k=4,
+IF.SSD <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSSD.IF=list(mu=0.005, ssd=0.0071, smean=-0.004), k=4,
                    IFplot=FALSE, IFprint=TRUE,
                    rf=0, compile=TRUE, prewhiten=FALSE, ar.prewhiten.order=1,
                    cleanOutliers=FALSE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05,

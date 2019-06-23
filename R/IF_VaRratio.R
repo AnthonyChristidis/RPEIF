@@ -49,7 +49,7 @@
 #'                      prewhiten=FALSE,
 #'                      cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 #'
-IF.VaRratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsVaRratio.IF=list(mu=0.1, q.alpha=-0.0541, fq.alpha=3.99, VaR.ratio=0.185), k=4,
+IF.VaRratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsVaRratio.IF=list(mu=0.005, q.alpha=-0.0782, fq.alpha=17.55, VaR.ratio=0.64), k=4,
                         IFplot=FALSE, IFprint=TRUE,
                         alpha=0.05, rf=0, prewhiten=FALSE, ar.prewhiten.order=1,
                         cleanOutliers=FALSE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05,

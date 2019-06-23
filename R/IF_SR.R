@@ -48,7 +48,7 @@
 #'                compile=TRUE, prewhiten=FALSE,
 #'                cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 #'
-IF.SR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSR.IF=list(mu.e=0.01, sd=0.05, sr=0.69), k=4,
+IF.SR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSR.IF=list(mu.e=0.005, sd=0.01, sr=0.5), k=4,
                   IFplot=FALSE, IFprint=TRUE,
                   rf=0, compile=TRUE, prewhiten=FALSE, ar.prewhiten.order=1,
                   cleanOutliers=FALSE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05,

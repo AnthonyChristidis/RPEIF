@@ -50,7 +50,7 @@
 #'                   prewhiten=FALSE,
 #'                   cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 #'
-IF.RachR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsRachev.IF=list(q.alpha=-0.0541, es.alpha=0.0777, q.beta=0.0741, eg.beta=0.0977, rach.r=1.257), k=4,
+IF.RachR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsRachev.IF=list(q.alpha=-0.00782, es.alpha=0.0125, q.beta=0.0178, eg.beta=0.0225, rach.r=1.797), k=4,
                      IFplot=FALSE, IFprint=TRUE,
                      alpha=0.1, beta=0.1, rf=0, prewhiten=FALSE, ar.prewhiten.order=1,
                      cleanOutliers=FALSE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05,
