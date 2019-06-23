@@ -5,8 +5,8 @@
 \title{Influence Function - Sortino Ratio}
 \usage{
 IF.SoR(returns = NULL, evalShape = FALSE, retVals = NULL,
-  parsSoR.IF = list(mu = 0.01, lpm2 = 0.00898, sor.c = 0.3337, ssd =
-  0.0354, smean = -0.0199, sor.mu = 0.2929), k = 4, IFplot = FALSE,
+  parsSoR.IF = list(mu = 0.005, lpm2 = 2.1e-05, sor.c = 1.092, ssd =
+  0.0071, smean = -0.004, sor.mu = 0.707), k = 4, IFplot = FALSE,
   IFprint = TRUE, compile = TRUE, threshold = c("mean", "const")[1],
   const = 0, rf = 0, prewhiten = FALSE, ar.prewhiten.order = 1,
   cleanOutliers = FALSE, cleanMethod = c("locScaleRob", "Boudt")[1],

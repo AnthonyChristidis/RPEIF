@@ -5,7 +5,7 @@
 \title{Influence Function - Sharpe Ratio (SR)}
 \usage{
 IF.SR(returns = NULL, evalShape = FALSE, retVals = NULL,
-  parsSR.IF = list(mu.e = 0.01, sd = 0.05, sr = 0.69), k = 4,
+  parsSR.IF = list(mu.e = 0.005, sd = 0.01, sr = 0.5), k = 4,
   IFplot = FALSE, IFprint = TRUE, rf = 0, compile = TRUE,
   prewhiten = FALSE, ar.prewhiten.order = 1, cleanOutliers = FALSE,
   cleanMethod = c("locScaleRob", "Boudt")[1], eff = 0.99,

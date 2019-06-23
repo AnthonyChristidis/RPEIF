@@ -5,7 +5,7 @@
 \title{Influence Function - Lower Partial Moment (LPM)}
 \usage{
 IF.LPM(returns = NULL, evalShape = FALSE, retVals = NULL,
-  parsLPM.IF = list(lpm1 = 0.0255, lpm2 = 0.00218), k = 4,
+  parsLPM.IF = list(lpm1 = 0.00198, lpm2 = 2.1e-05), k = 4,
   IFplot = FALSE, IFprint = TRUE, const = 0, order = 1,
   prewhiten = FALSE, ar.prewhiten.order = 1, cleanOutliers = FALSE,
   cleanMethod = c("locScaleRob", "Boudt")[1], eff = 0.99,

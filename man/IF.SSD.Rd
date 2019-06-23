@@ -5,7 +5,7 @@
 \title{Influence Function - Semi-Standard Deviation (SSD)}
 \usage{
 IF.SSD(returns = NULL, evalShape = FALSE, retVals = NULL,
-  parsSSD.IF = list(mu = 0.005, ssd = 0.0495, smean = -0.0279), k = 4,
+  parsSSD.IF = list(mu = 0.005, ssd = 0.0071, smean = -0.004), k = 4,
   IFplot = FALSE, IFprint = TRUE, rf = 0, compile = TRUE,
   prewhiten = FALSE, ar.prewhiten.order = 1, cleanOutliers = FALSE,
   cleanMethod = c("locScaleRob", "Boudt")[1], eff = 0.99,
