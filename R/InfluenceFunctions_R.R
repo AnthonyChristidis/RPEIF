@@ -13,7 +13,7 @@ NULL
 #' @param returns Vector of the returns of the asset or portfolio.
 #' @param evalShape Evaluation of the shape of the IF risk measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.
 #' @param retVals Values used to evaluate the shape of the IF.
-#' @param nuisance.par Nuisance parameters used for the evaluation of the shape of the IF (if no returns are provided).
+#' @param parsNuisance.IF Nuisance parameters used for the evaluation of the shape of the IF (if no returns are provided).
 #' @param k Range parameter for the shape of the IF (the SD gets multiplied k times).
 #' @param IFplot If TRUE, the plot of the IF shape or IF TS of the returns is produced.
 #' @param IFprint If TRUE, the data for the IF shape or the IF TS of the returns is returned.
@@ -33,7 +33,7 @@ NULL
 #' @examples
 #' # Plot of IF using the wrapper function
 #' outIF <- IF(risk="mean",
-#'             returns=NULL, evalShape=TRUE, retVals=NULL, nuisance.par=list(mu=0.005),
+#'             returns=NULL, evalShape=TRUE, retVals=NULL, parsNuisance.IF=list(mu=0.005),
 #'             IFplot=TRUE, IFprint=TRUE)
 #' 
 #' #' # Loading data (hedge funds returns)
@@ -44,18 +44,18 @@ NULL
 #' # Plot of IF using wrapper function and with a specified TS 
 #' outIF <- IF(risk="mean",
 #'             returns=edhec[,"CA"], evalShape=TRUE, 
-#'             retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
+#'             retVals=seq(-0.1, 0.1, by=0.001), parsNuisance.IF=NULL,
 #'             IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
 #' outIF <- IF(risk="mean",
-#'             returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisance.par=NULL,
+#'             returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, parsNuisance.IF=NULL,
 #'             IFplot=TRUE, IFprint=TRUE,
 #'             compile=TRUE, prewhiten=FALSE,
 #'             cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 #'
 IF <- function(risk,
-               returns=NULL, evalShape=FALSE, retVals=NULL, nuisance.par=NULL, k=4,
+               returns=NULL, evalShape=FALSE, retVals=NULL, parsNuisance.IF=NULL, k=4,
                IFplot=FALSE, IFprint=TRUE,
                compile=TRUE, prewhiten=FALSE, ar.prewhiten.order=1,
                cleanOutliers=FALSE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05,
@@ -70,62 +70,62 @@ IF <- function(risk,
   
   # Computation for the specified risk measure
   switch(risk,
-         mean = IF.mean(returns=returns, evalShape=evalShape, retVals=retVals, parsMean.IF=nuisance.par, k=k,
+         mean = IF.mean(returns=returns, evalShape=evalShape, retVals=retVals, parsNuisance.IF=parsNuisance.IF, k=k,
                         IFplot=IFplot, IFprint=IFprint,
                         compile=compile, prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
                         cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, alpha.robust=alpha.robust, eff=eff,
                         ...),
-         SD = IF.SD(returns=returns, evalShape=evalShape, retVals=retVals, parsSD.IF=nuisance.par, k=k,
+         SD = IF.SD(returns=returns, evalShape=evalShape, retVals=retVals, parsNuisance.IF=parsNuisance.IF, k=k,
                     IFplot=IFplot, IFprint=IFprint,
                     compile=compile, prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
                     cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, alpha.robust=alpha.robust, eff=eff,
                     ...),
-         VaR = IF.VaR(returns=returns, evalShape=evalShape, retVals=retVals, parsVaR.IF=nuisance.par, k=k,
+         VaR = IF.VaR(returns=returns, evalShape=evalShape, retVals=retVals, parsNuisance.IF=parsNuisance.IF, k=k,
                       IFplot=IFplot, IFprint=IFprint,
                       compile=compile, prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
                       cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, alpha.robust=alpha.robust, eff=eff,
                       ...),
-         ES = IF.ES(returns=returns, evalShape=evalShape, retVals=retVals, parsES.IF=nuisance.par, k=k,
+         ES = IF.ES(returns=returns, evalShape=evalShape, retVals=retVals, parsNuisance.IF=parsNuisance.IF, k=k,
                     IFplot=IFplot, IFprint=IFprint,
                     compile=compile, prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
                     cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, alpha.robust=alpha.robust, eff=eff,
                     ...),
-         SR = IF.SR(returns=returns, evalShape=evalShape, retVals=retVals, parsSR.IF=nuisance.par, k=k,
+         SR = IF.SR(returns=returns, evalShape=evalShape, retVals=retVals, parsNuisance.IF=parsNuisance.IF, k=k,
                     IFplot=IFplot, IFprint=IFprint,
                     compile=compile, prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
                     cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, alpha.robust=alpha.robust, eff=eff,
                     ...),
-         SoR = IF.SoR(returns=returns, evalShape=evalShape, retVals=retVals, parsSoR.IF=nuisance.par, k=k,
+         SoR = IF.SoR(returns=returns, evalShape=evalShape, retVals=retVals, parsNuisance.IF=parsNuisance.IF, k=k,
                       IFplot=IFplot, IFprint=IFprint,
                       compile=compile, prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
                       cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, alpha.robust=alpha.robust, eff=eff,
                       ...),
-         ESratio = IF.ESratio(returns=returns, evalShape=evalShape, retVals=retVals, parsESratio.IF=nuisance.par, k=k,
+         ESratio = IF.ESratio(returns=returns, evalShape=evalShape, retVals=retVals, parsNuisance.IF=parsNuisance.IF, k=k,
                               IFplot=IFplot, IFprint=IFprint,
                               compile=compile, prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
                               cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, alpha.robust=alpha.robust, eff=eff,
                               ...),
-         VaRratio = IF.VaRratio(returns=returns, evalShape=evalShape, retVals=retVals, parsVaRratio.IF=nuisance.par, k=k,
+         VaRratio = IF.VaRratio(returns=returns, evalShape=evalShape, retVals=retVals, parsNuisance.IF=parsNuisance.IF, k=k,
                                 IFplot=IFplot, IFprint=IFprint,
                                 compile=compile, prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
                                 cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, alpha.robust=alpha.robust, eff=eff,
                               ...),
-         RachR = IF.RachR(returns=returns, evalShape=evalShape, retVals=retVals, parsRachR.IF=nuisance.par, k=k,
+         RachR = IF.RachR(returns=returns, evalShape=evalShape, retVals=retVals, parsNuisance.IF=parsNuisance.IF, k=k,
                           IFplot=IFplot, IFprint=IFprint,
                           compile=compile, prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
                           cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, alpha.robust=alpha.robust, eff=eff,
                             ...),
-         LPM = IF.LPM(returns=returns, evalShape=evalShape, retVals=retVals, parsLPM.IF=nuisance.par, k=k,
+         LPM = IF.LPM(returns=returns, evalShape=evalShape, retVals=retVals, parsNuisance.IF=parsNuisance.IF, k=k,
                       IFplot=IFplot, IFprint=IFprint,
                       compile=compile, prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
                       cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, alpha.robust=alpha.robust, eff=eff,
                       ...),
-         Omega = IF.Omega(returns=returns, evalShape=evalShape, retVals=retVals, parsOmega.IF=nuisance.par, k=k,
+         Omega = IF.Omega(returns=returns, evalShape=evalShape, retVals=retVals, parsNuisance.IF=parsNuisance.IF, k=k,
                           IFplot=IFplot, IFprint=IFprint,
                           compile=compile, prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
                           cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, alpha.robust=alpha.robust, eff=eff,
                           ...),
-         SSD = IF.SSD(returns=returns, evalShape=evalShape, retVals=retVals, parsSSD.IF=nuisance.par, k=k,
+         SSD = IF.SSD(returns=returns, evalShape=evalShape, retVals=retVals, parsNuisance.IF=parsNuisance.IF, k=k,
                       IFplot=IFplot, IFprint=IFprint,
                       compile=compile, prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
                       cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, alpha.robust=alpha.robust, eff=eff,

@@ -5,10 +5,9 @@
 \title{Influence Function - Sortino Ratio}
 \usage{
 IF.SoR(returns = NULL, evalShape = FALSE, retVals = NULL,
-  parsSoR.IF = list(mu = 0.005, lpm2 = 2.1e-05, sor.c = 1.092, ssd =
-  0.0071, smean = -0.004, sor.mu = 0.707), k = 4, IFplot = FALSE,
-  IFprint = TRUE, compile = TRUE, threshold = c("mean", "const")[1],
-  const = 0, rf = 0, prewhiten = FALSE, ar.prewhiten.order = 1,
+  parsNuisance.IF = NULL, k = 4, IFplot = FALSE, IFprint = TRUE,
+  compile = TRUE, threshold = c("mean", "const")[1], const = 0,
+  rf = 0, prewhiten = FALSE, ar.prewhiten.order = 1,
   cleanOutliers = FALSE, cleanMethod = c("locScaleRob", "Boudt")[1],
   eff = 0.99, alpha.robust = 0.05, ...)
 }
@@ -19,7 +18,7 @@ IF.SoR(returns = NULL, evalShape = FALSE, retVals = NULL,
 
 \item{retVals}{Values used to evaluate the shape of the IF.}
 
-\item{parsSoR.IF}{Nuisance parameters used for the evaluation of the shape of the IF (if no returns are provided).}
+\item{parsNuisance.IF}{Nuisance parameters used for the evaluation of the shape of the IF (if no returns are provided).}
 
 \item{k}{Range parameter for the shape of the IF (the SD gets multiplied k times).}
 
@@ -58,8 +57,7 @@ Influence function of SoR_C.
 \examples{
 # Plot of IF with nuisance parameter with return value
 outIF <- IF.SoR(returns=NULL, evalShape=TRUE, 
-                retVals=NULL, parsSoR.IF=list(mu=0.01, lpm2=0.00898, sor.c=0.3337, 
-                                              ssd=0.0354, smean=-0.0199, sor.mu=0.2929),
+                retVals=NULL, parsNuisance.IF=NULL,
                  IFplot=TRUE, IFprint=TRUE)
 
 data(edhec, package="PerformanceAnalytics")
@@ -67,14 +65,13 @@ colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
                     "GM", "LS", "MA", "RV", "SS", "FoF") 
 
 # Plot of IF a specified TS 
-outIF <- IF.SoR(risk="mean",
-                 returns=edhec[,"CA"], evalShape=TRUE, 
-                 retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
-                 IFplot=TRUE, IFprint=TRUE)
+outIF <- IF.SoR(returns=edhec[,"CA"], evalShape=TRUE, 
+                retVals=seq(-0.1, 0.1, by=0.001), parsNuisance.IF=NULL,
+                IFplot=TRUE, IFprint=TRUE)
 
 # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
 outIF <- IF.SoR(returns=edhec[,"CA"], evalShape=FALSE, 
-                retVals=NULL, nuisance.par=NULL,
+                retVals=NULL, parsNuisance.IF=NULL,
                 IFplot=TRUE, IFprint=TRUE,
                 compile=TRUE, prewhiten=FALSE,
                 cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)

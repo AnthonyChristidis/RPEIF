@@ -123,7 +123,7 @@ IF.SR.fn <- function(x, returns, parsSR.IF, rf=0){
   
   # Computing the nuisance parameters
   if(is.null(returns)){
-    mu.hat <- parsSR.IF$mu.e
+    mu.hat <- parsSR.IF$mu
     sd.hat <- parsSR.IF$sd
     sr <- parsSR.IF$sr
     # Return value is parameters are given
@@ -230,7 +230,7 @@ IF.ESratio.fn <- function(x, returns, parsESratio.IF, alpha=0.1, rf=0){
     # Parameters for null returns
     mu.hat <- parsESratio.IF$mu
     q.alpha <- parsESratio.IF$q.alpha
-    ES.alpha <- parsESratio.IF$ES.alpha
+    ES.alpha <- parsESratio.IF$es.alpha
     ES.ratio <- parsESratio.IF$ES.ratio
     # IF computation for null returns
     IF.ESratio <- (x - mu.hat)/ES.alpha - ES.ratio/ES.alpha*((-x + q.alpha)*(x<=q.alpha)/alpha - q.alpha - ES.alpha)
@@ -303,7 +303,7 @@ IF.Rachev.fn <- function(x, returns, parsRachev.IF, alpha=0.1, beta=0.1, rf=0){
     rach.r <- parsRachev.IF$rach.r
     # IF computation for null returns
     IF.Rachev <- (1/es.alpha)*((x>=q.beta)*(x-q.beta)/beta + q.beta - eg.beta) - 
-      (rach.r/es.alpha)*(-(x<=q.beta)*(x-q.beta)/alpha - q.alpha - es.alpha)
+      (rach.r/es.alpha)*(-(x<=q.alpha)*(x-q.alpha)/alpha - q.alpha - es.alpha)
     # Return value for null returns
     return(IF.Rachev)
     

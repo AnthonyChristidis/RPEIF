@@ -16,7 +16,7 @@ You can install the **stable** version on [R CRAN](https://cran.r-project.org/pa
 install.packages("IFs", dependencies = TRUE)
 ```
 
-You can install the **development** version from [GitHub](https://github.com/AnthonyChristidis/IFs)
+You can install the **development** version from [GitHub](https://github.com/AnthonyChristidis/IFs).
 
 ``` r
 library(devtools)
@@ -26,7 +26,7 @@ devtools::install_github("AnthonyChristidis/IFs")
 ### Usage
 
 ``` r
-# A small example
+# Sample Code
 library(IFs)
 # Computing the IF of the returns (with outlier cleaning and prewhitening)
 # Loading the data

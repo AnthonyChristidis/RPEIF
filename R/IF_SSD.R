@@ -6,7 +6,7 @@
 #' @param returns Vector of the returns of the asset or portfolio.
 #' @param evalShape Evaluation of the shape of the IF risk measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.
 #' @param retVals Values used to evaluate the shape of the IF.
-#' @param parsSSD.IF Nuisance parameters used for the evaluation of the shape of the IF (if no returns are provided).
+#' @param parsNuisance.IF Nuisance parameters used for the evaluation of the shape of the IF (if no returns are provided).
 #' @param k Range parameter for the shape of the IF (the SD gets multiplied k times).
 #' @param IFplot If TRUE, the plot of the IF shape or IF TS of the returns is produced.
 #' @param IFprint If TRUE, the data for the IF shape or the IF TS of the returns is returned.
@@ -29,7 +29,7 @@
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
 #' outIF <- IF.SSD(returns=NULL, evalShape=TRUE, 
-#'                 retVals=NULL, parsSSD.IF=list(mu=0.005, ssd=0.0495, smean=-0.0279),
+#'                 retVals=NULL, parsNuisance.IF=NULL,
 #'                 IFplot=TRUE, IFprint=TRUE)
 #'
 #' data(edhec, package="PerformanceAnalytics")
@@ -37,29 +37,22 @@
 #'                     "GM", "LS", "MA", "RV", "SS", "FoF") 
 #' 
 #' # Plot of IF a specified TS 
-#' outIF <- IF.SSD(risk="mean",
-#'                 returns=edhec[,"CA"], evalShape=TRUE, 
-#'                 retVals=seq(-0.1, 0.1, by=0.001), nuisance.par=NULL,
+#' outIF <- IF.SSD(returns=edhec[,"CA"], evalShape=TRUE, 
+#'                 retVals=seq(-0.1, 0.1, by=0.001), parsNuisance.IF=NULL,
 #'                 IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
 #' outIF <- IF.SSD(returns=edhec[,"CA"], evalShape=FALSE, 
-#'                 retVals=NULL, nuisance.par=NULL,
+#'                 retVals=NULL, parsNuisance.IF=NULL,
 #'                 IFplot=TRUE, IFprint=TRUE,
 #'                 compile=TRUE, prewhiten=FALSE,
 #'                 cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 #'
-IF.SSD <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSSD.IF=list(mu=0.005, ssd=0.0071, smean=-0.004), k=4,
+IF.SSD <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsNuisance.IF=NULL, k=4,
                    IFplot=FALSE, IFprint=TRUE,
                    rf=0, compile=TRUE, prewhiten=FALSE, ar.prewhiten.order=1,
                    cleanOutliers=FALSE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05,
                    ...){
-  
-  # Checking data if IF risk evaluation
-  if(isTRUE(evalShape))
-    if(is.null(returns))
-      if(is.null(parsSSD.IF))
-        stop("For shape evaluation, nuisance parameters must be specified if no returns are provided.")
   
   # Checking data if IF TS evaluation
   if(!isTRUE(evalShape))
@@ -122,13 +115,39 @@ IF.SSD <- function(returns=NULL, evalShape=FALSE, retVals=NULL, parsSSD.IF=list(
     stop("alpha.robust should be a numeric value between 0 and 1.")
   }
   
+  # Check data for the nuisance parameters
+  if(!is.null(parsNuisance.IF))
+    if(!is.list(parsNuisance.IF))
+      stop("parsNuisance.IF must be a list.")
+  
+  # Evaluation of nuisance parameters
+  if(is.null(parsNuisance.IF))
+    parsNuisance.IF <- nuis.pars() else{
+      if(!is.null(parsNuisance.IF$mu)){
+        nuis.mu <- parsNuisance.IF$mu} else{
+          nuis.mu <- 0.01}
+      if(!is.null(parsNuisance.IF$sd)){
+        nuis.sd <- parsNuisance.IF$sd} else{
+          nuis.sd <- 0.05}
+      if(!is.null(parsNuisance.IF$c)){
+        nuis.c <- parsNuisance.IF$c} else{
+          nuis.c <- 0}
+      if(!is.null(parsNuisance.IF$alpha)){
+        nuis.alpha <- parsNuisance.IF$alpha} else{
+          nuis.alpha <- 0.1}
+      if(!is.null(parsNuisance.IF$beta)){
+        nuis.beta <- parsNuisance.IF$beta} else{
+          nuis.beta <- 0.1}
+      parsNuisance.IF <- nuis.pars(nuis.mu, nuis.sd, nuis.c, nuis.alpha, nuis.beta)
+    }
+  
   # Function evaluation
   if(isTRUE(evalShape)){
     if(is.null(retVals))
       if(!is.null(returns))
         retVals <- seq(mean(returns)-k*sd(returns), mean(returns)+k*sd(returns), by=0.001) else
-          retVals <- seq(parsSSD.IF$mu-k*0.07, parsSSD.IF$mu+k*0.07, by=0.001)
-        IFvals <- cbind(retVals, IF.fn(retVals, risk="SSD", returns, parsSSD.IF, rf))
+          retVals <- seq(parsNuisance.IF$mu-k*0.07, parsNuisance.IF$mu+k*0.07, by=0.001)
+        IFvals <- cbind(retVals, IF.fn(retVals, risk="SSD", returns, parsNuisance.IF, rf))
         colnames(IFvals) <- c("r", "IFvals")
         if(isTRUE(IFplot)){
           plot(IFvals[,1], IFvals[,2], type="l", 
