@@ -6,7 +6,7 @@ IF.SoR.mean <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =N
   
   # Evaluation of nuisance parameters
   if(is.null(nuisPars ))
-    nuisPars  <- nuis.parsFn() else{
+    nuisPars  <- nuisParsFn() else{
       if(!is.null(nuisPars $mu)){
         nuis.mu <- nuisPars $mu} else{
           nuis.mu <- 0.01}
@@ -22,7 +22,7 @@ IF.SoR.mean <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =N
       if(!is.null(nuisPars $beta)){
         nuis.beta <- nuisPars $beta} else{
           nuis.beta <- 0.1}
-      nuisPars  <- nuis.parsFn(nuis.mu, nuis.sd, nuis.c, nuis.alpha, nuis.beta)
+      nuisPars  <- nuisParsFn(nuis.mu, nuis.sd, nuis.c, nuis.alpha, nuis.beta)
     }
   
   # Function evaluation
@@ -114,7 +114,7 @@ IF.SoR.const <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =
   
   # Evaluation of nuisance parameters
   if(is.null(nuisPars ))
-    nuisPars  <- nuis.parsFn() else{
+    nuisPars  <- nuisParsFn() else{
       if(!is.null(nuisPars $mu)){
         nuis.mu <- nuisPars $mu} else{
           nuis.mu <- 0.01}
@@ -130,7 +130,7 @@ IF.SoR.const <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =
       if(!is.null(nuisPars $beta)){
         nuis.beta <- nuisPars $beta} else{
           nuis.beta <- 0.1}
-      nuisPars  <- nuis.parsFn(nuis.mu, nuis.sd, nuis.c, nuis.alpha, nuis.beta)
+      nuisPars  <- nuisParsFn(nuis.mu, nuis.sd, nuis.c, nuis.alpha, nuis.beta)
     }
   
   # Function evaluation
