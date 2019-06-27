@@ -16,13 +16,13 @@
 #'
 #' @examples
 #' # Nuisance parameters using default values
-#' defaultNuisance <- nuis.pars()
+#' defaultNuisance <- nuis.parsFn()
 #'
 #' # Nuisance parameters using specified values
-#' specifiedNuisance <- nuis.pars(mu=0.02, sd=0.1, c=0.01, alpha=0.05, beta=0.1)
+#' specifiedNuisance <- nuis.parsFn(mu=0.02, sd=0.1, c=0.01, alpha=0.05, beta=0.1)
 #'
 
-nuis.pars <- function(mu=0.01, sd=0.05, c=0, alpha=0.1, beta=0.1){
+nuis.parsFn <- function(mu=0.01, sd=0.05, c=0, alpha=0.1, beta=0.1){
   
   # Check format of input
   if(!is.numeric(c(mu, sd, c, alpha, beta)))
