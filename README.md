@@ -34,9 +34,9 @@ data(edhec, package="PerformanceAnalytics")
 colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
                     "GM", "LS", "MA", "RV", "SS", "FoF")
 outIF <- IF(risk="mean",
-            returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisance.par=NULL,
+            returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisPars=NULL,
             IFplot=TRUE, IFprint=TRUE,
-            compile=TRUE, prewhiten=FALSE,
+            compile=TRUE, prewhiten=TRUE,
             cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05)
 ```
 
