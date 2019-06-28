@@ -5,7 +5,7 @@ NULL
 #' @import stats
 #' @import graphics
 
-#' @title Influence Function for Available Risk Measures
+#' @title Influence Function for Available Risk Measures 
 #'
 #' @description \code{IF} returns the data and plots the shape of either the IF or the IF TS for a risk measure specified.
 #' 
