@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // IF_mean
 arma::vec IF_mean(const arma::vec& returns);
-RcppExport SEXP _IFs_IF_mean(SEXP returnsSEXP) {
+RcppExport SEXP _RPEIF_IF_mean(SEXP returnsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -19,7 +19,7 @@ END_RCPP
 }
 // IF_SD
 arma::vec IF_SD(const arma::vec& returns);
-RcppExport SEXP _IFs_IF_SD(SEXP returnsSEXP) {
+RcppExport SEXP _RPEIF_IF_SD(SEXP returnsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -30,7 +30,7 @@ END_RCPP
 }
 // IF_SR
 arma::vec IF_SR(const arma::vec& returns, const double& rf);
-RcppExport SEXP _IFs_IF_SR(SEXP returnsSEXP, SEXP rfSEXP) {
+RcppExport SEXP _RPEIF_IF_SR(SEXP returnsSEXP, SEXP rfSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -42,7 +42,7 @@ END_RCPP
 }
 // IF_SoR_mean
 arma::vec IF_SoR_mean(const arma::vec& returns, const double& rf);
-RcppExport SEXP _IFs_IF_SoR_mean(SEXP returnsSEXP, SEXP rfSEXP) {
+RcppExport SEXP _RPEIF_IF_SoR_mean(SEXP returnsSEXP, SEXP rfSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -54,7 +54,7 @@ END_RCPP
 }
 // IF_OmegaRatio
 arma::vec IF_OmegaRatio(const arma::vec& returns, const double& cst);
-RcppExport SEXP _IFs_IF_OmegaRatio(SEXP returnsSEXP, SEXP cstSEXP) {
+RcppExport SEXP _RPEIF_IF_OmegaRatio(SEXP returnsSEXP, SEXP cstSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -66,7 +66,7 @@ END_RCPP
 }
 // IF_SSD
 arma::vec IF_SSD(const arma::vec& returns, const double& rf);
-RcppExport SEXP _IFs_IF_SSD(SEXP returnsSEXP, SEXP rfSEXP) {
+RcppExport SEXP _RPEIF_IF_SSD(SEXP returnsSEXP, SEXP rfSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -78,16 +78,16 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_IFs_IF_mean", (DL_FUNC) &_IFs_IF_mean, 1},
-    {"_IFs_IF_SD", (DL_FUNC) &_IFs_IF_SD, 1},
-    {"_IFs_IF_SR", (DL_FUNC) &_IFs_IF_SR, 2},
-    {"_IFs_IF_SoR_mean", (DL_FUNC) &_IFs_IF_SoR_mean, 2},
-    {"_IFs_IF_OmegaRatio", (DL_FUNC) &_IFs_IF_OmegaRatio, 2},
-    {"_IFs_IF_SSD", (DL_FUNC) &_IFs_IF_SSD, 2},
+    {"_RPEIF_IF_mean", (DL_FUNC) &_RPEIF_IF_mean, 1},
+    {"_RPEIF_IF_SD", (DL_FUNC) &_RPEIF_IF_SD, 1},
+    {"_RPEIF_IF_SR", (DL_FUNC) &_RPEIF_IF_SR, 2},
+    {"_RPEIF_IF_SoR_mean", (DL_FUNC) &_RPEIF_IF_SoR_mean, 2},
+    {"_RPEIF_IF_OmegaRatio", (DL_FUNC) &_RPEIF_IF_OmegaRatio, 2},
+    {"_RPEIF_IF_SSD", (DL_FUNC) &_RPEIF_IF_SSD, 2},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_IFs(DllInfo *dll) {
+RcppExport void R_init_RPEIF(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

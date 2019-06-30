@@ -1,5 +1,5 @@
 
-[![Build Status](https://travis-ci.org/AnthonyChristidis/IFs.svg?branch=master)](https://travis-ci.com/AnthonyChristidis/IFs) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/IFs)](https://cran.r-project.org/package=IFs) [![Downloads](http://cranlogs.r-pkg.org/badges/IFs)](https://cran.r-project.org/package=IFs)
+[![Build Status](https://travis-ci.org/AnthonyChristidis/IFs.svg?branch=master)](https://travis-ci.com/AnthonyChristidis/RPEIF) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/RPEIF)](https://cran.r-project.org/package=RPEIF) [![Downloads](http://cranlogs.r-pkg.org/badges/RPEIF)](https://cran.r-project.org/package=RPEIF)
 
 IFs
 ===
@@ -13,21 +13,21 @@ This package provides functions for computing the influence functions of risk an
 You can install the **stable** version on [R CRAN](https://cran.r-project.org/package=IFs).
 
 ``` r
-install.packages("IFs", dependencies = TRUE)
+install.packages("RPEIF", dependencies = TRUE)
 ```
 
-You can install the **development** version from [GitHub](https://github.com/AnthonyChristidis/IFs).
+You can install the **development** version from [GitHub](https://github.com/AnthonyChristidis/RPEIF).
 
 ``` r
 library(devtools)
-devtools::install_github("AnthonyChristidis/IFs")
+devtools::install_github("AnthonyChristidis/RPEIF")
 ```
 
 ### Usage
 
 ``` r
 # Sample Code
-library(IFs)
+library(RPEIF)
 # Computing the IF of the returns (with outlier cleaning and prewhitening)
 # Loading the data
 data(edhec, package="PerformanceAnalytics")
