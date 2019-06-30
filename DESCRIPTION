@@ -9,8 +9,8 @@ Author: Anthony Christidis <anthony.christidis@stat.ubc.ca>,
 Maintainer: Anthony Christidis <anthony.christidis@stat.ubc.ca>
 Description: This repository contains an R package that implements 
              the influence functions of various risk and performance measures as mentioned 
-             in  Zhang and Martin (2017) <https://ssrn.com/abstract=2747179> 
-             as well as Chen and Martin (2018) <https://ssrn.com/abstract=3085672>. 
+             in Zhang and Martin (2017) <https://ssrn.com/abstract=2747179> 
+             as well as Chen and Martin (2018) <https://ssrn.com/abstract=3085672>.
 License: GPL (>= 2)
 Biarch: true
 Imports: Rcpp (>= 0.12.17),
