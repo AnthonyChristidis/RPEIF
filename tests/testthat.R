@@ -1,4 +1,4 @@
 library(testthat)
-library(IFs)
+library(RPEIF)
 
-test_check("IFs")
+test_check("RPEIF")

@@ -3,7 +3,7 @@
 # -----------------------------------------
 
 # Required libraries
-library(IFs)
+library(RPEIF)
 
 # Context of test script
 context("Verify input for functions.")

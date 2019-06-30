@@ -1,4 +1,4 @@
-Package: IFs
+Package: RPEIF
 Type: Package
 Title: Computation and Plots of Influence Functions for Risk and Performance Measures
 Version: 1.0

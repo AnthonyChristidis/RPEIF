@@ -1,8 +1,8 @@
 /* confdefs.h */
-#define PACKAGE_NAME "IFs"
-#define PACKAGE_TARNAME "IFs"
+#define PACKAGE_NAME "RPEIF"
+#define PACKAGE_TARNAME "RPEIF"
 #define PACKAGE_VERSION "1.0.0"
-#define PACKAGE_STRING "ifs 1.0.0"
+#define PACKAGE_STRING "rpeif 1.0.0"
 #define PACKAGE_BUGREPORT ""
 #define PACKAGE_URL ""
 #define STDC_HEADERS 1

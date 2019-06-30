@@ -1,4 +1,4 @@
-#' @useDynLib IFs, .registration = TRUE
+#' @useDynLib RPEIF, .registration = TRUE
 #' @importFrom Rcpp evalCpp
 NULL
 #'
