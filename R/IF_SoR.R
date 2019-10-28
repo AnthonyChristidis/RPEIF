@@ -1,28 +1,28 @@
-IF.SoR.mean <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =NULL, k=4,
+IF.SoR.mean <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
                         IFplot=FALSE, IFprint=TRUE,
-                        rf=0, compile=TRUE, prewhiten=FALSE, ar.prewhiten.order=1,
+                        rf=0, prewhiten=FALSE, ar.prewhiten.order=1,
                         cleanOutliers=FALSE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05,
                         ...){
   
   # Evaluation of nuisance parameters
-  if(is.null(nuisPars ))
-    nuisPars  <- nuisParsFn() else{
-      if(!is.null(nuisPars $mu)){
-        nuis.mu <- nuisPars $mu} else{
+  if(is.null(nuisPars))
+    nuisPars <- nuisParsFn() else{
+      if(!is.null(nuisPars$mu)){
+        nuis.mu <- nuisPars$mu} else{
           nuis.mu <- 0.01}
-      if(!is.null(nuisPars $sd)){
-        nuis.sd <- nuisPars $sd} else{
+      if(!is.null(nuisPars$sd)){
+        nuis.sd <- nuisPars$sd} else{
           nuis.sd <- 0.05}
-      if(!is.null(nuisPars $c)){
-        nuis.c <- nuisPars $c} else{
+      if(!is.null(nuisPars$c)){
+        nuis.c <- nuisPars$c} else{
           nuis.c <- 0}
-      if(!is.null(nuisPars $alpha)){
-        nuis.alpha <- nuisPars $alpha} else{
+      if(!is.null(nuisPars$alpha)){
+        nuis.alpha <- nuisPars$alpha} else{
           nuis.alpha <- 0.1}
-      if(!is.null(nuisPars $beta)){
-        nuis.beta <- nuisPars $beta} else{
+      if(!is.null(nuisPars$beta)){
+        nuis.beta <- nuisPars$beta} else{
           nuis.beta <- 0.1}
-      nuisPars  <- nuisParsFn(nuis.mu, nuis.sd, nuis.c, nuis.alpha, nuis.beta)
+      nuisPars <- nuisParsFn(nuis.mu, nuis.sd, nuis.c, nuis.alpha, nuis.beta)
     }
   
   # Function evaluation
@@ -60,25 +60,21 @@ IF.SoR.mean <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =N
         returns <- temp.returns
   }
   
-  if(compile){
-    IF.SoR_M.vector <- as.vector(IF_SoR_mean(returns, rf))
-  } else{
-    # Computing the mean of the returns
-    mu.hat <- mean(returns)
-    # Computing the SD of the returns
-    sigma.hat <- sqrt(mean((returns-mu.hat)^2))
-    # Computing SD- of the returns
-    sigma.minus.hat <- sqrt(mean((returns-mu.hat)^2*(returns<=mu.hat)))
-    # Computing the SoR estimate
-    SoR.hat <- (mu.hat-rf)/sigma.minus.hat
-    # Computing the mean parameter for the SoR
-    mu1.minus.hat <- mean((returns-mu.hat)*(returns<=mu.hat))
-    
-    # Computing the IF vector for SoR_M
-    IF.SoR_M.vector <- -SoR.hat/2/sigma.minus.hat^2*(returns-mu.hat-rf)^2*(returns<=mu.hat)+
-      (1/sigma.minus.hat+SoR.hat*mu1.minus.hat/sigma.minus.hat^2)*(returns-mu.hat-rf)+
-      SoR.hat/2
-  }
+  # Computing the mean of the returns
+  mu.hat <- mean(returns)
+  # Computing the SD of the returns
+  sigma.hat <- sqrt(mean((returns-mu.hat)^2))
+  # Computing SD- of the returns
+  sigma.minus.hat <- sqrt(mean((returns-mu.hat)^2*(returns<=mu.hat)))
+  # Computing the SoR estimate
+  SoR.hat <- (mu.hat-rf)/sigma.minus.hat
+  # Computing the mean parameter for the SoR
+  mu1.minus.hat <- mean((returns-mu.hat)*(returns<=mu.hat))
+  
+  # Computing the IF vector for SoR_M
+  IF.SoR_M.vector <- -SoR.hat/2/sigma.minus.hat^2*(returns-mu.hat-rf)^2*(returns<=mu.hat)+
+    (1/sigma.minus.hat+SoR.hat*mu1.minus.hat/sigma.minus.hat^2)*(returns-mu.hat-rf)+
+    SoR.hat/2
   
   # Adding the pre-whitening functionality  
   if(prewhiten)
@@ -106,7 +102,7 @@ IF.SoR.mean <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =N
       return(IF.SoR_M.vector)
 }
 
-IF.SoR.const <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =NULL, k=4,
+IF.SoR.const <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
                          IFplot=FALSE, IFprint=TRUE,
                          const=0, prewhiten=FALSE, ar.prewhiten.order=1,
                          cleanOutliers=FALSE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05,
@@ -226,7 +222,6 @@ IF.SoR.const <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =
 #' @param threshold Parameter of threshold is either "mean" or "const". Default is "mean".
 #' @param const The threshold if threshold is "const". 
 #' @param rf Risk-free interest rate.
-#' @param compile Boolean variable to indicate if the IF TS should be computed using compiled code (C++) (TRUE) or not (FALSE).
 #' @param prewhiten Boolean variable to indicate if the IF TS is pre-whitened (TRUE) or not (FALSE).
 #' @param ar.prewhiten.order Order of AR parameter for the pre-whitening. Default is AR(1).
 #' @param cleanOutliers Boolean variable to indicate whether the pre-whitenning of the influence functions TS should be done through a robust filter.
@@ -244,7 +239,7 @@ IF.SoR.const <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
 #' outIF <- IF.SoR(returns=NULL, evalShape=TRUE, 
-#'                 retVals=NULL, nuisPars =NULL,
+#'                 retVals=NULL, nuisPars=NULL,
 #'                  IFplot=TRUE, IFprint=TRUE)
 #'
 #' data(edhec, package="PerformanceAnalytics")
@@ -253,19 +248,19 @@ IF.SoR.const <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =
 #' 
 #' # Plot of IF a specified TS 
 #' outIF <- IF.SoR(returns=edhec[,"CA"], evalShape=TRUE, 
-#'                 retVals=seq(-0.1, 0.1, by=0.001), nuisPars =NULL,
+#'                 retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
 #'                 IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
 #' outIF <- IF.SoR(returns=edhec[,"CA"], evalShape=FALSE, 
-#'                 retVals=NULL, nuisPars =NULL,
+#'                 retVals=NULL, nuisPars=NULL,
 #'                 IFplot=TRUE, IFprint=TRUE,
-#'                 compile=TRUE, prewhiten=FALSE,
+#'                 prewhiten=FALSE,
 #'                 cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 #'
-IF.SoR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =NULL, k=4,
+IF.SoR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
                    IFplot=FALSE, IFprint=TRUE,
-                   compile=TRUE, threshold=c("mean", "const")[1], const=0, rf=0, prewhiten=FALSE, ar.prewhiten.order=1,
+                   threshold=c("mean", "const")[1], const=0, rf=0, prewhiten=FALSE, ar.prewhiten.order=1,
                    cleanOutliers=FALSE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05,
                    ...){
   
@@ -336,18 +331,18 @@ IF.SoR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =NULL, 
   }
   
   # Check data for the nuisance parameters
-  if(!is.null(nuisPars ))
-    if(!is.list(nuisPars ))
+  if(!is.null(nuisPars))
+    if(!is.list(nuisPars))
       stop("nuisPars  must be a list.")
   
   # Function evaluation for mean threshold
   if(threshold=="mean")
-    IF.SoR.mean(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars =nuisPars , 
+    IF.SoR.mean(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars=nuisPars , 
                 IFplot=IFplot, IFprint=IFprint,
                 rf=rf, prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
                 cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, eff=eff, alpha.robust=alpha.robust,
                 ...) else if(threshold=="const")
-                  IF.SoR.const(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars =nuisPars , 
+                  IF.SoR.const(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars=nuisPars , 
                                IFplot=IFplot, IFprint=IFprint,
                                const=const, prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
                                cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, eff=eff, alpha.robust=alpha.robust,

@@ -6,9 +6,9 @@
 \usage{
 IF(risk, returns = NULL, evalShape = FALSE, retVals = NULL,
   nuisPars = NULL, k = 4, IFplot = FALSE, IFprint = TRUE,
-  compile = TRUE, prewhiten = FALSE, ar.prewhiten.order = 1,
-  cleanOutliers = FALSE, cleanMethod = c("locScaleRob", "Boudt")[1],
-  eff = 0.99, alpha.robust = 0.05, ...)
+  prewhiten = FALSE, ar.prewhiten.order = 1, cleanOutliers = FALSE,
+  cleanMethod = c("locScaleRob", "Boudt")[1], eff = 0.99,
+  alpha.robust = 0.05, ...)
 }
 \arguments{
 \item{risk}{Risk measure.}
@@ -26,8 +26,6 @@ IF(risk, returns = NULL, evalShape = FALSE, retVals = NULL,
 \item{IFplot}{If TRUE, the plot of the IF shape or IF TS of the returns is produced.}
 
 \item{IFprint}{If TRUE, the data for the IF shape or the IF TS of the returns is returned.}
-
-\item{compile}{Boolean variable to indicate if the IF TS should be computed using compiled code (C++) (TRUE) or not (FALSE).}
 
 \item{prewhiten}{Boolean variable to indicate if the IF TS is pre-whitened (TRUE) or not (FALSE).}
 

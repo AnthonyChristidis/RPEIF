@@ -4,3 +4,4 @@
 # RPEIF 1.0.1
 * Fix Sharpe Ratio issue.
 * Fix vignette plots missing.
+* Remove compilation capability.

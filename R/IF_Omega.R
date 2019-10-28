@@ -10,7 +10,6 @@
 #' @param IFplot If TRUE, the plot of the IF shape or IF TS of the returns is produced.
 #' @param IFprint If TRUE, the data for the IF shape or the IF TS of the returns is returned.
 #' @param const Constant threshold.
-#' @param compile Boolean variable to indicate if the IF TS should be computed using compiled code (C++) (TRUE) or not (FALSE).
 #' @param prewhiten Boolean variable to indicate if the IF TS is pre-whitened (TRUE) or not (FALSE).
 #' @param ar.prewhiten.order Order of AR parameter for the pre-whitening. Default is AR(1).
 #' @param cleanOutliers Boolean variable to indicate whether the pre-whitenning of the influence functions TS should be done through a robust filter.
@@ -28,7 +27,7 @@
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
 #' outIF <- IF.Omega(returns=NULL, evalShape=TRUE, 
-#'                   retVals=NULL, nuisPars =NULL,
+#'                   retVals=NULL, nuisPars=NULL,
 #'                   IFplot=TRUE, IFprint=TRUE)
 #'
 #' data(edhec, package="PerformanceAnalytics")
@@ -37,19 +36,19 @@
 #' 
 #' # Plot of IF a specified TS 
 #' outIF <- IF.Omega(returns=edhec[,"CA"], evalShape=TRUE, 
-#'                   retVals=seq(-0.1, 0.1, by=0.001), nuisPars =NULL,
+#'                   retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
 #'                   IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
 #' outIF <- IF.Omega(returns=edhec[,"CA"], evalShape=FALSE, 
-#'                   retVals=NULL, nuisPars =NULL,
+#'                   retVals=NULL, nuisPars=NULL,
 #'                   IFplot=TRUE, IFprint=TRUE,
-#'                   compile=TRUE, prewhiten=FALSE,
+#'                   prewhiten=FALSE,
 #'                   cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 #'
-IF.Omega <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =NULL, k=4,
+IF.Omega <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
                      IFplot=FALSE, IFprint=TRUE,
-                     const=0, compile=TRUE, prewhiten=FALSE, ar.prewhiten.order=1,
+                     const=0, prewhiten=FALSE, ar.prewhiten.order=1,
                      cleanOutliers=FALSE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05,
                      ...){
   
@@ -173,20 +172,16 @@ IF.Omega <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =NULL
         returns <- temp.returns
   }
   
-  if(compile){
-    IF.Omega.vector <- as.vector(IF_OmegaRatio(returns, const))
-  } else{
-    # Returning length of returns vector
-    N <- length(returns)
-    
-    # Computing Omega+
-    Omega_p <- sum(returns[returns>=const]-const)/N
-    # Computing Omega-
-    Omega_m <- sum(const-returns[returns<=const])/N
-    # Computing the IF vector for Omega Ratio
-    IF.Omega.vector <- ((returns - const) * (returns >= const) - Omega_p)/ Omega_m
-    IF.Omega.vector <- IF.Omega.vector - Omega_p / Omega_m^2 * ((const - returns) * (returns <= const) - Omega_m) 
-  }
+  # Returning length of returns vector
+  N <- length(returns)
+  
+  # Computing Omega+
+  Omega_p <- sum(returns[returns>=const]-const)/N
+  # Computing Omega-
+  Omega_m <- sum(const-returns[returns<=const])/N
+  # Computing the IF vector for Omega Ratio
+  IF.Omega.vector <- ((returns - const) * (returns >= const) - Omega_p)/ Omega_m
+  IF.Omega.vector <- IF.Omega.vector - Omega_p / Omega_m^2 * ((const - returns) * (returns <= const) - Omega_m) 
   
   # Adding the pre-whitening functionality  
   if(prewhiten)

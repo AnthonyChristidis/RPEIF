@@ -29,7 +29,7 @@
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
 #' outIF <- IF.RachR(returns=NULL, evalShape=TRUE, 
-#'                   retVals=NULL, nuisPars =NULL,
+#'                   retVals=NULL, nuisPars=NULL,
 #'                   IFplot=TRUE, IFprint=TRUE)
 #'
 #' data(edhec, package="PerformanceAnalytics")
@@ -38,17 +38,17 @@
 #' 
 #' # Plot of IF a specified TS 
 #' outIF <- IF.RachR(returns=edhec[,"CA"], evalShape=TRUE, 
-#'                   retVals=seq(-0.1, 0.1, by=0.001), nuisPars =NULL,
+#'                   retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
 #'                   IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
 #' outIF <- IF.RachR(returns=edhec[,"CA"], evalShape=FALSE, 
-#'                   retVals=NULL, nuisPars =NULL,
+#'                   retVals=NULL, nuisPars=NULL,
 #'                   IFplot=TRUE, IFprint=TRUE,
 #'                   prewhiten=FALSE,
 #'                   cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 #'
-IF.RachR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =NULL, k=4,
+IF.RachR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
                      IFplot=FALSE, IFprint=TRUE,
                      alpha=0.1, beta=0.1, rf=0, prewhiten=FALSE, ar.prewhiten.order=1,
                      cleanOutliers=FALSE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05,

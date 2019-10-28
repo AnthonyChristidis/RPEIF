@@ -22,10 +22,8 @@ Imports: Rcpp (>= 0.12.17),
     RobStatTM,
     stats
 Depends:
-LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 6.1.1
 Suggests: R.rsp,
    testthat
 VignetteBuilder: R.rsp
-NeedsCompilation: yes
 LazyData: true
