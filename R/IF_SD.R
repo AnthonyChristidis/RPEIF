@@ -5,7 +5,7 @@
 #' @param returns Vector of the returns of the asset or portfolio.
 #' @param evalShape Evaluation of the shape of the IF risk measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.
 #' @param retVals Values used to evaluate the shape of the IF.
-#' @param nuisPars  Nuisance parameters used for the evaluation of the shape of the IF (if no returns are provided).
+#' @param nuisPars Nuisance parameters used for the evaluation of the shape of the IF (if no returns are provided).
 #' @param k Range parameter for the shape of the IF (the SD gets multiplied k times).
 #' @param IFplot If TRUE, the plot of the IF shape or IF TS of the returns is produced.
 #' @param IFprint If TRUE, the data for the IF shape or the IF TS of the returns is returned.
@@ -107,29 +107,29 @@ IF.SD <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =NULL, k
   }
   
   # Check data for the nuisance parameters
-  if(!is.null(nuisPars ))
-    if(!is.list(nuisPars ))
-      stop("nuisPars  must be a list.")
+  if(!is.null(nuisPars))
+    if(!is.list(nuisPars))
+      stop("nuisPars must be a list.")
   
   # Evaluation of nuisance parameters
-  if(is.null(nuisPars ))
-    nuisPars  <- nuisParsFn() else{
-      if(!is.null(nuisPars $mu)){
-        nuis.mu <- nuisPars $mu} else{
+  if(is.null(nuisPars))
+    nuisPars <- nuisParsFn() else{
+      if(!is.null(nuisPars$mu)){
+        nuis.mu <- nuisPars$mu} else{
           nuis.mu <- 0.01}
-      if(!is.null(nuisPars $sd)){
-        nuis.sd <- nuisPars $sd} else{
+      if(!is.null(nuisPars$sd)){
+        nuis.sd <- nuisPars$sd} else{
           nuis.sd <- 0.05}
-      if(!is.null(nuisPars $c)){
-        nuis.c <- nuisPars $c} else{
+      if(!is.null(nuisPars$c)){
+        nuis.c <- nuisPars$c} else{
           nuis.c <- 0}
-      if(!is.null(nuisPars $alpha)){
-        nuis.alpha <- nuisPars $alpha} else{
+      if(!is.null(nuisPars$alpha)){
+        nuis.alpha <- nuisPars$alpha} else{
           nuis.alpha <- 0.1}
-      if(!is.null(nuisPars $beta)){
-        nuis.beta <- nuisPars $beta} else{
+      if(!is.null(nuisPars$beta)){
+        nuis.beta <- nuisPars$beta} else{
           nuis.beta <- 0.1}
-      nuisPars  <- nuisParsFn(nuis.mu, nuis.sd, nuis.c, nuis.alpha, nuis.beta)
+      nuisPars <- nuisParsFn(nuis.mu, nuis.sd, nuis.c, nuis.alpha, nuis.beta)
     }
   
   # Function evaluation
@@ -137,7 +137,7 @@ IF.SD <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =NULL, k
     if(is.null(retVals))
       if(!is.null(returns))
         retVals <- seq(mean(returns)-k*sd(returns), mean(returns)+k*sd(returns), by=0.001) else
-          retVals <- seq(nuisPars $mu-k*nuisPars $sd, nuisPars $mu+k*nuisPars $sd, by=0.001)
+          retVals <- seq(nuisPars$mu-k*nuisPars$sd, nuisPars$mu+k*nuisPars$sd, by=0.001)
         IFvals <- cbind(retVals, IF.fn(retVals, risk="SD", returns, nuisPars ))
         colnames(IFvals) <- c("r", "IFvals")
         if(isTRUE(IFplot)){
