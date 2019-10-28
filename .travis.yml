@@ -17,3 +17,7 @@ matrix:
       r: release
   allow_failures:
     - os: osx
+addons:
+  apt:
+    packages:
+      - devscripts
