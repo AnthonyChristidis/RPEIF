@@ -49,7 +49,7 @@
 #'
 IF.SR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =NULL, k=4,
                   IFplot=FALSE, IFprint=TRUE,
-                  rf=0, compile=TRUE, prewhiten=FALSE, ar.prewhiten.order=1,
+                  rf=0, compile=FALSE, prewhiten=FALSE, ar.prewhiten.order=1,
                   cleanOutliers=FALSE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05,
                   ...){
   
