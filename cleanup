@@ -1,5 +1,0 @@
-#!/bin/bash
-
-rm -Rf autom4te.cache
-rm config.log
-rm config.status
