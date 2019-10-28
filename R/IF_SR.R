@@ -182,9 +182,11 @@ IF.SR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =NULL, k
     mu.hat <- mean(returns)
     # Computing the SD of the returns
     sd.hat <- sd(returns)
+    # Computing Sharpe Ratio
+    sharpe.hat <- (mu.hat - rf)/sd.hat
     
     # Computing the IF vector for the SR
-    IF.SR.vector <- 1/sd.hat*(returns-mu.hat)-1/2*mu.hat/sd.hat^3*((returns-mu.hat)^2-sd.hat^2)
+    IF.SR.vector <- sharpe.hat/2 + (returns - mu.hat)/sd.hat - sharpe.hat/(2*sd.hat^2)*(returns - mu.hat)^2
   }
   
   # Adding the pre-whitening functionality  
@@ -212,3 +214,8 @@ IF.SR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =NULL, k
     return(xts::xts(IF.SR.vector, returns.dates)) else
       return(IF.SR.vector)
 }
+
+
+
+
+
