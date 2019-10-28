@@ -39,8 +39,10 @@ arma::vec IF_SR(const arma::vec & returns, const double & rf){
   double mu_hat = arma::mean(returns);
   // Computing the SD of the returns
   double sd_hat = arma::stddev(returns);
-  //Computin the IF vector for the SR
-  arma::vec IF_SR_vector = 1/sd_hat*(returns-mu_hat)-1/2*mu_hat/pow(sd_hat,3)*(pow((returns-mu_hat),2))-pow(sd_hat,2);
+  // Computing the Sharpe ratio of the returns
+  double sharpe_hat = (mu_hat - rf)/sd_hat;
+  //Computing the IF vector for the SR
+  arma::vec IF_SR_vector = sharpe_hat/2 + (returns - mu_hat)/sd_hat - sharpe_hat/(2*pow(sd_hat,2))*pow((returns - mu_hat),2);
   
   // Returning the IF vector for the SR
   return(IF_SR_vector);
