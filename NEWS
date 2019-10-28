@@ -5,3 +5,6 @@
 * Fix Sharpe Ratio issue.
 * Fix vignette plots missing.
 * Remove compilation capability.
+
+# RPEIF 1.0.2
+* Fix erroneous vignette.
