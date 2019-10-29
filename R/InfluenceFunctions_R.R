@@ -1,5 +1,5 @@
 #'
-#' @import stats
+#' @importFrom stats approxfun arima density dnorm pnorm qnorm quantile sd
 #' @import graphics
 
 #' @title Influence Function for Available Risk Measures 
