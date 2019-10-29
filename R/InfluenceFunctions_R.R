@@ -1,6 +1,6 @@
 #'
 #' @importFrom stats approxfun arima density dnorm pnorm qnorm quantile sd
-#' @import graphics
+#' @importFrom graphics plot grid abline
 
 #' @title Influence Function for Available Risk Measures 
 #'
