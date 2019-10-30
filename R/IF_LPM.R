@@ -5,7 +5,7 @@ LPM <- function(returns, const = 0, order = 1, ...){
   N <- length(returns)
   
   # Computing the LPM
-  return(1/N*sum((const-returns[returns<=const])^order)^(1/order))
+  return(1/N*sum((const-returns[returns<=const])^order))
 }
 
 #' @title Influence Function - Lower Partial Moment (LPM)

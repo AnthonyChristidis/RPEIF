@@ -1,3 +1,13 @@
+# Function to compute the UPM
+UPM <- function(returns, const = 0, order = 1, ...){
+  
+  # Compute the length of the returns vector
+  N <- length(returns)
+  
+  # Computing the LPM
+  return(1/N*sum((const-returns[returns>=const])^order))
+}
+
 #' @title Influence Function - Omega Ratio
 #' 
 #' @description \code{IF.OmegaRatio} returns the data and plots the shape of either the IF or the IF TS for the Omega Ratio.
@@ -175,14 +185,12 @@ IF.Omega <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL,
   # Returning length of returns vector
   N <- length(returns)
   
-  # Computing Omega+
-  Omega_p <- sum(returns[returns>=const]-const)/N
-  # Computing Omega-
-  Omega_m <- sum(const-returns[returns<=const])/N
+  # Computing Partial moments 
+  LPM.c <- LPM(returns, const=const, order=1) 
+  UPM.c <- UPM(returns, const=const, order=1)
   # Computing the IF vector for Omega Ratio
-  IF.Omega.vector <- ((returns - const) * (returns >= const) - Omega_p)/ Omega_m
-  IF.Omega.vector <- IF.Omega.vector - Omega_p / Omega_m^2 * ((const - returns) * (returns <= const) - Omega_m) 
-  
+  IF.Omega.vector <- 1/LPM.c*((returns-const)*(returns>=const)-UPM.c) - ((UPM.c/LPM.c)/LPM.c)*((const-returns)*(returns<=const)-LPM.c)
+
   # Adding the pre-whitening functionality  
   if(prewhiten)
     IF.Omega.vector <- as.numeric(arima(x=IF.Omega.vector, order=c(ar.prewhiten.order,0,0), include.mean=TRUE)$residuals)
