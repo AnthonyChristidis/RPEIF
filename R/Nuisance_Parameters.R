@@ -38,8 +38,8 @@ nuisParsFn  <- function(mu=0.01, sd=0.05, c=0, alpha=0.1, beta=0.1){
     
   # Nuisance Parameters for Risk Estimators
   
-  # SSD
-  ssd <- sd/sqrt(2)
+  # semisd
+  semisd <- sd/sqrt(2)
   smean <- -dnorm(0)*sd
 
   # LPM1
@@ -69,9 +69,9 @@ nuisParsFn  <- function(mu=0.01, sd=0.05, c=0, alpha=0.1, beta=0.1){
   sor.c <- mu/sqrt(lpm2)
 
   # SoR_mu
-  ssd <- sd/sqrt(2)
+  semisd <- sd/sqrt(2)
   smean <- -dnorm(0)*sd
-  sor.mu <- mu/ssd
+  sor.mu <- mu/semisd
 
   # ESratio
   q.alpha <- mu+qnorm(alpha)*sd
@@ -97,7 +97,7 @@ nuisParsFn  <- function(mu=0.01, sd=0.05, c=0, alpha=0.1, beta=0.1){
   omega <- upm1/lpm1
   
   # Return list for nuisance parameters
-  return(list(mu=mu, sd=sd, c=c, alpha=alpha, beta=beta, ssd=ssd, smean=smean, lpm1=lpm1, lpm2=lpm2, 
+  return(list(mu=mu, sd=sd, c=c, alpha=alpha, beta=beta, semisd=semisd, smean=smean, lpm1=lpm1, lpm2=lpm2, 
               q.alpha=q.alpha, es.alpha=es.alpha, fq.alpha=fq.alpha, sr=sr, sor.c=sor.c, sor.mu=sor.mu,
               es.alpha=es.alpha, ES.ratio=ES.ratio, VaR.ratio=VaR.ratio, q.beta=q.beta, eg.beta=eg.beta, 
               rach.r=rach.r, omega=omega, upm1=upm1))

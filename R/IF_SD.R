@@ -11,8 +11,8 @@
 #' @param IFprint If TRUE, the data for the IF shape or the IF TS of the returns is returned.
 #' @param prewhiten Boolean variable to indicate if the IF TS is pre-whitened (TRUE) or not (FALSE).
 #' @param ar.prewhiten.order Order of AR parameter for the pre-whitening. Default is AR(1).
-#' @param cleanOutliers Boolean variable to indicate whether the pre-whitenning of the influence functions TS should be done through a robust filter.
-#' @param cleanMethod Robust method used to clean outliers from the TS. The choices are "Boudt" and "locScaleRob" for the function. 
+#' @param cleanOutliers Boolean variable to indicate whether outliers are cleaned with a robust location and scale estimator.
+#' @param cleanMethod Robust method used to clean outliers from the TS. The choices are "locScaleRob" (default) and "Boudt" for the function. 
 #' @param alpha.robust Tuning parameter for the quantile of the "Boudt" robust data cleaning algorithm, using the minimum covariance determinant estimator (MCD).
 #' @param eff Tuning parameter for the normal distribution efficiency for the "locScaleRob" robust data cleaning.
 #' @param ... Additional parameters.

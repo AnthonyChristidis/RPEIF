@@ -2,7 +2,7 @@
 IF.fn <- function(x, risk, returns, nuisance.par, ...){
   
   # Available risk measures
-  risk.available <- c("mean", "SD", "VaR", "ES", "SR", "SoR", "ESratio", "VaRratio", "Rachev", "LPM", "OmegaRatio", "SSD")
+  risk.available <- c("mean", "SD", "VaR", "ES", "SR", "SoR", "ESratio", "VaRratio", "Rachev", "LPM", "OmegaRatio", "SemiSD")
   
   # Checking if the specified risk measure is available
   if(!(risk %in% risk.available))
@@ -21,7 +21,7 @@ IF.fn <- function(x, risk, returns, nuisance.par, ...){
          Rachev = IF.Rachev.fn(x, returns, nuisance.par, ...),
          LPM = IF.LPM.fn(x, returns, nuisance.par, ...),
          OmegaRatio = IF.OmegaRatio.fn(x, returns, nuisance.par, ...),
-         SSD = IF.SSD.fn(x, returns, nuisance.par, ...))
+         SemiSD = IF.SemiSD.fn(x, returns, nuisance.par, ...))
 }
 
 
@@ -40,12 +40,12 @@ IF.mean.fn <- function(x, returns, parsMean.IF){
 }
 
 
-IF.SD.fn <- function(x, returns, parsSD.IF){
+IF.SD.fn <- function(x, returns, parSemiSD.IF){
   
   # Computing the nuisance parameters
   if(is.null(returns)){
-    mu.hat <- parsSD.IF$mu
-    sd.hat <- parsSD.IF$sd
+    mu.hat <- parSemiSD.IF$mu
+    sd.hat <- parSemiSD.IF$sd
   } else{
       # Computing hte mean of the returns
       mu.hat <- mean(returns)
@@ -158,10 +158,10 @@ IF.SoR_M.fn <- function(x, returns, parsSoR_M.IF, rf=0){
     # Parameters for null returns
     mu.hat <- parsSoR_M.IF$mu
     sor.mu <- parsSoR_M.IF$sor.mu
-    ssd <- parsSoR_M.IF$ssd
+    SemiSD <- parsSoR_M.IF$semisd
     smean <- parsSoR_M.IF$smean
     # IF computation for null returns
-    IF.SoR_M <- -sor.mu * (x - mu.hat)^2*(x<=mu.hat)/(2*ssd^2) + (x - mu.hat)*(1/ssd + sor.mu*smean/ssd^2) + sor.mu/2
+    IF.SoR_M <- -sor.mu * (x - mu.hat)^2*(x<=mu.hat)/(2*SemiSD^2) + (x - mu.hat)*(1/SemiSD + sor.mu*smean/SemiSD^2) + sor.mu/2
     # Return value for null returns
     return(IF.SoR_M)
   } else{
@@ -387,21 +387,18 @@ IF.OmegaRatio.fn <- function(x, returns, parsOmega.IF, const=0){
     upm1 <- parsOmega.IF$upm1
     omega <- parsOmega.IF$omega
     # IF computation for null returns
-    IF.Omega <- 1/lpm1*((x-const)*(x>=const)-upm1) - omega/lpm1*((const-x)*(x<-const)-lpm1)
+    IF.Omega <- 1/lpm1*((x-const)*(x>=const)-upm1) - omega/lpm1*((const-x)*(x<=const)-lpm1)
     # Return value for null returns
     return(IF.Omega)
   } else{
     # Returning length of returns vector
     N <- length(returns)
-    
-    # Computing Omega+
-    Omega_p <- sum(returns[returns>=const]-const)/N
-    # Computing Omega-
-    Omega_m <- sum(const-returns[returns<=const])/N
+    # Computing Partial moments 
+    LPM.c <- LPM(returns, const=const, order=1) 
+    UPM.c <- UPM(returns, const=const, order=1)
     
     # Computing the IF for the Omega Ratio
-    IF.Omega <- ((x - const) * (x >= const) - Omega_p)/ Omega_m
-    IF.Omega <- IF.Omega - Omega_p / Omega_m^2 * ((const - x) * (x <= const) - Omega_m) 
+    IF.Omega <- 1/LPM.c*((x-const)*(x>=const)-UPM.c) - ((UPM.c/LPM.c)/LPM.c)*((const-x)*(x<=const)-LPM.c)
     
     # Return value for the risk measure
     return(IF.Omega)
@@ -409,15 +406,15 @@ IF.OmegaRatio.fn <- function(x, returns, parsOmega.IF, const=0){
 }
 
 
-IF.SSD.fn <- function(x, returns, parsSSD.IF, rf=0){
+IF.SemiSD.fn <- function(x, returns, parsSemiSD.IF, rf=0){
   
   if(is.null(returns)){
-    mu.hat <- parsSSD.IF$mu
-    ssd <- parsSSD.IF$ssd
-    smean <- parsSSD.IF$smean
+    mu.hat <- parsSemiSD.IF$mu
+    SemiSD <- parsSemiSD.IF$semisd
+    smean <- parsSemiSD.IF$smean
     # Return value if nuisance parameters are given
-    IF.SSD <- ((x - mu.hat)^2 * (x <= mu.hat) - 2*smean * (x-mu.hat) - ssd^2)/(2*ssd)
-    return(IF.SSD)
+    IF.SemiSD <- ((x - mu.hat)^2 * (x <= mu.hat) - 2*smean * (x-mu.hat) - SemiSD^2)/(2*SemiSD)
+    return(IF.SemiSD)
   } else{
     # Computing the mean of the returns
     mu.hat <- mean(returns)
@@ -425,14 +422,14 @@ IF.SSD.fn <- function(x, returns, parsSSD.IF, rf=0){
     sigma.minus.hat <- sqrt(mean((returns-mu.hat)^2*(returns<=mu.hat)))
   }
   
-  # Computing the IF vector for SSD
-  IF.SSD <- (x - mu.hat)^2 * (x <= mu.hat)
-  IF.SSD <- IF.SSD - 2 * mean((x-mu.hat) * (x <= mu.hat)) * (x - mu.hat)
-  IF.SSD <- IF.SSD - sigma.minus.hat^2
-  IF.SSD <- IF.SSD / 2 / sigma.minus.hat
+  # Computing the IF vector for SemiSD
+  IF.SemiSD <- (x - mu.hat)^2 * (x <= mu.hat)
+  IF.SemiSD <- IF.SemiSD - 2 * mean((x-mu.hat) * (x <= mu.hat)) * (x - mu.hat)
+  IF.SemiSD <- IF.SemiSD - sigma.minus.hat^2
+  IF.SemiSD <- IF.SemiSD / 2 / sigma.minus.hat
   
   # Return value for the risk measure
-  return(IF.SSD)
+  return(IF.SemiSD)
 }
 
 

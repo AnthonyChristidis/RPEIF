@@ -12,7 +12,7 @@ context("Verify input for functions.")
 test_that("Error for invalid returns", {
   expect_error(IF(risk="mean", returns=NULL))
   expect_error(IF(risk="SD", returns=NULL))
-  expect_error(IF(risk="SSD", returns=NULL))
+  expect_error(IF(risk="SemiSD", returns=NULL))
   expect_error(IF(risk="LPM", returns=NULL))
   expect_error(IF(risk="ES", returns=NULL))
   expect_error(IF(risk="VaR", returns=NULL))

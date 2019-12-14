@@ -212,7 +212,7 @@ IF.SoR.const <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=N
 #' 
 #' @description \code{IF.SoR} returns the data and plots the shape of either the IF or the IF TS for the Sortino Ratio
 #'
-#' @param returns Vector of the returns of the asset or portfolio.
+#' @param returns Returns data of the asset or portfolio. This can be a numeric or an xts object.
 #' @param evalShape Evaluation of the shape of the IF risk measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.
 #' @param retVals Values used to evaluate the shape of the IF.
 #' @param nuisPars Nuisance parameters used for the evaluation of the shape of the IF (if no returns are provided).
@@ -224,8 +224,8 @@ IF.SoR.const <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=N
 #' @param rf Risk-free interest rate.
 #' @param prewhiten Boolean variable to indicate if the IF TS is pre-whitened (TRUE) or not (FALSE).
 #' @param ar.prewhiten.order Order of AR parameter for the pre-whitening. Default is AR(1).
-#' @param cleanOutliers Boolean variable to indicate whether the pre-whitenning of the influence functions TS should be done through a robust filter.
-#' @param cleanMethod Robust method used to clean outliers from the TS. The choices are "Boudt" and "locScaleRob" for the function. 
+#' @param cleanOutliers Boolean variable to indicate whether outliers are cleaned with a robust location and scale estimator.
+#' @param cleanMethod Robust method used to clean outliers from the TS. The choices are "locScaleRob" (default) and "Boudt" for the function. 
 #' @param alpha.robust Tuning parameter for the quantile of the "Boudt" robust data cleaning algorithm.
 #' @param eff Tuning parameter for the normal distribution efficiency for the "locScaleRob" robust data cleaning.
 #' @param ... Addtional parameters.

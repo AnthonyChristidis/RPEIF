@@ -8,3 +8,9 @@
 
 # RPEIF 1.0.2
 * Fix erroneous vignette.
+
+# RPEIF 1.0.3
+* Update documentation for functions.
+* Update function and vignette for semi-standard deviation.
+* Update name of vignette.
+

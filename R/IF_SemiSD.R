@@ -1,9 +1,9 @@
 
-#' @title Influence Function - Semi-Standard Deviation (SSD)
+#' @title Influence Function - Semi-Standard Deviation (SemiSD)
 #' 
-#' @description \code{IF.SSD} returns the data and plots the shape of either the IF or the IF TS for the SSD
+#' @description \code{IF.SemiSD} returns the data and plots the shape of either the IF or the IF TS for the SemiSD
 #'
-#' @param returns Vector of the returns of the asset or portfolio.
+#' @param returns Returns data of the asset or portfolio. This can be a numeric or an xts object.
 #' @param evalShape Evaluation of the shape of the IF risk measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.
 #' @param retVals Values used to evaluate the shape of the IF.
 #' @param nuisPars Nuisance parameters used for the evaluation of the shape of the IF (if no returns are provided).
@@ -13,13 +13,13 @@
 #' @param rf Risk-free interest rate.
 #' @param prewhiten Boolean variable to indicate if the IF TS is pre-whitened (TRUE) or not (FALSE).
 #' @param ar.prewhiten.order Order of AR parameter for the pre-whitening. Default is AR(1).
-#' @param cleanOutliers Boolean variable to indicate whether the pre-whitenning of the influence functions TS should be done through a robust filter.
-#' @param cleanMethod Robust method used to clean outliers from the TS. The choices are "Boudt" and "locScaleRob" for the function. 
+#' @param cleanOutliers Boolean variable to indicate whether outliers are cleaned with a robust location and scale estimator.
+#' @param cleanMethod Robust method used to clean outliers from the TS. The choices are "locScaleRob" (default) and "Boudt" for the function. 
 #' @param alpha.robust Tuning parameter for the quantile of the "Boudt" robust data cleaning algorithm, using the minimum covariance determinant estimator (MCD).
 #' @param eff Tuning parameter for the normal distribution efficiency for the "locScaleRob" robust data cleaning.
 #' @param ... Additional parameters.
 #'
-#' @return Influence function of SSD.
+#' @return Influence function of SemiSD.
 #'
 #' @author Anthony-Alexander Christidis, \email{anthony.christidis@stat.ubc.ca}
 #'
@@ -27,27 +27,27 @@
 #'
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
-#' outIF <- IF.SSD(returns=NULL, evalShape=TRUE, 
-#'                 retVals=NULL, nuisPars=NULL,
-#'                 IFplot=TRUE, IFprint=TRUE)
+#' outIF <- IF.SemiSD(returns=NULL, evalShape=TRUE, 
+#'                    retVals=NULL, nuisPars=NULL,
+#'                    IFplot=TRUE, IFprint=TRUE)
 #'
 #' data(edhec, package="PerformanceAnalytics")
 #' colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
 #'                     "GM", "LS", "MA", "RV", "SS", "FoF") 
 #' 
 #' # Plot of IF a specified TS 
-#' outIF <- IF.SSD(returns=edhec[,"CA"], evalShape=TRUE, 
-#'                 retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
-#'                 IFplot=TRUE, IFprint=TRUE)
+#' outIF <- IF.SemiSD(returns=edhec[,"CA"], evalShape=TRUE, 
+#'                    retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
+#'                    IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
-#' outIF <- IF.SSD(returns=edhec[,"CA"], evalShape=FALSE, 
-#'                 retVals=NULL, nuisPars=NULL,
-#'                 IFplot=TRUE, IFprint=TRUE,
-#'                 prewhiten=FALSE,
-#'                 cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
+#' outIF <- IF.SemiSD(returns=edhec[,"CA"], evalShape=FALSE, 
+#'                    retVals=NULL, nuisPars=NULL,
+#'                    IFplot=TRUE, IFprint=TRUE,
+#'                    prewhiten=FALSE,
+#'                    cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 #'
-IF.SSD <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
+IF.SemiSD <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
                    IFplot=FALSE, IFprint=TRUE,
                    rf=0, prewhiten=FALSE, ar.prewhiten.order=1,
                    cleanOutliers=FALSE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05,
@@ -146,12 +146,12 @@ IF.SSD <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k
       if(!is.null(returns))
         retVals <- seq(mean(returns)-k*sd(returns), mean(returns)+k*sd(returns), by=0.001) else
           retVals <- seq(nuisPars$mu-k*0.07, nuisPars$mu+k*0.07, by=0.001)
-        IFvals <- cbind(retVals, IF.fn(retVals, risk="SSD", returns, nuisPars , rf))
+        IFvals <- cbind(retVals, IF.fn(retVals, risk="SemiSD", returns, nuisPars , rf))
         colnames(IFvals) <- c("r", "IFvals")
         if(isTRUE(IFplot)){
           plot(IFvals[,1], IFvals[,2], type="l", 
                xlab="r", ylab="IF", col="blue", lwd=1, 
-               main="SSD",
+               main="SemiSD",
                panel.first=grid(), cex.lab=1.25)
           abline(h=0, v=0)
         }
@@ -180,23 +180,23 @@ IF.SSD <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k
   # Computing SD- of the returns
   sigma.minus.hat <- sqrt(mean((returns-mu.hat)^2*(returns<=mu.hat)))
   
-  # Computing the IF vector for SSD
-  IF.SSD.vector <- (returns - mu.hat)^2 * (returns <= mu.hat)
-  IF.SSD.vector <- IF.SSD.vector - 2 * mean((returns-mu.hat) * (returns <= mu.hat)) * (returns - mu.hat)
-  IF.SSD.vector <- IF.SSD.vector - sigma.minus.hat^2
-  IF.SSD.vector <- IF.SSD.vector / 2 / sigma.minus.hat
+  # Computing the IF vector for SemiSD
+  IF.SemiSD.vector <- (returns - mu.hat)^2 * (returns <= mu.hat)
+  IF.SemiSD.vector <- IF.SemiSD.vector - 2 * mean((returns-mu.hat) * (returns <= mu.hat)) * (returns - mu.hat)
+  IF.SemiSD.vector <- IF.SemiSD.vector - sigma.minus.hat^2
+  IF.SemiSD.vector <- IF.SemiSD.vector / 2 / sigma.minus.hat
   
   # Adding the pre-whitening functionality  
   if(prewhiten)
-    IF.SSD.vector <- as.numeric(arima(x=IF.SSD.vector, order=c(ar.prewhiten.order,0,0), include.mean=TRUE)$residuals)
+    IF.SemiSD.vector <- as.numeric(arima(x=IF.SemiSD.vector, order=c(ar.prewhiten.order,0,0), include.mean=TRUE)$residuals)
   
   # Adjustment for data (xts)
   if(xts::is.xts(returns))
-    IF.SSD.vector <- xts::xts(IF.SSD.vector, returns.dates)
+    IF.SemiSD.vector <- xts::xts(IF.SemiSD.vector, returns.dates)
   
   # Plot of the IF TS
   if(isTRUE(IFplot)){
-    print(plot(IF.SSD.vector, type="l", main="SSD Estimator Influence Function Transformed Returns", ylab="IF"))
+    print(plot(IF.SemiSD.vector, type="l", main="SemiSD Estimator Influence Function Transformed Returns", ylab="IF"))
   }
   
   # Stop if no printing of the TS
@@ -206,8 +206,8 @@ IF.SSD <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k
     stop() 
   }
   
-  # Returning the IF vector for SSD
+  # Returning the IF vector for SemiSD
   if(xts::is.xts(returns))
-    return(xts::xts(IF.SSD.vector, returns.dates)) else
-      return(IF.SSD.vector)
+    return(xts::xts(IF.SemiSD.vector, returns.dates)) else
+      return(IF.SemiSD.vector)
 }

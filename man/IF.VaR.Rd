@@ -11,7 +11,7 @@ IF.VaR(returns = NULL, evalShape = FALSE, retVals = NULL,
   eff = 0.99, alpha.robust = 0.05, ...)
 }
 \arguments{
-\item{returns}{Vector of the returns of the asset or portfolio.}
+\item{returns}{Returns data of the asset or portfolio. This can be a numeric or an xts object.}
 
 \item{evalShape}{Evaluation of the shape of the IF risk measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.}
 
@@ -31,9 +31,9 @@ IF.VaR(returns = NULL, evalShape = FALSE, retVals = NULL,
 
 \item{ar.prewhiten.order}{Order of AR parameter for the pre-whitening. Default is AR(1).}
 
-\item{cleanOutliers}{Boolean variable to indicate whether the pre-whitenning of the influence functions TS should be done through a robust filter.}
+\item{cleanOutliers}{Boolean variable to indicate whether outliers are cleaned with a robust location and scale estimator.}
 
-\item{cleanMethod}{Robust method used to clean outliers from the TS. The choices are "Boudt" and "locScaleRob" for the function.}
+\item{cleanMethod}{Robust method used to clean outliers from the TS. The choices are "locScaleRob" (default) and "Boudt" for the function.}
 
 \item{eff}{Tuning parameter for the normal distribution efficiency for the "locScaleRob" robust data cleaning.}
 
