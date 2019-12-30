@@ -131,6 +131,19 @@ IF.SD <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =NULL, k
       nuisPars <- nuisParsFn(nuis.mu, nuis.sd, nuis.c, nuis.alpha, nuis.beta)
     }
   
+  # Storing the dates
+  if(xts::is.xts(returns))
+    returns.dates <- zoo::index(returns)
+  
+  # Adding the robust filtering functionality
+  if(cleanOutliers){
+    temp.returns <- robust.cleaning(returns, cleanMethod, alpha.robust, eff)
+    if(xts::is.xts(returns))
+      returns <- xts::xts(temp.returns, returns.dates) else
+        returns <- temp.returns
+  }
+  
+  
   # Function evaluation
   if(isTRUE(evalShape)){
     if(is.null(retVals))
@@ -153,19 +166,7 @@ IF.SD <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =NULL, k
             stop() 
           }
   }
-  
-  # Storing the dates
-  if(xts::is.xts(returns))
-    returns.dates <- zoo::index(returns)
-  
-  # Adding the robust filtering functionality
-  if(cleanOutliers){
-    temp.returns <- robust.cleaning(returns, cleanMethod, alpha.robust, eff)
-    if(xts::is.xts(returns))
-      returns <- xts::xts(temp.returns, returns.dates) else
-        returns <- temp.returns
-  }
-  
+
   # Computing hte mean of the returns
   mu.hat <- mean(returns)
   # Computing the standard deviation of the returns

@@ -14,3 +14,6 @@
 * Update function and vignette for semi-standard deviation.
 * Update name of vignette.
 
+# RPEIF 1.0.4
+* Fix robust filter for point estimate.
+

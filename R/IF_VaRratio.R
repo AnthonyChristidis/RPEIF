@@ -147,6 +147,18 @@ IF.VaRratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NU
       nuisPars <- nuisParsFn(nuis.mu, nuis.sd, nuis.c, nuis.alpha, nuis.beta)
     }
   
+  # Storing the dates
+  if(xts::is.xts(returns))
+    returns.dates <- zoo::index(returns)
+  
+  # Adding the robust filtering functionality
+  if(cleanOutliers){
+    temp.returns <- robust.cleaning(returns, cleanMethod, alpha.robust, eff)
+    if(xts::is.xts(returns))
+      returns <- xts::xts(temp.returns, returns.dates) else
+        returns <- temp.returns
+  }
+  
   # Function evaluation
   if(isTRUE(evalShape)){
     if(is.null(retVals))
@@ -168,18 +180,6 @@ IF.VaRratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NU
             on.exit(options(opt)) 
             stop() 
           }
-  }
-  
-  # Storing the dates
-  if(xts::is.xts(returns))
-    returns.dates <- zoo::index(returns)
-  
-  # Adding the robust filtering functionality
-  if(cleanOutliers){
-    temp.returns <- robust.cleaning(returns, cleanMethod, alpha.robust, eff)
-    if(xts::is.xts(returns))
-      returns <- xts::xts(temp.returns, returns.dates) else
-        returns <- temp.returns
   }
   
   # Mean of returns

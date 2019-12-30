@@ -126,7 +126,7 @@ IF.ESratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NUL
     if(!is.list(nuisPars))
       stop("nuisPars must be a list.")
   
-  # Evaluation of nuisance parameters
+    # Evaluation of nuisance parameters
   if(is.null(nuisPars))
     nuisPars <- nuisParsFn() else{
       if(!is.null(nuisPars$mu)){
@@ -146,6 +146,18 @@ IF.ESratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NUL
           nuis.beta <- 0.1}
       nuisPars <- nuisParsFn(nuis.mu, nuis.sd, nuis.c, nuis.alpha, nuis.beta)
     }
+  
+  # Storing the dates
+  if(xts::is.xts(returns))
+    returns.dates <- zoo::index(returns)
+  
+  # Adding the robust filtering functionality
+  if(cleanOutliers){
+    temp.returns <- robust.cleaning(returns, cleanMethod, alpha.robust, eff)
+    if(xts::is.xts(returns))
+      returns <- xts::xts(temp.returns, returns.dates) else
+        returns <- temp.returns
+  }
   
   # Function evaluation
   if(isTRUE(evalShape)){
@@ -169,19 +181,7 @@ IF.ESratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NUL
             stop() 
           }
   }
-  
-  # Storing the dates
-  if(xts::is.xts(returns))
-    returns.dates <- zoo::index(returns)
-  
-  # Adding the robust filtering functionality
-  if(cleanOutliers){
-    temp.returns <- robust.cleaning(returns, cleanMethod, alpha.robust, eff)
-    if(xts::is.xts(returns))
-      returns <- xts::xts(temp.returns, returns.dates) else
-        returns <- temp.returns
-  }
-  
+
   # Computing the mean of the returns
   mu.hat <- mean(returns)
   # Computing the SD of the returns
