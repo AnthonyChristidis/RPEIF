@@ -2,13 +2,13 @@
 #' @importFrom stats approxfun arima density dnorm pnorm qnorm quantile sd
 #' @importFrom graphics plot grid abline
 
-#' @title Influence Function for Available Risk Measures 
+#' @title Influence Function for Available Risk and Performance Measures 
 #'
-#' @description \code{IF} returns the data and plots the shape of either the IF or the IF TS for a risk measure specified.
+#' @description \code{IF} returns the data and plots the shape of either the IF or the IF TS for a specified estimator.
 #' 
-#' @param risk Risk
+#' @param estimator The estimator of interest.
 #' @param returns Returns data of the asset or portfolio. This can be a numeric or an xts object.
-#' @param evalShape Evaluation of the shape of the IF risk measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.
+#' @param evalShape Evaluation of the shape of the IF risk or performance measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.
 #' @param retVals Values used to evaluate the shape of the IF.
 #' @param nuisPars Nuisance parameters used for the evaluation of the shape of the IF (if no returns are provided).
 #' @param k Range parameter for the shape of the IF (the SD gets multiplied k times).
@@ -20,7 +20,10 @@
 #' @param cleanMethod Robust method used to clean outliers from the TS. The choices are "locScaleRob" (default) and "Boudt" for the function. 
 #' @param alpha.robust Tuning parameter for the quantile of the "Boudt" robust data cleaning algorithm, using the minimum covariance determinant estimator (MCD).
 #' @param eff Tuning parameter for the normal distribution efficiency for the "locScaleRob" robust data cleaning.
-#' @param ... Additional parameters passed on to influence function of risk measure.
+#' @param ... Additional parameters passed on to influence function of risk or performance measure.
+#' 
+#' @details 
+#' For further details on the usage of the \code{nuisPars} argument, please refer to Section 3.1 for the \code{RPEIF} vignette.
 #' 
 #' @export
 #' 
@@ -28,7 +31,7 @@
 #' 
 #' @examples
 #' # Plot of IF using the wrapper function
-#' outIF <- IF(risk="mean",
+#' outIF <- IF(estimator="mean",
 #'             returns=NULL, evalShape=TRUE, retVals=NULL, nuisPars=list(mu=0.005),
 #'             IFplot=TRUE, IFprint=TRUE)
 #' 
@@ -38,34 +41,34 @@
 #'                     "GM", "LS", "MA", "RV", "SS", "FoF") 
 #'                     
 #' # Plot of IF using wrapper function and with a specified TS 
-#' outIF <- IF(risk="mean",
+#' outIF <- IF(estimator="mean",
 #'             returns=edhec[,"CA"], evalShape=TRUE, 
 #'             retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
 #'             IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
-#' outIF <- IF(risk="mean",
+#' outIF <- IF(estimator="mean",
 #'             returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisPars =NULL,
 #'             IFplot=TRUE, IFprint=TRUE,
 #'             compile=TRUE, prewhiten=FALSE,
 #'             cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
 #'
-IF <- function(risk,
+IF <- function(estimator,
                returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars =NULL, k=4,
                IFplot=FALSE, IFprint=TRUE,
                prewhiten=FALSE, ar.prewhiten.order=1,
                cleanOutliers=FALSE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05,
                ...){
   
-  # Available risk measures
-  risk.available <- c("mean", "SD", "VaR", "ES", "SR", "SoR", "ESratio", "VaRratio", "RachR", "LPM", "Omega", "SemiSD")
+  # Available estimators
+  estimator.available <- c("mean", "SD", "VaR", "ES", "SR", "SoR", "ESratio", "VaRratio", "RachR", "LPM", "Omega", "SemiSD")
   
-  # Checking if the specified risk measure is available
-  if(!(risk %in% risk.available))
-    stop("The specified risk measure is not available.")
+  # Checking if the specified estimator is available
+  if(!(estimator %in% estimator.available))
+    stop("The specified estimator is not available.")
   
-  # Computation for the specified risk measure
-  switch(risk,
+  # Computation for the specified estimator
+  switch(estimator,
          mean = IF.mean(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars =nuisPars , k=k,
                         IFplot=IFplot, IFprint=IFprint,
                         prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,

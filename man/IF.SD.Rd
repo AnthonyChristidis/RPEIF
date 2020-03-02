@@ -4,16 +4,27 @@
 \alias{IF.SD}
 \title{Influence Function - Standard Deviation}
 \usage{
-IF.SD(returns = NULL, evalShape = FALSE, retVals = NULL,
-  nuisPars = NULL, k = 4, IFplot = FALSE, IFprint = TRUE,
-  prewhiten = FALSE, ar.prewhiten.order = 1, cleanOutliers = FALSE,
-  cleanMethod = c("locScaleRob", "Boudt")[1], eff = 0.99,
-  alpha.robust = 0.05, ...)
+IF.SD(
+  returns = NULL,
+  evalShape = FALSE,
+  retVals = NULL,
+  nuisPars = NULL,
+  k = 4,
+  IFplot = FALSE,
+  IFprint = TRUE,
+  prewhiten = FALSE,
+  ar.prewhiten.order = 1,
+  cleanOutliers = FALSE,
+  cleanMethod = c("locScaleRob", "Boudt")[1],
+  eff = 0.99,
+  alpha.robust = 0.05,
+  ...
+)
 }
 \arguments{
 \item{returns}{Vector of the returns of the asset or portfolio.}
 
-\item{evalShape}{Evaluation of the shape of the IF risk measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.}
+\item{evalShape}{Evaluation of the shape of the IF risk or performance measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.}
 
 \item{retVals}{Values used to evaluate the shape of the IF.}
 
@@ -44,6 +55,9 @@ Influence function of the standard deviation.
 }
 \description{
 \code{IF.SD} returns the data and plots the shape of either the IF or the IF TS for the standard deviation
+}
+\details{
+For further details on the usage of the \code{nuisPars} argument, please refer to Section 3.1 for the \code{RPEIF} vignette.
 }
 \examples{
 # Plot of IF with nuisance parameter with return value

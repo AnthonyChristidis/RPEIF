@@ -17,3 +17,7 @@
 # RPEIF 1.0.4
 * Fix robust filter for point estimate.
 
+# RPEIF 1.0.5
+* Fix RobStatTM dependency.
+* Add expand vignette for nuisance parameters usage.
+

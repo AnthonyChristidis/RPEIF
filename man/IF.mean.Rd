@@ -4,16 +4,27 @@
 \alias{IF.mean}
 \title{Influence Function - Mean}
 \usage{
-IF.mean(returns = NULL, evalShape = FALSE, retVals = NULL,
-  nuisPars = NULL, k = 4, IFplot = FALSE, IFprint = TRUE,
-  prewhiten = FALSE, ar.prewhiten.order = 1, cleanOutliers = FALSE,
-  cleanMethod = c("locScaleRob", "Boudt")[1], eff = 0.99,
-  alpha.robust = 0.05, ...)
+IF.mean(
+  returns = NULL,
+  evalShape = FALSE,
+  retVals = NULL,
+  nuisPars = NULL,
+  k = 4,
+  IFplot = FALSE,
+  IFprint = TRUE,
+  prewhiten = FALSE,
+  ar.prewhiten.order = 1,
+  cleanOutliers = FALSE,
+  cleanMethod = c("locScaleRob", "Boudt")[1],
+  eff = 0.99,
+  alpha.robust = 0.05,
+  ...
+)
 }
 \arguments{
 \item{returns}{Returns data of the asset or portfolio. This can be a numeric or an xts object.}
 
-\item{evalShape}{Evaluation of the shape of the IF risk measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.}
+\item{evalShape}{Evaluation of the shape of the IF risk or performance measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.}
 
 \item{retVals}{Values used to evaluate the shape of the IF.}
 
@@ -40,10 +51,13 @@ IF.mean(returns = NULL, evalShape = FALSE, retVals = NULL,
 \item{...}{Additional parameters.}
 }
 \value{
-Influence function for the specified risk measure.
+Influence function for the specified risk or performance measure.
 }
 \description{
 \code{IF.mean} returns the data and plots the shape of either the IF or the IF TS for the mean.
+}
+\details{
+For further details on the usage of the \code{nuisPars} argument, please refer to Section 3.1 for the \code{RPEIF} vignette.
 }
 \examples{
 # Plot of IF with nuisance parameter with return value
@@ -55,7 +69,7 @@ colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
                     "GM", "LS", "MA", "RV", "SS", "FoF") 
 
 # Plot of IF a specified TS 
-outIF <- IF.mean(risk="mean",
+outIF <- IF.mean(estimator="mean",
                  returns=edhec[,"CA"], evalShape=TRUE, 
                  retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
                  IFplot=TRUE, IFprint=TRUE)

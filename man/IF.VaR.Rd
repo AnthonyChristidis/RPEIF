@@ -4,16 +4,28 @@
 \alias{IF.VaR}
 \title{Influence Function - Value at Risk (VaR)}
 \usage{
-IF.VaR(returns = NULL, evalShape = FALSE, retVals = NULL,
-  nuisPars = NULL, k = 4, IFplot = FALSE, IFprint = TRUE,
-  alpha = 0.05, prewhiten = FALSE, ar.prewhiten.order = 1,
-  cleanOutliers = FALSE, cleanMethod = c("locScaleRob", "Boudt")[1],
-  eff = 0.99, alpha.robust = 0.05, ...)
+IF.VaR(
+  returns = NULL,
+  evalShape = FALSE,
+  retVals = NULL,
+  nuisPars = NULL,
+  k = 4,
+  IFplot = FALSE,
+  IFprint = TRUE,
+  alpha = 0.05,
+  prewhiten = FALSE,
+  ar.prewhiten.order = 1,
+  cleanOutliers = FALSE,
+  cleanMethod = c("locScaleRob", "Boudt")[1],
+  eff = 0.99,
+  alpha.robust = 0.05,
+  ...
+)
 }
 \arguments{
 \item{returns}{Returns data of the asset or portfolio. This can be a numeric or an xts object.}
 
-\item{evalShape}{Evaluation of the shape of the IF risk measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.}
+\item{evalShape}{Evaluation of the shape of the IF risk or performance measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.}
 
 \item{retVals}{Values used to evaluate the shape of the IF.}
 
@@ -46,6 +58,9 @@ Influence function of the VaR.
 }
 \description{
 \code{IF.VaR} returns the data and plots the shape of either the IF or the IF TS for the Value at Risk
+}
+\details{
+For further details on the usage of the \code{nuisPars} argument, please refer to Section 3.1 for the \code{RPEIF} vignette.
 }
 \examples{
 # Plot of IF with nuisance parameter with return value

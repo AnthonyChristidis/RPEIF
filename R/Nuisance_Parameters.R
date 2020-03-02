@@ -9,6 +9,9 @@
 #' @param beta Parameter for the upper tail quantile.
 #'
 #' @return List of nuisance parameters.
+#' 
+#' @details 
+#' For further details on the usage of the \code{nuisParsFn} function, please refer to Section 3.1 for the \code{RPEIF} vignette.
 #'
 #' @author Anthony-Alexander Christidis, \email{anthony.christidis@stat.ubc.ca}
 #'
@@ -16,10 +19,10 @@
 #'
 #' @examples
 #' # Nuisance parameters using default values
-#' defaultNuisance <- nuisParsFn ()
+#' defaultNuisance <- nuisParsFn()
 #'
 #' # Nuisance parameters using specified values
-#' specifiedNuisance <- nuisParsFn (mu=0.02, sd=0.1, c=0.01, alpha=0.05, beta=0.1)
+#' specifiedNuisance <- nuisParsFn(mu=0.02, sd=0.1, c=0.01, alpha=0.05, beta=0.1)
 #'
 
 nuisParsFn  <- function(mu=0.01, sd=0.05, c=0, alpha=0.1, beta=0.1){

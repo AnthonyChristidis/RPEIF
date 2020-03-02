@@ -3,7 +3,7 @@
 #' @description \code{IF.ES} returns the data and plots the shape of either the IF or the IF TS for the ES
 #'
 #' @param returns Returns data of the asset or portfolio. This can be a numeric or an xts object.
-#' @param evalShape Evaluation of the shape of the IF risk measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.
+#' @param evalShape Evaluation of the shape of the IF risk or performance measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.
 #' @param retVals Values used to evaluate the shape of the IF.
 #' @param nuisPars Nuisance parameters used for the evaluation of the shape of the IF (if no returns are provided).
 #' @param k Range parameter for the shape of the IF (the SD gets multiplied k times).
@@ -19,6 +19,9 @@
 #' @param ... Additional parameters.
 #'
 #' @return Influence function of the ES.
+#' 
+#' @details 
+#' For further details on the usage of the \code{nuisPars} argument, please refer to Section 3.1 for the \code{RPEIF} vignette.
 #'
 #' @author Anthony-Alexander Christidis, \email{anthony.christidis@stat.ubc.ca}
 #'
@@ -157,7 +160,7 @@ IF.ES <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=
       if(!is.null(returns))
         retVals <- seq(mean(returns)-k*sd(returns), mean(returns)+k*sd(returns), by=0.001) else
           retVals <- seq(0.005-k*0.07, 0.005+k*0.07, by=0.001)
-        IFvals <- cbind(retVals, IF.fn(retVals, risk="ES", returns, nuisPars , alpha.ES))
+        IFvals <- cbind(retVals, IF.fn(retVals, estimator="ES", returns, nuisPars , alpha.ES))
         colnames(IFvals) <- c("r", "IFvals")
         if(isTRUE(IFplot)){
           plot(IFvals[,1], IFvals[,2], type="l", 

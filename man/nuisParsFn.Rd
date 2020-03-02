@@ -23,12 +23,15 @@ List of nuisance parameters.
 \description{
 \code{nuis.pars} returns the value of the nuisance parameters used in the evaluation of the shape of influence functions for risk and performance measures.
 }
+\details{
+For further details on the usage of the \code{nuisParsFn} function, please refer to Section 3.1 for the \code{RPEIF} vignette.
+}
 \examples{
 # Nuisance parameters using default values
-defaultNuisance <- nuisParsFn ()
+defaultNuisance <- nuisParsFn()
 
 # Nuisance parameters using specified values
-specifiedNuisance <- nuisParsFn (mu=0.02, sd=0.1, c=0.01, alpha=0.05, beta=0.1)
+specifiedNuisance <- nuisParsFn(mu=0.02, sd=0.1, c=0.01, alpha=0.05, beta=0.1)
 
 }
 \author{

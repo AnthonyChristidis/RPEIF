@@ -2,20 +2,32 @@
 % Please edit documentation in R/InfluenceFunctions_R.R
 \name{IF}
 \alias{IF}
-\title{Influence Function for Available Risk Measures}
+\title{Influence Function for Available Risk and Performance Measures}
 \usage{
-IF(risk, returns = NULL, evalShape = FALSE, retVals = NULL,
-  nuisPars = NULL, k = 4, IFplot = FALSE, IFprint = TRUE,
-  prewhiten = FALSE, ar.prewhiten.order = 1, cleanOutliers = FALSE,
-  cleanMethod = c("locScaleRob", "Boudt")[1], eff = 0.99,
-  alpha.robust = 0.05, ...)
+IF(
+  estimator,
+  returns = NULL,
+  evalShape = FALSE,
+  retVals = NULL,
+  nuisPars = NULL,
+  k = 4,
+  IFplot = FALSE,
+  IFprint = TRUE,
+  prewhiten = FALSE,
+  ar.prewhiten.order = 1,
+  cleanOutliers = FALSE,
+  cleanMethod = c("locScaleRob", "Boudt")[1],
+  eff = 0.99,
+  alpha.robust = 0.05,
+  ...
+)
 }
 \arguments{
-\item{risk}{Risk}
+\item{estimator}{The estimator of interest.}
 
 \item{returns}{Returns data of the asset or portfolio. This can be a numeric or an xts object.}
 
-\item{evalShape}{Evaluation of the shape of the IF risk measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.}
+\item{evalShape}{Evaluation of the shape of the IF risk or performance measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.}
 
 \item{retVals}{Values used to evaluate the shape of the IF.}
 
@@ -39,14 +51,17 @@ IF(risk, returns = NULL, evalShape = FALSE, retVals = NULL,
 
 \item{alpha.robust}{Tuning parameter for the quantile of the "Boudt" robust data cleaning algorithm, using the minimum covariance determinant estimator (MCD).}
 
-\item{...}{Additional parameters passed on to influence function of risk measure.}
+\item{...}{Additional parameters passed on to influence function of risk or performance measure.}
 }
 \description{
-\code{IF} returns the data and plots the shape of either the IF or the IF TS for a risk measure specified.
+\code{IF} returns the data and plots the shape of either the IF or the IF TS for a specified estimator.
+}
+\details{
+For further details on the usage of the \code{nuisPars} argument, please refer to Section 3.1 for the \code{RPEIF} vignette.
 }
 \examples{
 # Plot of IF using the wrapper function
-outIF <- IF(risk="mean",
+outIF <- IF(estimator="mean",
             returns=NULL, evalShape=TRUE, retVals=NULL, nuisPars=list(mu=0.005),
             IFplot=TRUE, IFprint=TRUE)
 
@@ -56,13 +71,13 @@ colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
                     "GM", "LS", "MA", "RV", "SS", "FoF") 
                     
 # Plot of IF using wrapper function and with a specified TS 
-outIF <- IF(risk="mean",
+outIF <- IF(estimator="mean",
             returns=edhec[,"CA"], evalShape=TRUE, 
             retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
             IFplot=TRUE, IFprint=TRUE)
 
 # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
-outIF <- IF(risk="mean",
+outIF <- IF(estimator="mean",
             returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisPars =NULL,
             IFplot=TRUE, IFprint=TRUE,
             compile=TRUE, prewhiten=FALSE,

@@ -1,15 +1,15 @@
 
-IF.fn <- function(x, risk, returns, nuisance.par, ...){
+IF.fn <- function(x, estimator, returns, nuisance.par, ...){
   
-  # Available risk measures
-  risk.available <- c("mean", "SD", "VaR", "ES", "SR", "SoR", "ESratio", "VaRratio", "Rachev", "LPM", "OmegaRatio", "SemiSD")
+  # Available estimators
+  estimator.available <- c("mean", "SD", "VaR", "ES", "SR", "SoR", "ESratio", "VaRratio", "Rachev", "LPM", "OmegaRatio", "SemiSD")
   
-  # Checking if the specified risk measure is available
-  if(!(risk %in% risk.available))
-    stop("The specified risk measure is not available.")
+  # Checking if the specified estimator is available
+  if(!(estimator %in% estimator.available))
+    stop("The specified estimator is not available.")
   
-  # Plot for the specified risk measure
-  switch(risk,
+  # Plot for the specified estimator
+  switch(estimator,
          mean = IF.mean.fn(x, returns, nuisance.par, ...),
          SD = IF.SD.fn(x, returns, nuisance.par, ...),
          VaR = IF.VaR.fn(x, returns, nuisance.par, ...),
@@ -35,7 +35,7 @@ IF.mean.fn <- function(x, returns, parsMean.IF){
   # Computing the IF for the mean of the returns
   IF.mean <- x - mu.hat
   
-  # Return value for the risk measure
+  # Return value for the estimator
   return(IF.mean)
 }
 
@@ -56,7 +56,7 @@ IF.SD.fn <- function(x, returns, parSemiSD.IF){
   # Computing the IF for the standard deviation
   IF.SD <- ((x-mu.hat)^2-sd.hat^2)/2/sd.hat
   
-  # Return value for the risk measure
+  # Return value for the estimator
   return(IF.SD)
 }
 
@@ -73,7 +73,7 @@ IF.VaR.fn <- function(x, returns, parsVaR.IF, alpha = 0.05){
     # Computing the IF for the VaR
     IF.VaR <- ((x<=quantile.alpha)-alpha)/fq.alpha
     
-    # Return value for the risk measure
+    # Return value for the estimator
     return(as.numeric(IF.VaR))
   } else{
     # Fitting a density function to the returns
@@ -84,7 +84,7 @@ IF.VaR.fn <- function(x, returns, parsVaR.IF, alpha = 0.05){
     # Computing the IF for the VaR
     IF.VaR <- ((x<=quantile.alpha)-alpha)/density.fit(quantile.alpha)
     
-    # Return value for the risk measure
+    # Return value for the estimator
     return(as.numeric(IF.VaR))
   }
 }
@@ -102,7 +102,7 @@ IF.ES.fn <- function(x, returns, parsES.IF, alpha.ES=0.05){
     # Computing the IF for the ES
     IF.ES <- 1/alpha.ES*((-x+quantile.alpha)*(x<=quantile.alpha))-quantile.alpha-ES.tail
     
-    # Return value for the risk measure
+    # Return value for the estimator
     return(as.numeric(IF.ES))
   } else{
     # Finding the quantile of the density fit based on the desired tail probability
@@ -113,7 +113,7 @@ IF.ES.fn <- function(x, returns, parsES.IF, alpha.ES=0.05){
     # Computing the IF for the ES
     IF.ES <- 1/alpha.ES*((-x+quantile.alpha)*(x<=quantile.alpha))-quantile.alpha-ES.tail
     
-    # Return value for the risk measure
+    # Return value for the estimator
     return(as.numeric(IF.ES))
   }
 }
@@ -139,7 +139,7 @@ IF.SR.fn <- function(x, returns, parsSR.IF, rf=0){
   # Computing the IF vector for the SR
   IF.SR <- 1/sd.hat*(x-mu.hat)-1/2*mu.hat/sd.hat^3*((x-mu.hat)^2-sd.hat^2)
   
-  # Return value for the risk measure
+  # Return value for the estimator
   return(as.numeric(IF.SR))
 }
 
@@ -181,7 +181,7 @@ IF.SoR_M.fn <- function(x, returns, parsSoR_M.IF, rf=0){
       (1/sigma.minus.hat+SoR.hat*mu1.minus.hat/sigma.minus.hat^2)*(x-mu.hat-rf)+
       SoR.hat/2
     
-    # Return value for the risk measure
+    # Return value for the estimator
     return(IF.SoR_M)
   }
 }
@@ -218,7 +218,7 @@ IF.SoR_C.fn <- function(x, returns, parsSoR_C.IF, const=0){
       1/sigma.minus.hat*(x-mu.hat)+
       SoR.hat/2
     
-    # Return value for the risk measure
+    # Return value for the estimator
     return(IF.SoR_C)
   }
 }
@@ -253,7 +253,7 @@ IF.ESratio.fn <- function(x, returns, parsESratio.IF, alpha=0.1, rf=0){
     # Computing the final ESratio estimate
     IF.ESratio <- (x-mu.hat-rf)/ES.hat-ESratio.hat/ES.hat*(1/alpha*((-x-VaR.hat)*(x<=quantile.alpha))+VaR.hat-ES.hat)
     
-    # Return value for the risk measure
+    # Return value for the estimator
     return(as.numeric(IF.ESratio))
   }
 }
@@ -286,7 +286,7 @@ IF.VaRratio.fn <- function(x, returns, parsVaRratio.IF, alpha=0.1, rf=0){
     # Computing the IF vector for the VaR
     IF.VaRratio <- -(x-mu.hat)/(-quantile.alpha) - (VaRratio.hat/quantile.alpha)*((x<=quantile.alpha)-alpha)/density.fit(quantile.alpha)
     
-    # Return value for the risk measure
+    # Return value for the estimator
     return(as.numeric(IF.VaRratio))
   }
 }
@@ -337,7 +337,7 @@ IF.Rachev.fn <- function(x, returns, parsRachev.IF, alpha=0.1, beta=0.1, rf=0){
     IF.Rachev <- (1/ES.lower)*((1/beta)*(x-rf-quantile.upper)*(x>=quantile.upper)+quantile.upper-ES.upper) - 
       (ES.upper/ES.lower^2)*(1/alpha * (-x + rf - quantile.lower)*(x<=quantile.lower)+quantile.lower-ES.lower)
     
-    # Return value for the risk measure
+    # Return value for the estimator
     return(as.numeric(IF.Rachev))
   }
 }
@@ -357,7 +357,7 @@ IF.LPM.fn <- function(x, returns, parsLPM.IF, const=0, order=1){
       LPM.stored <- parsLPM.IF$lpm2
       IF.LPM <- IF.LPM - LPM.stored^2
     }
-    # Return value for the risk measure
+    # Return value for the estimator
     return(IF.LPM)
     
   } else{
@@ -372,7 +372,7 @@ IF.LPM.fn <- function(x, returns, parsLPM.IF, const=0, order=1){
       IF.LPM <- IF.LPM - LPM.stored^2
       IF.LPM <- IF.LPM / 2 / LPM.stored
       }
-    # Return value for the risk measure
+    # Return value for the estimator
     return(IF.LPM)
     }
 }
@@ -400,7 +400,7 @@ IF.OmegaRatio.fn <- function(x, returns, parsOmega.IF, const=0){
     # Computing the IF for the Omega Ratio
     IF.Omega <- 1/LPM.c*((x-const)*(x>=const)-UPM.c) - ((UPM.c/LPM.c)/LPM.c)*((const-x)*(x<=const)-LPM.c)
     
-    # Return value for the risk measure
+    # Return value for the estimator
     return(IF.Omega)
   }
 }
@@ -428,7 +428,7 @@ IF.SemiSD.fn <- function(x, returns, parsSemiSD.IF, rf=0){
   IF.SemiSD <- IF.SemiSD - sigma.minus.hat^2
   IF.SemiSD <- IF.SemiSD / 2 / sigma.minus.hat
   
-  # Return value for the risk measure
+  # Return value for the estimator
   return(IF.SemiSD)
 }
 
