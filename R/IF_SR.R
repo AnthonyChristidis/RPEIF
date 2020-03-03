@@ -42,12 +42,11 @@
 #'                retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
 #'                IFplot=TRUE, IFprint=TRUE)
 #' 
-#' # Computing the IF of the returns (with outlier cleaning and prewhitening) with a plot of IF TS
+#' # Computing the IF of the returns (with prewhitening) with a plot of IF TS
 #' outIF <- IF.SR(returns=edhec[,"CA"], evalShape=FALSE, 
 #'                retVals=NULL, nuisPars=NULL,
 #'                IFplot=TRUE, IFprint=TRUE,
-#'                prewhiten=FALSE,
-#'                cleanOutliers=TRUE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99)
+#'                prewhiten=FALSE)
 #'
 IF.SR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
                   IFplot=FALSE, IFprint=TRUE,

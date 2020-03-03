@@ -8,7 +8,7 @@ robust.cleaning <- function(IF.vector, robust.method=c("locScaleRob", "Boudt")[1
   if(robust.method=="locScaleRob"){ # Data cleaning using the Martin method
     
     if(!requireNamespace("RobStatTM", quietly = TRUE)) {
-      stop("Package \"pkg\" needed for this function to work. Please install it.",
+      stop("Package \"RobStatTM\" needed for this function to work. Please install it.",
            call. = FALSE)
     }
   

@@ -21,3 +21,5 @@
 * Fix RobStatTM dependency.
 * Add expand vignette for nuisance parameters usage.
 
+# RPEIF 1.0.6
+* Fix code examples for package dependency.
