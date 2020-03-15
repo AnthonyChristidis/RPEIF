@@ -23,3 +23,6 @@
 
 # RPEIF 1.0.6
 * Fix code examples for package dependency.
+
+# RPEIF 1.0.7
+* Fix typo for VaR Ratio.

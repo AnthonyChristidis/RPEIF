@@ -191,10 +191,10 @@ IF.VaRratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NU
   # Finding the quantile of the density fit based on the desired tail probability
   quantile.alpha <- quantile(returns, alpha)
   # Computing the VaR ratio
-  VaRratio.hat <- (mu.hat - rf)/quantile.alpha
+  VaRratio.hat <- (mu.hat - rf)/(-quantile.alpha)
   
   # Computing the IF vector for the VaR
-  IF.VaRratio.vector <- -(returns-mu.hat)/(-quantile.alpha) - (VaRratio.hat/quantile.alpha)*((returns<=quantile.alpha)-alpha)/density.fit(quantile.alpha)
+  IF.VaRratio.vector <- -(returns-mu.hat)/(quantile.alpha) - (VaRratio.hat/quantile.alpha)*((returns<=quantile.alpha)-alpha)/density.fit(quantile.alpha)
   
   # Adding the pre-whitening functionality  
   if(prewhiten)
