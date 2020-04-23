@@ -26,3 +26,6 @@
 
 # RPEIF 1.0.7
 * Fix typo for VaR Ratio.
+
+# RPEIF 1.0.8
+* Update to vignette with new Appendix B.
