@@ -210,7 +210,7 @@ IF.SoR.const <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=N
 
 #' @title Influence Function - Sortino Ratio
 #' 
-#' @description \code{IF.SoR} returns the data and plots the shape of either the IF or the IF TS for the Sortino Ratio
+#' @description \code{IF.SoR} returns the data and plots the shape of either the IF or the IF TS for the Sortino Ratio.
 #'
 #' @param returns Returns data of the asset or portfolio. This can be a numeric or an xts object.
 #' @param evalShape Evaluation of the shape of the IF risk or performance measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.

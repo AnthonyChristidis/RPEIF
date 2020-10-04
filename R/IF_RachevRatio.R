@@ -1,6 +1,6 @@
 #' @title Influence Function - Rachev Ratio
 #' 
-#' @description \code{IF.Rachev} returns the data and plots the shape of either the IF or the IF TS for the Rachev Ratio.
+#' @description \code{IF.RachevRatio} returns the data and plots the shape of either the IF or the IF TS for the Rachev Ratio.
 #'
 #' @param returns Returns data of the asset or portfolio. This can be a numeric or an xts object.
 #' @param evalShape Evaluation of the shape of the IF risk or performance measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.
@@ -31,30 +31,30 @@
 #'
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
-#' outIF <- IF.RachR(returns=NULL, evalShape=TRUE, 
-#'                   retVals=NULL, nuisPars=NULL,
-#'                   IFplot=TRUE, IFprint=TRUE)
+#' outIF <- IF.RachevRatio(returns=NULL, evalShape=TRUE, 
+#'                         retVals=NULL, nuisPars=NULL,
+#'                         IFplot=TRUE, IFprint=TRUE)
 #'
 #' data(edhec, package="PerformanceAnalytics")
 #' colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
 #'                     "GM", "LS", "MA", "RV", "SS", "FoF") 
 #' 
 #' # Plot of IF a specified TS 
-#' outIF <- IF.RachR(returns=edhec[,"CA"], evalShape=TRUE, 
-#'                   retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
-#'                   IFplot=TRUE, IFprint=TRUE)
+#' outIF <- IF.RachevRatio(returns=edhec[,"CA"], evalShape=TRUE, 
+#'                         retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
+#'                         IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with prewhitening) with a plot of IF TS
-#' outIF <- IF.RachR(returns=edhec[,"CA"], evalShape=FALSE, 
-#'                   retVals=NULL, nuisPars=NULL,
-#'                   IFplot=TRUE, IFprint=TRUE,
-#'                   prewhiten=FALSE)
+#' outIF <- IF.RachevRatio(returns=edhec[,"CA"], evalShape=FALSE, 
+#'                         retVals=NULL, nuisPars=NULL,
+#'                         IFplot=TRUE, IFprint=TRUE,
+#'                         prewhiten=FALSE)
 #'
-IF.RachR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
-                     IFplot=FALSE, IFprint=TRUE,
-                     alpha=0.1, beta=0.1, rf=0, prewhiten=FALSE, ar.prewhiten.order=1,
-                     cleanOutliers=FALSE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05,
-                     ...){
+IF.RachevRatio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
+                           IFplot=FALSE, IFprint=TRUE,
+                           alpha=0.1, beta=0.1, rf=0, prewhiten=FALSE, ar.prewhiten.order=1,
+                           cleanOutliers=FALSE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05,
+                           ...){
   
   # Checking data if IF TS evaluation
   if(!isTRUE(evalShape))

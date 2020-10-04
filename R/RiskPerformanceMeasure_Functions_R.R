@@ -2,7 +2,7 @@
 IF.fn <- function(x, estimator, returns, nuisance.par, ...){
   
   # Available estimators
-  estimator.available <- c("mean", "SD", "VaR", "ES", "SR", "SoR", "ESratio", "VaRratio", "Rachev", "LPM", "OmegaRatio", "SemiSD")
+  estimator.available <- c("mean", "SD", "VaR", "ES", "SR", "SoR", "DSR", "ESratio", "VaRratio", "Rachev", "LPM", "OmegaRatio", "SemiSD")
   
   # Checking if the specified estimator is available
   if(!(estimator %in% estimator.available))
@@ -16,6 +16,7 @@ IF.fn <- function(x, estimator, returns, nuisance.par, ...){
          ES = IF.ES.fn(x, returns, nuisance.par, ...),
          SR = IF.SR.fn(x, returns, nuisance.par, ...),
          SoR = IF.SoR.fn(x, returns, nuisance.par, ...),
+         DSR = IF.SoR.fn(x, returns, nuisance.par, ...),
          ESratio = IF.ESratio.fn(x, returns, nuisance.par, ...),
          VaRratio = IF.VaRratio.fn(x, returns, nuisance.par, ...),
          Rachev = IF.Rachev.fn(x, returns, nuisance.par, ...),

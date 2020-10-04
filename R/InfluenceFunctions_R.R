@@ -60,7 +60,7 @@ IF <- function(estimator,
                ...){
   
   # Available estimators
-  estimator.available <- c("mean", "SD", "VaR", "ES", "SR", "SoR", "ESratio", "VaRratio", "RachR", "LPM", "Omega", "SemiSD")
+  estimator.available <- c("mean", "SD", "VaR", "ES", "SR", "SoR", "DSR", "ESratio", "VaRratio", "RachevRatio", "LPM", "Omega", "SemiSD")
   
   # Checking if the specified estimator is available
   if(!(estimator %in% estimator.available))
@@ -98,6 +98,11 @@ IF <- function(estimator,
                       prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
                       cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, alpha.robust=alpha.robust, eff=eff,
                       ...),
+         DSR = IF.DSR(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars =nuisPars , k=k,
+                      IFplot=IFplot, IFprint=IFprint,
+                      prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
+                      cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, alpha.robust=alpha.robust, eff=eff,
+                      ...),
          ESratio = IF.ESratio(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars =nuisPars , k=k,
                               IFplot=IFplot, IFprint=IFprint,
                               prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
@@ -108,11 +113,11 @@ IF <- function(estimator,
                                 prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
                                 cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, alpha.robust=alpha.robust, eff=eff,
                               ...),
-         RachR = IF.RachR(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars =nuisPars , k=k,
-                          IFplot=IFplot, IFprint=IFprint,
-                          prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
-                          cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, alpha.robust=alpha.robust, eff=eff,
-                            ...),
+         RachevRatio = IF.RachevRatio(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars =nuisPars , k=k,
+                                      IFplot=IFplot, IFprint=IFprint,
+                                      prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
+                                      cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, alpha.robust=alpha.robust, eff=eff,
+                                      ...),
          LPM = IF.LPM(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars =nuisPars , k=k,
                       IFplot=IFplot, IFprint=IFprint,
                       prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
@@ -124,9 +129,9 @@ IF <- function(estimator,
                           cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, alpha.robust=alpha.robust, eff=eff,
                           ...),
          SemiSD = IF.SemiSD(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars =nuisPars , k=k,
-                      IFplot=IFplot, IFprint=IFprint,
-                      prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
-                      cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, alpha.robust=alpha.robust, eff=eff,
-                      ...))
+                            IFplot=IFplot, IFprint=IFprint,
+                            prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
+                            cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, alpha.robust=alpha.robust, eff=eff,
+                            ...))
 }
 
