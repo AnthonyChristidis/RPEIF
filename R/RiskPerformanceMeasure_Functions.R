@@ -403,11 +403,11 @@ IF.VaRratio.fn <- function(x, returns, parsVaRratio.IF, alpha=0.1, rf=0){
     VaR.hat <- -quantile(returns, alpha)
     # Computing the VaR ratio
     VaRratio.hat <- (mu.hat - rf)/VaR.hat
-    
-    # IF Computation
-    IF.VaRratio <- (x - mu.hat)/VaR.hat - (VaRratio.hat/VaR.hat) * ((x <= -VaR.hat)-alpha)/fq.alpha
-    return(IF.VaRratio)
   }
+  
+  # IF Computation
+  IF.VaRratio <- (x - mu.hat)/VaR.hat - (VaRratio.hat/VaR.hat) * ((x <= -VaR.hat)-alpha)/fq.alpha
+  return(IF.VaRratio)
 }
 
 
