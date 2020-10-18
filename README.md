@@ -1,7 +1,8 @@
 
 [![Build Status](https://travis-ci.org/AnthonyChristidis/RPEIF.svg?branch%20=%20master)](https://travis-ci.com/AnthonyChristidis/RPEIF) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/RPEIF)](https://cran.r-project.org/package%20=%20RPEIF) [![Downloads](http://cranlogs.r-pkg.org/badges/RPEIF)](https://cran.r-project.org/package%20=%20RPEIF)
 
-RPEIF = = = = = = = = = =
+RPEIF
+=====
 
 This package provides functions for computing the influence functions of risk and performance measures.
 
