@@ -33,7 +33,7 @@ IF.fn <- function(x, estimator, returns, nuisance.par, ...){
          VaRratio = IF.VaRratio.fn(x, returns, nuisance.par, ...))
 }
 
-# SoR (Mean Threshold) IF Function
+# Downside SR IF Function
 IF.DSR.fn <- function(x, returns, parsDSR.IF, rf=0){
   
   # IF for null returns
