@@ -30,9 +30,11 @@
 # RPEIF 1.0.8
 * Update to vignette with new Appendix B.
 
-# RPEIF 1.0.9
+# RPEIF 1.1.0
 * Rename Rachev and Omega ratios functions.
 * Add the Downside Sharpe Ratio function.
 * Created tool functions for repetitive tasks.
 * Remove Boudt robust filtering function.
+* No longer imports PerformanceAnalytics package.
+* Hedge fund data edhec added to package.
 
