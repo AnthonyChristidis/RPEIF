@@ -13,8 +13,7 @@
 #' @param prewhiten Boolean variable to indicate if the IF TS is pre-whitened (TRUE) or not (FALSE).
 #' @param ar.prewhiten.order Order of AR parameter for the pre-whitening. Default is AR(1).
 #' @param cleanOutliers Boolean variable to indicate whether outliers are cleaned with a robust location and scale estimator.
-#' @param cleanMethod Robust method used to clean outliers from the TS. The choices are "locScaleRob" (default) and "Boudt" for the function. 
-#' @param alpha.robust Tuning parameter for the quantile of the "Boudt" robust data cleaning algorithm.
+#' @param cleanMethod Robust method used to clean outliers from the TS. Default choice is "locScaleRob".  
 #' @param eff Tuning parameter for the normal distribution efficiency for the "locScaleRob" robust data cleaning.
 #' @param ... Addtional parameters.
 #'
@@ -33,7 +32,7 @@
 #'                 retVals=NULL, nuisPars=NULL,
 #'                 IFplot=TRUE, IFprint=TRUE)
 #'
-#' data(edhec, package="PerformanceAnalytics")
+#' data(edhec)
 #' colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
 #'                     "GM", "LS", "MA", "RV", "SS", "FoF") 
 #' 
@@ -51,29 +50,24 @@
 IF.DSR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
                    IFplot=FALSE, IFprint=TRUE,
                    rf=0, prewhiten=FALSE, ar.prewhiten.order=1,
-                   cleanOutliers=FALSE, cleanMethod=c("locScaleRob", "Boudt")[1], eff=0.99, alpha.robust=0.05,
+                   cleanOutliers=FALSE, cleanMethod=c("locScaleRob")[1], eff=0.99, 
                    ...){
   
+  # Checking input data
+  DataCheck(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars=nuisPars, k=k,
+            IFplot=IFplot, IFprint=IFprint,
+            prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
+            cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, eff=eff)
+  
+  # Checking input for rf
+  if(!inherits(rf, "numeric")){
+    stop("rf should be numeric")
+  } else if(any(rf < 0, rf > 1)) {
+    stop("rf should be a numeric value between 0 and 1.")
+  }
+  
   # Evaluation of nuisance parameters
-  if(is.null(nuisPars))
-    nuisPars <- nuisParsFn() else{
-      if(!is.null(nuisPars$mu)){
-        nuis.mu <- nuisPars$mu} else{
-          nuis.mu <- 0.01}
-      if(!is.null(nuisPars$sd)){
-        nuis.sd <- nuisPars$sd} else{
-          nuis.sd <- 0.05}
-      if(!is.null(nuisPars$c)){
-        nuis.c <- nuisPars$c} else{
-          nuis.c <- 0}
-      if(!is.null(nuisPars$alpha)){
-        nuis.alpha <- nuisPars$alpha} else{
-          nuis.alpha <- 0.1}
-      if(!is.null(nuisPars$beta)){
-        nuis.beta <- nuisPars$beta} else{
-          nuis.beta <- 0.1}
-      nuisPars <- nuisParsFn(nuis.mu, nuis.sd, nuis.c, nuis.alpha, nuis.beta)
-    }
+  nuisPars <- NuisanceData(nuisPars)
   
   # Storing the dates
   if(xts::is.xts(returns))
@@ -81,50 +75,27 @@ IF.DSR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k
   
   # Adding the robust filtering functionality
   if(cleanOutliers){
-    temp.returns <- robust.cleaning(returns, cleanMethod, alpha.robust, eff)
+    temp.returns <- robust.cleaning(returns, cleanMethod, eff)
     if(xts::is.xts(returns))
       returns <- xts::xts(temp.returns, returns.dates) else
         returns <- temp.returns
   }
   
-  # Function evaluation
-  if(isTRUE(evalShape)){
-    if(is.null(retVals))
-      if(!is.null(returns))
-        retVals <- seq(mean(returns)-k*sd(returns), mean(returns)+k*sd(returns), by=0.001) else
-          retVals <- seq(0.005-k*0.07, 0.005+k*0.07, by=0.001)
-        IFvals <- cbind(retVals, IF.fn(retVals, estimator="DSR", returns=returns, nuisPars , rf=rf, threshold="mean"))
-        colnames(IFvals) <- c("r", "IFvals")
-        if(isTRUE(IFplot)){
-          plot(IFvals[,1], IFvals[,2], type="l", 
-               xlab="r", ylab="IF", col="blue", lwd=1, 
-               main="DSR",
-               panel.first=grid(), cex.lab=1.25)
-          abline(h=0, v=0)
-        }
-        if(IFprint)
-          return(IFvals) else{
-            opt <- options(show.error.messages=FALSE)
-            on.exit(options(opt)) 
-            stop() 
-          }
+  # Plot for shape evaluation
+  if(evalShape){
+    IFvals <- EvaluateShape(estimator="DSR",
+                            retVals=retVals, returns=returns, k=k, nuisPars=nuisPars,
+                            IFplot=IFplot, IFprint=IFprint, rf=rf)
+    if(IFprint)
+      return(IFvals) else{
+        opt <- options(show.error.messages=FALSE)
+        on.exit(options(opt)) 
+        stop() 
+      }
   }
   
-  # Computing the mean of the returns
-  mu.hat <- mean(returns)
-  # Computing the SD of the returns
-  sigma.hat <- sqrt(mean((returns-mu.hat)^2))
-  # Computing SD- of the returns
-  sigma.minus.hat <- sqrt(mean((returns-mu.hat)^2*(returns<=mu.hat)))
-  # Computing the SoR estimate
-  SoR.hat <- (mu.hat-rf)/sigma.minus.hat
-  # Computing the mean parameter for the SoR
-  mu1.minus.hat <- mean((returns-mu.hat)*(returns<=mu.hat))
-  
-  # Computing the IF vector for DSR
-  IF.DSR.vector <- -SoR.hat/2/sigma.minus.hat^2*(returns-mu.hat-rf)^2*(returns<=mu.hat)+
-    (1/sigma.minus.hat+SoR.hat*mu1.minus.hat/sigma.minus.hat^2)*(returns-mu.hat-rf)+
-    SoR.hat/2
+  # IF Computation
+  IF.DSR.vector <- IF.DSR.fn(x=returns, returns=returns, rf=rf)
   
   # Adding the pre-whitening functionality  
   if(prewhiten)

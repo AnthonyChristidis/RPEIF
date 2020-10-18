@@ -31,6 +31,8 @@
 * Update to vignette with new Appendix B.
 
 # RPEIF 1.0.9
-* Rename Rachev ratio function.
+* Rename Rachev and Omega ratios functions.
 * Add the Downside Sharpe Ratio function.
-* Created utility functions for repetitive tasks.
+* Created tool functions for repetitive tasks.
+* Remove Boudt robust filtering function.
+

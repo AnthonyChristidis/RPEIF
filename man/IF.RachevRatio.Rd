@@ -14,13 +14,11 @@ IF.RachevRatio(
   IFprint = TRUE,
   alpha = 0.1,
   beta = 0.1,
-  rf = 0,
   prewhiten = FALSE,
   ar.prewhiten.order = 1,
   cleanOutliers = FALSE,
-  cleanMethod = c("locScaleRob", "Boudt")[1],
+  cleanMethod = c("locScaleRob")[1],
   eff = 0.99,
-  alpha.robust = 0.05,
   ...
 )
 }
@@ -43,19 +41,15 @@ IF.RachevRatio(
 
 \item{beta}{Upper tail probability.}
 
-\item{rf}{Risk-free interest rate.}
-
 \item{prewhiten}{Boolean variable to indicate if the IF TS is pre-whitened (TRUE) or not (FALSE).}
 
 \item{ar.prewhiten.order}{Order of AR parameter for the pre-whitening. Default is AR(1).}
 
 \item{cleanOutliers}{Boolean variable to indicate whether outliers are cleaned with a robust location and scale estimator.}
 
-\item{cleanMethod}{Robust method used to clean outliers from the TS. The choices are "locScaleRob" (default) and "Boudt" for the function.}
+\item{cleanMethod}{Robust method used to clean outliers from the TS. Default choice is "locScaleRob".}
 
 \item{eff}{Tuning parameter for the normal distribution efficiency for the "locScaleRob" robust data cleaning.}
-
-\item{alpha.robust}{Tuning parameter for the quantile of the "Boudt" robust data cleaning algorithm, using the minimum covariance determinant estimator (MCD).}
 
 \item{...}{Additional parameters.}
 }
@@ -74,7 +68,7 @@ outIF <- IF.RachevRatio(returns=NULL, evalShape=TRUE,
                         retVals=NULL, nuisPars=NULL,
                         IFplot=TRUE, IFprint=TRUE)
 
-data(edhec, package="PerformanceAnalytics")
+data(edhec)
 colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
                     "GM", "LS", "MA", "RV", "SS", "FoF") 
 

@@ -41,67 +41,55 @@ nuisParsFn  <- function(mu=0.01, sd=0.05, c=0, alpha=0.1, beta=0.1){
     
   # Nuisance Parameters for Risk Estimators
   
-  # semisd
-  semisd <- sd/sqrt(2)
-  smean <- -dnorm(0)*sd
-
-  # LPM1
-  d <- (c-mu)/sd
-  lpm1 <- (d*pnorm(d)+dnorm(d))*sd
-
-  # LPM2
-  d <- (c-mu)/sd
-  lpm2 <- ((d^2+1)*pnorm(d)+d*dnorm(d))*sd^2
-
   # ES
   q.alpha <- mu+qnorm(alpha)*sd
   es.alpha <- -mu+dnorm(qnorm(alpha))/alpha*sd
+  
+  # LPM1
+  d <- (c-mu)/sd
+  lpm1 <- (d*pnorm(d)+dnorm(d))*sd
+  
+  # LPM2
+  lpm2 <- ((d^2+1)*pnorm(d)+d*dnorm(d))*sd^2
+  
+  # semisd
+  semisd <- sd/sqrt(2)
+  semimean <- -dnorm(0)*sd
 
   # VaR
-  q.alpha <- mu+qnorm(alpha)*sd
   fq.alpha <- dnorm(q.alpha, mu, sd)
 
   # Nuisance Parameters for Performance Estimators
-
-  # SR 
-  sr <- mu/sd   
-
-  # SoR_c
-  d <- (c-mu)/sd
-  lpm2 <- ((d^2+1)*pnorm(d)+d*dnorm(d))*sd^2
-  sor.c <- mu/sqrt(lpm2)
-
-  # SoR_mu
-  semisd <- sd/sqrt(2)
-  smean <- -dnorm(0)*sd
-  sor.mu <- mu/semisd
-
+  
+  # DSR
+  dsr <- mu/semisd
+  
   # ESratio
-  q.alpha <- mu+qnorm(alpha)*sd
-  es.alpha <- -mu+dnorm(qnorm(alpha))/alpha*sd
   ES.ratio <- mu/es.alpha
-
-  # VaRratio
-  q.alpha <- mu+qnorm(alpha)*sd
-  VaR.ratio <- -mu/q.alpha
-  fq.alpha <- dnorm(q.alpha,mu,sd) 
-
+  
+  # Omega
+  upm1 <- lpm1+mu-c
+  omega <- upm1/lpm1
+  
   # RachR
-  q.alpha <- mu+qnorm(alpha)*sd
-  es.alpha <- -mu+dnorm(qnorm(alpha))/alpha*sd
   q.beta <- mu+qnorm(1-beta)*sd
   eg.beta <- mu+dnorm(qnorm(1-beta))/beta*sd
   rach.r <- eg.beta/es.alpha
 
-  # Omega
-  d <- (c-mu)/sd
-  lpm1 <- (d*pnorm(d)+dnorm(d))*sd
-  upm1 <- lpm1+mu-c
-  omega <- upm1/lpm1
+  # SoR_c
+  sor.c <- mu/sqrt(lpm2)
   
+  # SoR_mu
+  sor.mu <- mu/semisd
+  
+  # SR 
+  sr <- mu/sd   
+
+  # VaRratio
+  VaR.ratio <- -mu/q.alpha
+
   # Return list for nuisance parameters
-  return(list(mu=mu, sd=sd, c=c, alpha=alpha, beta=beta, semisd=semisd, smean=smean, lpm1=lpm1, lpm2=lpm2, 
-              q.alpha=q.alpha, es.alpha=es.alpha, fq.alpha=fq.alpha, sr=sr, sor.c=sor.c, sor.mu=sor.mu,
-              es.alpha=es.alpha, ES.ratio=ES.ratio, VaR.ratio=VaR.ratio, q.beta=q.beta, eg.beta=eg.beta, 
-              rach.r=rach.r, omega=omega, upm1=upm1))
+  return(list(mu=mu, sd=sd, alpha=alpha, beta=beta, q.alpha=q.alpha, es.alpha=es.alpha, lpm1=lpm1, lpm2=lpm2, semisd=semisd, semimean=semimean, 
+              fq.alpha=fq.alpha, dsr=dsr, ES.ratio=ES.ratio, upm1=upm1, omega=omega, c=c, q.beta=q.beta, eg.beta=eg.beta, rach.r=rach.r, 
+              sor.c=sor.c, sor.mu=sor.mu, sr=sr, VaR.ratio=VaR.ratio))
 }

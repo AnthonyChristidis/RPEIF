@@ -1,6 +1,6 @@
-#' @title Influence Function - Rachev Ratio
+#' @title Influence Function - Omega Ratio
 #' 
-#' @description \code{IF.RachevRatio} returns the data and plots the shape of either the IF or the IF TS for the Rachev Ratio.
+#' @description \code{IF.OmegaRatio} returns the data and plots the shape of either the IF or the IF TS for the Omega Ratio.
 #'
 #' @param returns Returns data of the asset or portfolio. This can be a numeric or an xts object.
 #' @param evalShape Evaluation of the shape of the IF risk or performance measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.
@@ -9,8 +9,7 @@
 #' @param k Range parameter for the shape of the IF (the SD gets multiplied k times).
 #' @param IFplot If TRUE, the plot of the IF shape or IF TS of the returns is produced.
 #' @param IFprint If TRUE, the data for the IF shape or the IF TS of the returns is returned.
-#' @param alpha Lower tail probability.
-#' @param beta Upper tail probability.
+#' @param const Constant threshold.
 #' @param prewhiten Boolean variable to indicate if the IF TS is pre-whitened (TRUE) or not (FALSE).
 #' @param ar.prewhiten.order Order of AR parameter for the pre-whitening. Default is AR(1).
 #' @param cleanOutliers Boolean variable to indicate whether outliers are cleaned with a robust location and scale estimator.
@@ -18,7 +17,7 @@
 #' @param eff Tuning parameter for the normal distribution efficiency for the "locScaleRob" robust data cleaning.
 #' @param ... Additional parameters.
 #'
-#' @return Influence function of Rachev Ratio.
+#' @return Influence function of Omega Ratio.
 #' 
 #' @details 
 #' For further details on the usage of the \code{nuisPars} argument, please refer to Section 3.1 for the \code{RPEIF} vignette.
@@ -29,30 +28,30 @@
 #'
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
-#' outIF <- IF.RachevRatio(returns=NULL, evalShape=TRUE, 
-#'                         retVals=NULL, nuisPars=NULL,
-#'                         IFplot=TRUE, IFprint=TRUE)
+#' outIF <- IF.OmegaRatio(returns=NULL, evalShape=TRUE, 
+#'                        retVals=NULL, nuisPars=NULL,
+#'                        IFplot=TRUE, IFprint=TRUE)
 #'
 #' data(edhec)
 #' colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
 #'                     "GM", "LS", "MA", "RV", "SS", "FoF") 
 #' 
 #' # Plot of IF a specified TS 
-#' outIF <- IF.RachevRatio(returns=edhec[,"CA"], evalShape=TRUE, 
-#'                         retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
-#'                         IFplot=TRUE, IFprint=TRUE)
+#' outIF <- IF.OmegaRatio(returns=edhec[,"CA"], evalShape=TRUE, 
+#'                        retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
+#'                        IFplot=TRUE, IFprint=TRUE)
 #' 
 #' # Computing the IF of the returns (with prewhitening) with a plot of IF TS
-#' outIF <- IF.RachevRatio(returns=edhec[,"CA"], evalShape=FALSE, 
-#'                         retVals=NULL, nuisPars=NULL,
-#'                         IFplot=TRUE, IFprint=TRUE,
-#'                         prewhiten=FALSE)
+#' outIF <- IF.OmegaRatio(returns=edhec[,"CA"], evalShape=FALSE, 
+#'                        retVals=NULL, nuisPars=NULL,
+#'                        IFplot=TRUE, IFprint=TRUE,
+#'                        prewhiten=FALSE)
 #'
-IF.RachevRatio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
-                           IFplot=FALSE, IFprint=TRUE,
-                           alpha=0.1, beta=0.1, prewhiten=FALSE, ar.prewhiten.order=1,
-                           cleanOutliers=FALSE, cleanMethod=c("locScaleRob")[1], eff=0.99, 
-                           ...){
+IF.OmegaRatio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
+                          IFplot=FALSE, IFprint=TRUE,
+                          const=0, prewhiten=FALSE, ar.prewhiten.order=1,
+                          cleanOutliers=FALSE, cleanMethod=c("locScaleRob")[1], eff=0.99,
+                          ...){
   
   # Checking input data
   DataCheck(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars=nuisPars, k=k,
@@ -60,19 +59,9 @@ IF.RachevRatio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars
             prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
             cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, eff=eff)
   
-  # Checking input for alpha
-  if(!inherits(alpha, "numeric")){
-    stop("alpha should be numeric")
-  } else if(any(alpha < 0, alpha > 1)) {
-    stop("alpha should be a numeric value between 0 and 1.")
-  }
-  
-  # Checking input for beta
-  if(!inherits(beta, "numeric")){
-    stop("beta should be numeric")
-  } else if(any(beta < 0, beta > 1)) {
-    stop("beta should be a numeric value between 0 and 1.")
-  }
+  # Checking input for const
+  if(!inherits(const, "numeric"))
+    stop("const should be numeric")
   
   # Evaluation of nuisance parameters
   nuisPars <- NuisanceData(nuisPars)
@@ -91,9 +80,9 @@ IF.RachevRatio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars
   
   # Plot for shape evaluation
   if(evalShape){
-    IFvals <- EvaluateShape(estimator="RachevRatio",
+    IFvals <- EvaluateShape(estimator="OmegaRatio",
                             retVals=retVals, returns=returns, k=k, nuisPars=nuisPars,
-                            IFplot=IFplot, IFprint=IFprint, alpha=alpha, beta=beta)
+                            IFplot=IFplot, IFprint=IFprint, const=const)
     if(IFprint)
       return(IFvals) else{
         opt <- options(show.error.messages=FALSE)
@@ -102,32 +91,20 @@ IF.RachevRatio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars
       }
   }
 
-  # Computing the mean of the returns
-  mu.hat <- mean(returns)
-  # Computing the SD of the returns
-  sigma.hat <- mean((returns-mu.hat)^2)
-  
-  # Computing the VaR of the returns (lower tail)
-  VaR.hat.lower <- -quantile(returns, alpha)
-  # Storing the negative value of the VaR based on the desired alpha (lower tail)
-  quantile.lower <- -VaR.hat.lower
-  # Computing the ES of the returns (lower tail)
-  ES.lower <- -mean(returns[returns<=-VaR.hat.lower])
-  
   # IF computation
-  IF.Rachev.vector <- IF.RachevRatio.fn(x=returns, returns=returns, alpha=alpha, beta=beta)
-  
+  IF.OmegaRatio.vector <- IF.OmegaRatio.fn(x=returns, returns=returns, const=const)
+
   # Adding the pre-whitening functionality  
   if(prewhiten)
-    IF.Rachev.vector <- as.numeric(arima(x=IF.Rachev.vector, order=c(ar.prewhiten.order,0,0), include.mean=TRUE)$residuals)
+    IF.OmegaRatio.vector <- as.numeric(arima(x=IF.OmegaRatio.vector, order=c(ar.prewhiten.order,0,0), include.mean=TRUE)$residuals)
   
   # Adjustment for data (xts)
   if(xts::is.xts(returns))
-    IF.Rachev.vector <- xts::xts(IF.Rachev.vector, returns.dates)
+    IF.OmegaRatio.vector <- xts::xts(IF.OmegaRatio.vector, returns.dates)
   
   # Plot of the IF TS
   if(isTRUE(IFplot)){
-    print(plot(IF.Rachev.vector, type="l", main="Rachev Ratio Estimator Influence Function Transformed Returns", ylab="IF"))
+    print(plot(IF.OmegaRatio.vector, type="l", main="Omega Ratio Estimator Influence Function Transformed Returns", ylab="IF"))
   }
   
   # Stop if no printing of the TS
@@ -137,8 +114,18 @@ IF.RachevRatio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars
     stop() 
   }
   
-  # Returning the final ESratio estimate
+  # Returning the IF vector for Omega Ratio
   if(xts::is.xts(returns))
-    return(xts::xts(IF.Rachev.vector, returns.dates)) else
-      return(IF.Rachev.vector)
+    return(xts::xts(IF.OmegaRatio.vector, returns.dates)) else
+      return(IF.OmegaRatio.vector)
+}
+
+# ================================
+# Function for UPM
+# ================================
+
+UPM <- function(returns, const = 0, order = 1, ...){
+
+  # Computing the UPM
+  return(1/length(returns)*sum((const-returns[returns>=const])^order))
 }

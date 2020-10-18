@@ -12,15 +12,14 @@ IF.SoR(
   k = 4,
   IFplot = FALSE,
   IFprint = TRUE,
-  threshold = c("mean", "const")[1],
+  threshold = c("const", "mean")[1],
   const = 0,
   rf = 0,
   prewhiten = FALSE,
   ar.prewhiten.order = 1,
   cleanOutliers = FALSE,
-  cleanMethod = c("locScaleRob", "Boudt")[1],
+  cleanMethod = c("locScaleRob")[1],
   eff = 0.99,
-  alpha.robust = 0.05,
   ...
 )
 }
@@ -51,11 +50,9 @@ IF.SoR(
 
 \item{cleanOutliers}{Boolean variable to indicate whether outliers are cleaned with a robust location and scale estimator.}
 
-\item{cleanMethod}{Robust method used to clean outliers from the TS. The choices are "locScaleRob" (default) and "Boudt" for the function.}
+\item{cleanMethod}{Robust method used to clean outliers from the TS. Default choice is "locScaleRob".}
 
 \item{eff}{Tuning parameter for the normal distribution efficiency for the "locScaleRob" robust data cleaning.}
-
-\item{alpha.robust}{Tuning parameter for the quantile of the "Boudt" robust data cleaning algorithm.}
 
 \item{...}{Addtional parameters.}
 }
@@ -74,7 +71,7 @@ outIF <- IF.SoR(returns=NULL, evalShape=TRUE,
                 retVals=NULL, nuisPars=NULL,
                  IFplot=TRUE, IFprint=TRUE)
 
-data(edhec, package="PerformanceAnalytics")
+data(edhec)
 colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
                     "GM", "LS", "MA", "RV", "SS", "FoF") 
 
