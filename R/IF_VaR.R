@@ -28,36 +28,36 @@
 #'
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
-#' outIF <- IF.VaR(returns=NULL, evalShape=TRUE, 
-#'                 retVals=NULL, nuisPars=NULL,
-#'                 IFplot=TRUE, IFprint=TRUE)
+#' outIF <- IF.VaR(returns = NULL, evalShape = TRUE, 
+#'                 retVals = NULL, nuisPars = NULL,
+#'                 IFplot = TRUE, IFprint = TRUE)
 #'
 #' data(edhec)
 #' colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
 #'                     "GM", "LS", "MA", "RV", "SS", "FoF") 
 #' 
 #' # Plot of IF a specified TS 
-#' outIF <- IF.VaR(returns=edhec[,"CA"], evalShape=TRUE, 
-#'                 retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
-#'                 IFplot=TRUE, IFprint=TRUE)
+#' outIF <- IF.VaR(returns = edhec[,"CA"], evalShape = TRUE, 
+#'                 retVals = seq(-0.1, 0.1, by = 0.001), nuisPars = NULL,
+#'                 IFplot = TRUE, IFprint = TRUE)
 #' 
 #' # Computing the IF of the returns (with prewhitening) with a plot of IF TS
-#' outIF <- IF.VaR(returns=edhec[,"CA"], evalShape=FALSE, 
-#'                 retVals=NULL, nuisPars=NULL,
-#'                 IFplot=TRUE, IFprint=TRUE,
-#'                 prewhiten=FALSE)
+#' outIF <- IF.VaR(returns = edhec[,"CA"], evalShape = FALSE, 
+#'                 retVals = NULL, nuisPars = NULL,
+#'                 IFplot = TRUE, IFprint = TRUE,
+#'                 prewhiten = FALSE)
 #'
-IF.VaR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
-                   IFplot=FALSE, IFprint=TRUE,
-                   alpha=0.05, prewhiten=FALSE, ar.prewhiten.order=1,
-                   cleanOutliers=FALSE, cleanMethod=c("locScaleRob")[1], eff=0.99, 
+IF.VaR <- function(returns = NULL, evalShape = FALSE, retVals = NULL, nuisPars = NULL, k = 4,
+                   IFplot = FALSE, IFprint = TRUE,
+                   alpha = 0.05, prewhiten = FALSE, ar.prewhiten.order = 1,
+                   cleanOutliers = FALSE, cleanMethod = c("locScaleRob")[1], eff = 0.99, 
                    ...){
   
   # Checking input data
-  DataCheck(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars=nuisPars, k=k,
-            IFplot=IFplot, IFprint=IFprint,
-            prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
-            cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, eff=eff)
+  DataCheck(returns = returns, evalShape = evalShape, retVals = retVals, nuisPars = nuisPars, k = k,
+            IFplot = IFplot, IFprint = IFprint,
+            prewhiten = prewhiten, ar.prewhiten.order = ar.prewhiten.order,
+            cleanOutliers = cleanOutliers, cleanMethod = cleanMethod, eff = eff)
   
   # Checking input for alpha
   if(!inherits(alpha, "numeric")){
@@ -83,23 +83,23 @@ IF.VaR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k
   
   # Plot for shape evaluation
   if(evalShape){
-    IFvals <- EvaluateShape(estimator="VaR",
-                            retVals=retVals, returns=returns, k=k, nuisPars=nuisPars,
-                            IFplot=IFplot, IFprint=IFprint, alpha=alpha)
+    IFvals <- EvaluateShape(estimator = "VaR",
+                            retVals = retVals, returns = returns, k = k, nuisPars = nuisPars,
+                            IFplot = IFplot, IFprint = IFprint, alpha = alpha)
     if(IFprint)
       return(IFvals) else{
-        opt <- options(show.error.messages=FALSE)
+        opt <- options(show.error.messages = FALSE)
         on.exit(options(opt)) 
         stop() 
       }
   }
 
   # Computing the IF vector for the VaR
-  IF.VaR.vector <- IF.VaR.fn(x=returns, returns=returns, alpha=alpha)
+  IF.VaR.vector <- IF.VaR.fn(x = returns, returns = returns, alpha = alpha)
   
   # Adding the pre-whitening functionality  
   if(prewhiten)
-    IF.VaR.vector <- as.numeric(arima(x=IF.VaR.vector, order=c(ar.prewhiten.order,0,0), include.mean=TRUE)$residuals)
+    IF.VaR.vector <- as.numeric(arima(x = IF.VaR.vector, order = c(ar.prewhiten.order,0,0), include.mean = TRUE)$residuals)
   
   # Adjustment for data (xts)
   if(xts::is.xts(returns))
@@ -107,12 +107,12 @@ IF.VaR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k
   
   # Plot of the IF TS
   if(isTRUE(IFplot)){
-    print(plot(IF.VaR.vector, type="l", main="VaR Estimator Influence Function Transformed Returns", ylab="IF"))
+    print(plot(IF.VaR.vector, type = "l", main = "VaR Estimator Influence Function Transformed Returns", ylab = "IF"))
   }
   
   # Stop if no printing of the TS
   if(!IFprint){
-    opt <- options(show.error.messages=FALSE)
+    opt <- options(show.error.messages = FALSE)
     on.exit(options(opt)) 
     stop() 
   }

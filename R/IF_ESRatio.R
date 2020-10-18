@@ -29,36 +29,36 @@
 #'
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
-#' outIF <- IF.ESratio(returns=NULL, evalShape=TRUE, 
-#'                     retVals=NULL, nuisPars=NULL,
-#'                     IFplot=TRUE, IFprint=TRUE)
+#' outIF <- IF.ESratio(returns = NULL, evalShape = TRUE, 
+#'                     retVals = NULL, nuisPars = NULL,
+#'                     IFplot = TRUE, IFprint = TRUE)
 #'
 #' data(edhec)
 #' colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
 #'                     "GM", "LS", "MA", "RV", "SS", "FoF") 
 #' 
 #' # Plot of IF a specified TS 
-#' outIF <- IF.ESratio(returns=edhec[,"CA"], evalShape=TRUE, 
-#'                     retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
-#'                     IFplot=TRUE, IFprint=TRUE)
+#' outIF <- IF.ESratio(returns = edhec[,"CA"], evalShape = TRUE, 
+#'                     retVals = seq(-0.1, 0.1, by = 0.001), nuisPars = NULL,
+#'                     IFplot = TRUE, IFprint = TRUE)
 #' 
 #' # Computing the IF of the returns (with prewhitening) with a plot of IF TS
-#' outIF <- IF.ESratio(returns=edhec[,"CA"], evalShape=FALSE, 
-#'                     retVals=NULL, nuisPars=NULL,
-#'                     IFplot=TRUE, IFprint=TRUE,
-#'                     prewhiten=FALSE)
+#' outIF <- IF.ESratio(returns = edhec[,"CA"], evalShape = FALSE, 
+#'                     retVals = NULL, nuisPars = NULL,
+#'                     IFplot = TRUE, IFprint = TRUE,
+#'                     prewhiten = FALSE)
 #'
-IF.ESratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
-                       IFplot=FALSE, IFprint=TRUE,
-                       alpha=0.1, rf=0, prewhiten=FALSE, ar.prewhiten.order=1,
-                       cleanOutliers=FALSE, cleanMethod=c("locScaleRob")[1], eff=0.99, 
+IF.ESratio <- function(returns = NULL, evalShape = FALSE, retVals = NULL, nuisPars = NULL, k = 4,
+                       IFplot = FALSE, IFprint = TRUE,
+                       alpha = 0.1, rf = 0, prewhiten = FALSE, ar.prewhiten.order = 1,
+                       cleanOutliers = FALSE, cleanMethod = c("locScaleRob")[1], eff = 0.99, 
                        ...){
   
   # Checking input data
-  DataCheck(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars=nuisPars, k=k,
-            IFplot=IFplot, IFprint=IFprint,
-            prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
-            cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, eff=eff)
+  DataCheck(returns = returns, evalShape = evalShape, retVals = retVals, nuisPars = nuisPars, k = k,
+            IFplot = IFplot, IFprint = IFprint,
+            prewhiten = prewhiten, ar.prewhiten.order = ar.prewhiten.order,
+            cleanOutliers = cleanOutliers, cleanMethod = cleanMethod, eff = eff)
   
   # Checking input for alpha
   if(!inherits(alpha, "numeric")){
@@ -91,23 +91,23 @@ IF.ESratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NUL
   
   # Plot for shape evaluation
   if(evalShape){
-    IFvals <- EvaluateShape(estimator="ESratio",
-                            retVals=retVals, returns=returns, k=k, nuisPars=nuisPars,
-                            IFplot=IFplot, IFprint=IFprint, alpha=alpha, rf=rf)
+    IFvals <- EvaluateShape(estimator = "ESratio",
+                            retVals = retVals, returns = returns, k = k, nuisPars = nuisPars,
+                            IFplot = IFplot, IFprint = IFprint, alpha = alpha, rf = rf)
     if(IFprint)
       return(IFvals) else{
-        opt <- options(show.error.messages=FALSE)
+        opt <- options(show.error.messages = FALSE)
         on.exit(options(opt)) 
         stop() 
       }
   }
 
   # IF computation
-  IF.ESratio.vector <- IF.ESratio.fn(x=returns, returns=returns, alpha=alpha, rf=rf)
+  IF.ESratio.vector <- IF.ESratio.fn(x = returns, returns = returns, alpha = alpha, rf = rf)
   
   # Adding the pre-whitening functionality  
   if(prewhiten)
-    IF.ESratio.vector <- as.numeric(arima(x=IF.ESratio.vector, order=c(ar.prewhiten.order,0,0), include.mean=TRUE)$residuals)
+    IF.ESratio.vector <- as.numeric(arima(x = IF.ESratio.vector, order = c(ar.prewhiten.order,0,0), include.mean = TRUE)$residuals)
   
   # Adjustment for data (xts)
   if(xts::is.xts(returns))
@@ -115,12 +115,12 @@ IF.ESratio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NUL
   
   # Plot of the IF TS
   if(isTRUE(IFplot)){
-    print(plot(IF.ESratio.vector, type="l", main="ES Ratio Estimator Influence Function Transformed Returns", ylab="IF"))
+    print(plot(IF.ESratio.vector, type = "l", main = "ES Ratio Estimator Influence Function Transformed Returns", ylab = "IF"))
   }
   
   # Stop if no printing of the TS
   if(!IFprint){
-    opt <- options(show.error.messages=FALSE)
+    opt <- options(show.error.messages = FALSE)
     on.exit(options(opt)) 
     stop() 
   }

@@ -30,36 +30,36 @@
 #'
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
-#' outIF <- IF.SoR(returns=NULL, evalShape=TRUE, 
-#'                 retVals=NULL, nuisPars=NULL,
-#'                  IFplot=TRUE, IFprint=TRUE)
+#' outIF <- IF.SoR(returns = NULL, evalShape = TRUE, 
+#'                 retVals = NULL, nuisPars = NULL,
+#'                  IFplot = TRUE, IFprint = TRUE)
 #'
 #' data(edhec)
 #' colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
 #'                     "GM", "LS", "MA", "RV", "SS", "FoF") 
 #' 
 #' # Plot of IF a specified TS 
-#' outIF <- IF.SoR(returns=edhec[,"CA"], evalShape=TRUE, 
-#'                 retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
-#'                 IFplot=TRUE, IFprint=TRUE)
+#' outIF <- IF.SoR(returns = edhec[,"CA"], evalShape = TRUE, 
+#'                 retVals = seq(-0.1, 0.1, by = 0.001), nuisPars = NULL,
+#'                 IFplot = TRUE, IFprint = TRUE)
 #' 
 #' # Computing the IF of the returns (with prewhitening) with a plot of IF TS
-#' outIF <- IF.SoR(returns=edhec[,"CA"], evalShape=FALSE, 
-#'                 retVals=NULL, nuisPars=NULL,
-#'                 IFplot=TRUE, IFprint=TRUE,
-#'                 prewhiten=FALSE)
+#' outIF <- IF.SoR(returns = edhec[,"CA"], evalShape = FALSE, 
+#'                 retVals = NULL, nuisPars = NULL,
+#'                 IFplot = TRUE, IFprint = TRUE,
+#'                 prewhiten = FALSE)
 #'
-IF.SoR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
-                   IFplot=FALSE, IFprint=TRUE,
-                   threshold=c("const", "mean")[1], const=0, rf=0, prewhiten=FALSE, ar.prewhiten.order=1,
-                   cleanOutliers=FALSE, cleanMethod=c("locScaleRob")[1], eff=0.99, 
+IF.SoR <- function(returns = NULL, evalShape = FALSE, retVals = NULL, nuisPars = NULL, k = 4,
+                   IFplot = FALSE, IFprint = TRUE,
+                   threshold = c("const", "mean")[1], const = 0, rf = 0, prewhiten = FALSE, ar.prewhiten.order = 1,
+                   cleanOutliers = FALSE, cleanMethod = c("locScaleRob")[1], eff = 0.99, 
                    ...){
   
   # Checking input data
-  DataCheck(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars=nuisPars, k=k,
-            IFplot=IFplot, IFprint=IFprint,
-            prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
-            cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, eff=eff)
+  DataCheck(returns = returns, evalShape = evalShape, retVals = retVals, nuisPars = nuisPars, k = k,
+            IFplot = IFplot, IFprint = IFprint,
+            prewhiten = prewhiten, ar.prewhiten.order = ar.prewhiten.order,
+            cleanOutliers = cleanOutliers, cleanMethod = cleanMethod, eff = eff)
   
   # Checking input for const
   if(!inherits(const, "numeric")){
@@ -76,28 +76,28 @@ IF.SoR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k
   }
   
   # Function evaluation for mean threshold
-  if(threshold=="mean")
-    IF.SoR.mean(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars=nuisPars , 
-                IFplot=IFplot, IFprint=IFprint,
-                rf=rf, prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
-                cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, eff=eff,
-                ...) else if(threshold=="const")
-                  IF.SoR.const(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars=nuisPars , 
-                               IFplot=IFplot, IFprint=IFprint,
-                               const=const, prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
-                               cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, eff=eff,
+  if(threshold == "mean")
+    IF.SoR.mean(returns = returns, evalShape = evalShape, retVals = retVals, nuisPars = nuisPars , 
+                IFplot = IFplot, IFprint = IFprint,
+                rf = rf, prewhiten = prewhiten, ar.prewhiten.order = ar.prewhiten.order,
+                cleanOutliers = cleanOutliers, cleanMethod = cleanMethod, eff = eff,
+                ...) else if(threshold == "const")
+                  IF.SoR.const(returns = returns, evalShape = evalShape, retVals = retVals, nuisPars = nuisPars , 
+                               IFplot = IFplot, IFprint = IFprint,
+                               const = const, prewhiten = prewhiten, ar.prewhiten.order = ar.prewhiten.order,
+                               cleanOutliers = cleanOutliers, cleanMethod = cleanMethod, eff = eff,
                                ...)
 }
 
-# ================================
+# =============================
 # SoR Estimators
 # Function for Mean Threshold
-# ================================
+# =============================
 
-IF.SoR.mean <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
-                        IFplot=FALSE, IFprint=TRUE,
-                        rf=0, prewhiten=FALSE, ar.prewhiten.order=1,
-                        cleanOutliers=FALSE, cleanMethod=c("locScaleRob")[1], eff=0.99, 
+IF.SoR.mean <- function(returns = NULL, evalShape = FALSE, retVals = NULL, nuisPars = NULL, k = 4,
+                        IFplot = FALSE, IFprint = TRUE,
+                        rf = 0, prewhiten = FALSE, ar.prewhiten.order = 1,
+                        cleanOutliers = FALSE, cleanMethod = c("locScaleRob")[1], eff = 0.99, 
                         ...){
   
   # Evaluation of nuisance parameters
@@ -117,23 +117,23 @@ IF.SoR.mean <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NU
   
   # Plot for shape evaluation
   if(evalShape){
-    IFvals <- EvaluateShape(estimator="SoR",
-                            retVals=retVals, returns=returns, k=k, nuisPars=nuisPars,
-                            IFplot=IFplot, IFprint=IFprint, rf=rf, threshold="mean")
+    IFvals <- EvaluateShape(estimator = "SoR",
+                            retVals = retVals, returns = returns, k = k, nuisPars = nuisPars,
+                            IFplot = IFplot, IFprint = IFprint, rf = rf, threshold = "mean")
     if(IFprint)
       return(IFvals) else{
-        opt <- options(show.error.messages=FALSE)
+        opt <- options(show.error.messages = FALSE)
         on.exit(options(opt)) 
         stop() 
       }
   }
 
   # IF Computation
-  IF.SoR_M.vector <- IF.SoR_M.fn(x=returns, returns=returns, rf=rf)
+  IF.SoR_M.vector <- IF.SoR_M.fn(x = returns, returns = returns, rf = rf)
   
   # Adding the pre-whitening functionality  
   if(prewhiten)
-    IF.SoR_M.vector <- as.numeric(arima(x=IF.SoR_M.vector, order=c(ar.prewhiten.order,0,0), include.mean=TRUE)$residuals)
+    IF.SoR_M.vector <- as.numeric(arima(x = IF.SoR_M.vector, order = c(ar.prewhiten.order,0,0), include.mean = TRUE)$residuals)
   
   # Adjustment for data (xts)
   if(xts::is.xts(returns))
@@ -141,12 +141,12 @@ IF.SoR.mean <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NU
   
   # Plot of the IF TS
   if(isTRUE(IFplot)){
-    print(plot(IF.SoR_M.vector, type="l", main="SoR (Mean Threshold) Estimator Influence Function Transformed Returns", ylab="IF"))
+    print(plot(IF.SoR_M.vector, type = "l", main = "SoR (Mean Threshold) Estimator Influence Function Transformed Returns", ylab = "IF"))
   }
   
   # Stop if no printing of the TS
   if(!IFprint){
-    opt <- options(show.error.messages=FALSE)
+    opt <- options(show.error.messages = FALSE)
     on.exit(options(opt)) 
     stop() 
   }
@@ -157,15 +157,15 @@ IF.SoR.mean <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NU
       return(IF.SoR_M.vector)
 }
 
-# ================================
+# =================================
 # SoR Estimators
 # Function for Constant Threshold
-# ================================
+# =================================
 
-IF.SoR.const <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
-                         IFplot=FALSE, IFprint=TRUE,
-                         const=0, prewhiten=FALSE, ar.prewhiten.order=1,
-                         cleanOutliers=FALSE, cleanMethod=c("locScaleRob")[1], eff=0.99, 
+IF.SoR.const <- function(returns = NULL, evalShape = FALSE, retVals = NULL, nuisPars = NULL, k = 4,
+                         IFplot = FALSE, IFprint = TRUE,
+                         const = 0, prewhiten = FALSE, ar.prewhiten.order = 1,
+                         cleanOutliers = FALSE, cleanMethod = c("locScaleRob")[1], eff = 0.99, 
                          ...){
   
   # Evaluation of nuisance parameters
@@ -185,23 +185,23 @@ IF.SoR.const <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=N
   
   # Plot for shape evaluation
   if(evalShape){
-    IFvals <- EvaluateShape(estimator="SoR",
-                            retVals=retVals, returns=returns, k=k, nuisPars=nuisPars,
-                            IFplot=IFplot, IFprint=IFprint, const=const, threshold="const")
+    IFvals <- EvaluateShape(estimator = "SoR",
+                            retVals = retVals, returns = returns, k = k, nuisPars = nuisPars,
+                            IFplot = IFplot, IFprint = IFprint, const = const, threshold = "const")
     if(IFprint)
       return(IFvals) else{
-        opt <- options(show.error.messages=FALSE)
+        opt <- options(show.error.messages = FALSE)
         on.exit(options(opt)) 
         stop() 
       }
   }
 
   # Computing the IF vector for SoR_C
-  IF.SoR_C.vector <- IF.SoR_C.fn(x=returns, returns=returns, const=const)
+  IF.SoR_C.vector <- IF.SoR_C.fn(x = returns, returns = returns, const = const)
 
   # Adding the pre-whitening functionality  
   if(prewhiten)
-    IF.SoR_C.vector <- as.numeric(arima(x=IF.SoR_C.vector, order=c(ar.prewhiten.order,0,0), include.mean=TRUE)$residuals)
+    IF.SoR_C.vector <- as.numeric(arima(x = IF.SoR_C.vector, order = c(ar.prewhiten.order,0,0), include.mean = TRUE)$residuals)
   
   # Adjustment for data (xts)
   if(xts::is.xts(returns))
@@ -209,12 +209,12 @@ IF.SoR.const <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=N
   
   # Plot of the IF TS
   if(isTRUE(IFplot)){
-    print(plot(IF.SoR_C.vector, type="l", main="SoR (Constant Threshold) Estimator Influence Function Transformed Returns", ylab="IF"))
+    print(plot(IF.SoR_C.vector, type = "l", main = "SoR (Constant Threshold) Estimator Influence Function Transformed Returns", ylab = "IF"))
   }
   
   # Stop if no printing of the TS
   if(!IFprint){
-    opt <- options(show.error.messages=FALSE)
+    opt <- options(show.error.messages = FALSE)
     on.exit(options(opt)) 
     stop() 
   }

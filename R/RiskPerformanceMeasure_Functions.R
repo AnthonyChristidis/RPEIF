@@ -1,7 +1,7 @@
-# ================================
+# ==================
 # RPE Estimators
 # Functions for IF
-# ================================
+# ==================
 
 # Wrapper function for IF RPE
 IF.fn <- function(x, estimator, returns, nuisance.par, ...){
@@ -34,7 +34,7 @@ IF.fn <- function(x, estimator, returns, nuisance.par, ...){
 }
 
 # Downside SR IF Function
-IF.DSR.fn <- function(x, returns, parsDSR.IF, rf=0){
+IF.DSR.fn <- function(x, returns, parsDSR.IF, rf = 0){
   
   # IF for null returns
   if(is.null(returns)){
@@ -50,20 +50,20 @@ IF.DSR.fn <- function(x, returns, parsDSR.IF, rf=0){
     # Computing the mean of the returns
     mu.hat <- mean(returns)
     # Computing the SemiSD
-    semisd <- sqrt((1/length(returns))*sum((returns-mu.hat)^2*(returns<=mu.hat)))
+    semisd <- sqrt((1/length(returns))*sum((returns-mu.hat)^2*(returns <= mu.hat)))
     # Computing the SemiMean
-    semimean <- (1/length(returns))*sum((returns-mu.hat)*(returns<=mu.hat))
+    semimean <- (1/length(returns))*sum((returns-mu.hat)*(returns <= mu.hat))
     # Computing DSR of the returns
     dsr <- (mu.hat-rf)/(semisd*sqrt(2))
   }
   
   # IF computation
-  IF.DSR <- (-dsr*(x - mu.hat)^2*(x<=mu.hat)/(2*semisd^2) + (x - mu.hat)*(1/semisd + dsr*semimean/semisd^2) + dsr/2)/sqrt(2)
+  IF.DSR <- (-dsr*(x - mu.hat)^2*(x <= mu.hat)/(2*semisd^2) + (x - mu.hat)*(1/semisd + dsr*semimean/semisd^2) + dsr/2)/sqrt(2)
   return(IF.DSR)
 }
 
 # ES IF Function
-IF.ES.fn <- function(x, returns, parsES.IF, alpha.ES=0.05){
+IF.ES.fn <- function(x, returns, parsES.IF, alpha.ES = 0.05){
   
   # IF for null returns
   if(is.null(returns)){
@@ -78,16 +78,16 @@ IF.ES.fn <- function(x, returns, parsES.IF, alpha.ES=0.05){
     # Finding the quantile of the density fit based on the desired tail probability
     quantile.alpha <- quantile(returns, alpha.ES)
     # Computing the ES parameter based on the desired tail probability
-    ES.tail <- -mean(returns[returns<=quantile.alpha])
+    ES.tail <- -mean(returns[returns <= quantile.alpha])
   }
   
   # IF Computation
-  IF.ES <- 1/alpha.ES*((-x+quantile.alpha)*(x<=quantile.alpha))-quantile.alpha-ES.tail
+  IF.ES <- 1/alpha.ES*((-x+quantile.alpha)*(x <= quantile.alpha))-quantile.alpha-ES.tail
   return(IF.ES)
 }
 
 # ES Ratio IF Function
-IF.ESratio.fn <- function(x, returns, parsESratio.IF, alpha=0.1, rf=0){
+IF.ESratio.fn <- function(x, returns, parsESratio.IF, alpha = 0.1, rf = 0){
   
   # IF for null returns
   if(is.null(returns)){
@@ -107,18 +107,18 @@ IF.ESratio.fn <- function(x, returns, parsESratio.IF, alpha=0.1, rf=0){
     # Storing the negative value of the VaR based on the desired alpha
     q.alpha <- as.numeric(quantile(returns, alpha))
     # Computing the ES of the returns
-    ES.hat <- -mean(returns[returns<=q.alpha])
+    ES.hat <- -mean(returns[returns <= q.alpha])
     # Computing the ESratio of the returns
     ESratio.hat <- (mu.hat-rf)/ES.hat
   }
   
   # IF computation 
-  IF.ESratio <- (x - mu.hat)/ES.hat - ESratio.hat/ES.hat*((-x + q.alpha)*(x<=q.alpha)/alpha - q.alpha - ES.hat)
+  IF.ESratio <- (x - mu.hat)/ES.hat - ESratio.hat/ES.hat*((-x + q.alpha)*(x <= q.alpha)/alpha - q.alpha - ES.hat)
   return(IF.ESratio)
 }
 
 # LPM IF Function
-IF.LPM.fn <- function(x, returns, parsLPM.IF, const=0, order=1){
+IF.LPM.fn <- function(x, returns, parsLPM.IF, const = 0, order = 1){
   
   # Nuisance paramters if returns null
   if(is.null(returns)){
@@ -128,15 +128,15 @@ IF.LPM.fn <- function(x, returns, parsLPM.IF, const=0, order=1){
         
   } else{
     
-    lpm1 <- LPM(returns, const=const, order=1)
-    lpm2 <- LPM(returns, const=const, order=2)
+    lpm1 <- LPM(returns, const = const, order = 1)
+    lpm2 <- LPM(returns, const = const, order = 2)
 
   }
     
     # IF computation
-    if(order==1)
-      IF.LPM <- (const - x)*(x <= const) - lpm1 else if(order==2)
-        IF.LPM <- (const - x)^2*(x <= const) - lpm2
+    if(order == 1)
+      IF.LPM <- (const - x)*(x <=  const) - lpm1 else if(order == 2)
+        IF.LPM <- (const - x)^2*(x <=  const) - lpm2
     return(IF.LPM)
 }
 
@@ -156,7 +156,7 @@ IF.mean.fn <- function(x, returns, parsMean.IF){
 }
 
 # Omega Ratio IF Function
-IF.OmegaRatio.fn <- function(x, returns, parsOmega.IF, const=0){
+IF.OmegaRatio.fn <- function(x, returns, parsOmega.IF, const = 0){
   
   # IF for null returns
   if(is.null(returns)){
@@ -171,18 +171,18 @@ IF.OmegaRatio.fn <- function(x, returns, parsOmega.IF, const=0){
     # Returning length of returns vector
     N <- length(returns)
     # Computing Partial moments 
-    lpm1 <- LPM(returns, const=const, order=1) 
-    upm1 <- UPM(returns, const=const, order=1)
+    lpm1 <- LPM(returns, const = const, order = 1) 
+    upm1 <- UPM(returns, const = const, order = 1)
     omega <- 1 + (mean(returns)-const)/lpm1
   }
   
   # IF computation 
-  IF.Omega <- 1/lpm1*((x-const)*(x>=const)-upm1) - omega/lpm1*((const-x)*(x<=const)-lpm1)
+  IF.Omega <- 1/lpm1*((x-const)*(x >= const)-upm1) - omega/lpm1*((const-x)*(x <= const)-lpm1)
   return(IF.Omega)
 }
 
 # Rachev Ratio IF Function
-IF.RachevRatio.fn <- function(x, returns, parsRachev.IF, alpha=0.1, beta=0.1){
+IF.RachevRatio.fn <- function(x, returns, parsRachev.IF, alpha = 0.1, beta = 0.1){
   
   # IF for null returns
   if(is.null(returns)){
@@ -200,19 +200,19 @@ IF.RachevRatio.fn <- function(x, returns, parsRachev.IF, alpha=0.1, beta=0.1){
     # Finding the quantile of the density fit based on the desired lower tail probability
     q.alpha <- as.numeric(quantile(returns, alpha))
     # Computing the ES of the returns (lower tail)
-    es.alpha <- -mean(returns[returns<=q.alpha])
+    es.alpha <- -mean(returns[returns <= q.alpha])
     
     # Finding the quantile of the density fit based on the desired upper tail probability
     q.beta <- as.numeric(quantile(returns, 1-beta))
     # Computing the ES of the returns (upper tail)
-    eg.beta <- mean(returns[returns>=q.beta])
+    eg.beta <- mean(returns[returns >= q.beta])
     # Computing Rachev ratio
     rachev.ratio <- eg.beta/es.alpha
   }
   
   # IF computation 
-  IF.RachevRatio <- (1/es.alpha)*((x>=q.beta)*(x-q.beta)/beta + q.beta - eg.beta) - 
-    (rachev.ratio/es.alpha)*((-1)*(x<=q.alpha)*(x-q.alpha)/alpha - q.alpha - es.alpha)
+  IF.RachevRatio <- (1/es.alpha)*((x >= q.beta)*(x-q.beta)/beta + q.beta - eg.beta) - 
+    (rachev.ratio/es.alpha)*((-1)*(x <= q.alpha)*(x-q.alpha)/alpha - q.alpha - es.alpha)
   return(IF.RachevRatio)
 }
 
@@ -231,13 +231,13 @@ IF.SemiSD.fn <- function(x, returns, parsSemiSD.IF){
     # Computing the mean of the returns
     mu.hat <- mean(returns)
     # Computing the SemiSD 
-    semisd <- sqrt((1/length(returns))*sum((returns-mu.hat)^2*(returns<=mu.hat)))
+    semisd <- sqrt((1/length(returns))*sum((returns-mu.hat)^2*(returns<= mu.hat)))
     # Computing the SemiMean
-    semimean <- (1/length(returns))*sum((returns-mu.hat)*(returns<=mu.hat))
+    semimean <- (1/length(returns))*sum((returns-mu.hat)*(returns<= mu.hat))
   }
   
   # IF computation
-  IF.SemiSD <- ((x - mu.hat)^2 * (x <= mu.hat) - 2*semimean * (x-mu.hat) - semisd^2)/(2*semisd)
+  IF.SemiSD <- ((x - mu.hat)^2 * (x <=  mu.hat) - 2*semimean * (x-mu.hat) - semisd^2)/(2*semisd)
   return(IF.SemiSD)
 }
 
@@ -264,16 +264,16 @@ IF.SD.fn <- function(x, returns, parSemiSD.IF){
 }
 
 # SoR IF Function
-IF.SoR.fn <- function(x, returns, parsSoR.IF, rf=0, const=0, threshold=c("mean", "const")[1]){
+IF.SoR.fn <- function(x, returns, parsSoR.IF, rf = 0, const = 0, threshold = c("mean", "const")[1]){
   
   # Case where we want mean threshold
-  if(threshold=="mean")
-    return(IF.SoR_M.fn(x=x, returns=returns, parsSoR_M.IF=parsSoR.IF, rf=rf)) else if(threshold=="const")
-      return(IF.SoR_C.fn(x=x, returns=returns, parsSoR_C.IF=parsSoR.IF, const=const))
+  if(threshold == "mean")
+    return(IF.SoR_M.fn(x = x, returns = returns, parsSoR_M.IF = parsSoR.IF, rf = rf)) else if(threshold == "const")
+      return(IF.SoR_C.fn(x = x, returns = returns, parsSoR_C.IF = parsSoR.IF, const = const))
 }
 
 # SoR (Constant Threshold) IF Function
-IF.SoR_C.fn <- function(x, returns, parsSoR_C.IF, const=0){
+IF.SoR_C.fn <- function(x, returns, parsSoR_C.IF, const = 0){
   
   # IF for null returns
   if(is.null(returns)){
@@ -288,19 +288,19 @@ IF.SoR_C.fn <- function(x, returns, parsSoR_C.IF, const=0){
     # Computation the mean of the returns
     mu.hat <- mean(returns)
     # Computating the LPM of the returns
-    lpm2 <- LPM(returns, const=const, order=2)
+    lpm2 <- LPM(returns, const = const, order = 2)
     # Computing the Sortino ratio of the returns
     sor.c <- (mu.hat-const)/sqrt(lpm2)
     
   }
   
   # IF computation
-  IF.SoR <- -sor.c*(x-const)^2*(x<=const)/(2*lpm2) + (x-mu.hat)/sqrt(lpm2) + sor.c/2
+  IF.SoR <- -sor.c*(x-const)^2*(x<= const)/(2*lpm2) + (x-mu.hat)/sqrt(lpm2) + sor.c/2
   return(IF.SoR)
 }
 
 # SoR (Mean Threshold) IF Function
-IF.SoR_M.fn <- function(x, returns, parsSoR_M.IF, rf=0){
+IF.SoR_M.fn <- function(x, returns, parsSoR_M.IF, rf = 0){
   
   # IF for null returns
   if(is.null(returns)){
@@ -316,20 +316,20 @@ IF.SoR_M.fn <- function(x, returns, parsSoR_M.IF, rf=0){
     # Computing the mean of the returns
     mu.hat <- mean(returns)
     # Computing the SemiSD
-    semisd <- sqrt((1/length(returns))*sum((returns-mu.hat)^2*(returns<=mu.hat)))
+    semisd <- sqrt((1/length(returns))*sum((returns-mu.hat)^2*(returns<= mu.hat)))
     # Computing the SemiMean
-    semimean <- (1/length(returns))*sum((returns-mu.hat)*(returns<=mu.hat))
+    semimean <- (1/length(returns))*sum((returns-mu.hat)*(returns<= mu.hat))
     # Computing Sortino ratio of the returns
     sor <- (mu.hat-rf)/(semisd*sqrt(2))
   }
   
   # IF computation
-  IF.SoR <- (-sor*(x - mu.hat)^2*(x<=mu.hat)/(2*semisd^2) + (x - mu.hat)*(1/semisd + sor*semimean/semisd^2) + sor/2)/sqrt(2)
+  IF.SoR <- (-sor*(x - mu.hat)^2*(x<= mu.hat)/(2*semisd^2) + (x - mu.hat)*(1/semisd + sor*semimean/semisd^2) + sor/2)/sqrt(2)
   return(IF.SoR)
 }
 
 # SR IF Function
-IF.SR.fn <- function(x, returns, parsSR.IF, rf=0){
+IF.SR.fn <- function(x, returns, parsSR.IF, rf = 0){
   
   # Computing the nuisance parameters
   if(is.null(returns)){
@@ -354,7 +354,7 @@ IF.SR.fn <- function(x, returns, parsSR.IF, rf=0){
 }
 
 # VaR IF Function
-IF.VaR.fn <- function(x, returns, parsVaR.IF, alpha=0.05){
+IF.VaR.fn <- function(x, returns, parsVaR.IF, alpha = 0.05){
   
   # IF for null returns
   if(is.null(returns)){
@@ -375,12 +375,12 @@ IF.VaR.fn <- function(x, returns, parsVaR.IF, alpha=0.05){
   }
   
   # IF Computation
-  IF.VaR <- ((x<=quantile.alpha)-alpha)/fq.alpha
+  IF.VaR <- ((x<= quantile.alpha)-alpha)/fq.alpha
   return(IF.VaR)
 }
 
 # VaR Ratio IF Function
-IF.VaRratio.fn <- function(x, returns, parsVaRratio.IF, alpha=0.1, rf=0){
+IF.VaRratio.fn <- function(x, returns, parsVaRratio.IF, alpha = 0.1, rf = 0){
   
   # IF for null returns
   if(is.null(returns)){
@@ -406,7 +406,7 @@ IF.VaRratio.fn <- function(x, returns, parsVaRratio.IF, alpha=0.1, rf=0){
   }
   
   # IF Computation
-  IF.VaRratio <- (x - mu.hat)/VaR.hat - (VaRratio.hat/VaR.hat) * ((x <= -VaR.hat)-alpha)/fq.alpha
+  IF.VaRratio <- (x - mu.hat)/VaR.hat - (VaRratio.hat/VaR.hat) * ((x <=  -VaR.hat)-alpha)/fq.alpha
   return(IF.VaRratio)
 }
 

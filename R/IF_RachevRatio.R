@@ -29,36 +29,36 @@
 #'
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
-#' outIF <- IF.RachevRatio(returns=NULL, evalShape=TRUE, 
-#'                         retVals=NULL, nuisPars=NULL,
-#'                         IFplot=TRUE, IFprint=TRUE)
+#' outIF <- IF.RachevRatio(returns = NULL, evalShape = TRUE, 
+#'                         retVals = NULL, nuisPars = NULL,
+#'                         IFplot = TRUE, IFprint = TRUE)
 #'
 #' data(edhec)
 #' colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
 #'                     "GM", "LS", "MA", "RV", "SS", "FoF") 
 #' 
 #' # Plot of IF a specified TS 
-#' outIF <- IF.RachevRatio(returns=edhec[,"CA"], evalShape=TRUE, 
-#'                         retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
-#'                         IFplot=TRUE, IFprint=TRUE)
+#' outIF <- IF.RachevRatio(returns = edhec[,"CA"], evalShape = TRUE, 
+#'                         retVals = seq(-0.1, 0.1, by = 0.001), nuisPars = NULL,
+#'                         IFplot = TRUE, IFprint = TRUE)
 #' 
 #' # Computing the IF of the returns (with prewhitening) with a plot of IF TS
-#' outIF <- IF.RachevRatio(returns=edhec[,"CA"], evalShape=FALSE, 
-#'                         retVals=NULL, nuisPars=NULL,
-#'                         IFplot=TRUE, IFprint=TRUE,
-#'                         prewhiten=FALSE)
+#' outIF <- IF.RachevRatio(returns = edhec[,"CA"], evalShape = FALSE, 
+#'                         retVals = NULL, nuisPars = NULL,
+#'                         IFplot = TRUE, IFprint = TRUE,
+#'                         prewhiten = FALSE)
 #'
-IF.RachevRatio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
-                           IFplot=FALSE, IFprint=TRUE,
-                           alpha=0.1, beta=0.1, prewhiten=FALSE, ar.prewhiten.order=1,
-                           cleanOutliers=FALSE, cleanMethod=c("locScaleRob")[1], eff=0.99, 
+IF.RachevRatio <- function(returns = NULL, evalShape = FALSE, retVals = NULL, nuisPars = NULL, k = 4,
+                           IFplot = FALSE, IFprint = TRUE,
+                           alpha = 0.1, beta = 0.1, prewhiten = FALSE, ar.prewhiten.order = 1,
+                           cleanOutliers = FALSE, cleanMethod = c("locScaleRob")[1], eff = 0.99, 
                            ...){
   
   # Checking input data
-  DataCheck(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars=nuisPars, k=k,
-            IFplot=IFplot, IFprint=IFprint,
-            prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
-            cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, eff=eff)
+  DataCheck(returns = returns, evalShape = evalShape, retVals = retVals, nuisPars = nuisPars, k = k,
+            IFplot = IFplot, IFprint = IFprint,
+            prewhiten = prewhiten, ar.prewhiten.order = ar.prewhiten.order,
+            cleanOutliers = cleanOutliers, cleanMethod = cleanMethod, eff = eff)
   
   # Checking input for alpha
   if(!inherits(alpha, "numeric")){
@@ -91,35 +91,23 @@ IF.RachevRatio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars
   
   # Plot for shape evaluation
   if(evalShape){
-    IFvals <- EvaluateShape(estimator="RachevRatio",
-                            retVals=retVals, returns=returns, k=k, nuisPars=nuisPars,
-                            IFplot=IFplot, IFprint=IFprint, alpha=alpha, beta=beta)
+    IFvals <- EvaluateShape(estimator = "RachevRatio",
+                            retVals = retVals, returns = returns, k = k, nuisPars = nuisPars,
+                            IFplot = IFplot, IFprint = IFprint, alpha = alpha, beta = beta)
     if(IFprint)
       return(IFvals) else{
-        opt <- options(show.error.messages=FALSE)
+        opt <- options(show.error.messages = FALSE)
         on.exit(options(opt)) 
         stop() 
       }
   }
 
-  # Computing the mean of the returns
-  mu.hat <- mean(returns)
-  # Computing the SD of the returns
-  sigma.hat <- mean((returns-mu.hat)^2)
-  
-  # Computing the VaR of the returns (lower tail)
-  VaR.hat.lower <- -quantile(returns, alpha)
-  # Storing the negative value of the VaR based on the desired alpha (lower tail)
-  quantile.lower <- -VaR.hat.lower
-  # Computing the ES of the returns (lower tail)
-  ES.lower <- -mean(returns[returns<=-VaR.hat.lower])
-  
   # IF computation
-  IF.Rachev.vector <- IF.RachevRatio.fn(x=returns, returns=returns, alpha=alpha, beta=beta)
+  IF.Rachev.vector <- IF.RachevRatio.fn(x = returns, returns = returns, alpha = alpha, beta = beta)
   
   # Adding the pre-whitening functionality  
   if(prewhiten)
-    IF.Rachev.vector <- as.numeric(arima(x=IF.Rachev.vector, order=c(ar.prewhiten.order,0,0), include.mean=TRUE)$residuals)
+    IF.Rachev.vector <- as.numeric(arima(x = IF.Rachev.vector, order = c(ar.prewhiten.order,0,0), include.mean = TRUE)$residuals)
   
   # Adjustment for data (xts)
   if(xts::is.xts(returns))
@@ -127,12 +115,12 @@ IF.RachevRatio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars
   
   # Plot of the IF TS
   if(isTRUE(IFplot)){
-    print(plot(IF.Rachev.vector, type="l", main="Rachev Ratio Estimator Influence Function Transformed Returns", ylab="IF"))
+    print(plot(IF.Rachev.vector, type = "l", main = "Rachev Ratio Estimator Influence Function Transformed Returns", ylab = "IF"))
   }
   
   # Stop if no printing of the TS
   if(!IFprint){
-    opt <- options(show.error.messages=FALSE)
+    opt <- options(show.error.messages = FALSE)
     on.exit(options(opt)) 
     stop() 
   }

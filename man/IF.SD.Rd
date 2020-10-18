@@ -58,23 +58,23 @@ For further details on the usage of the \code{nuisPars} argument, please refer t
 }
 \examples{
 # Plot of IF with nuisance parameter with return value
-outIF <- IF.SD(returns=NULL, evalShape=TRUE, retVals=NULL, nuisPars=NULL,
-               IFplot=TRUE, IFprint=TRUE)
+outIF <- IF.SD(returns = NULL, evalShape = TRUE, retVals = NULL, nuisPars = NULL,
+               IFplot = TRUE, IFprint = TRUE)
 
 data(edhec)
 colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
                     "GM", "LS", "MA", "RV", "SS", "FoF") 
 
 # Plot of IF a specified TS 
-outIF <- IF.SD(returns=edhec[,"CA"], evalShape=TRUE, 
-               retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
-               IFplot=TRUE, IFprint=TRUE)
+outIF <- IF.SD(returns = edhec[,"CA"], evalShape = TRUE, 
+               retVals = seq(-0.1, 0.1, by = 0.001), nuisPars = NULL,
+               IFplot = TRUE, IFprint = TRUE)
 
 # Computing the IF of the returns (with prewhitening) with a plot of IF TS
-outIF <- IF.SD(returns=edhec[,"CA"], evalShape=FALSE, 
-               retVals=NULL, nuisPars=NULL,
-               IFplot=TRUE, IFprint=TRUE,
-               prewhiten=FALSE)
+outIF <- IF.SD(returns = edhec[,"CA"], evalShape = FALSE, 
+               retVals = NULL, nuisPars = NULL,
+               IFplot = TRUE, IFprint = TRUE,
+               prewhiten = FALSE)
 
 
 }

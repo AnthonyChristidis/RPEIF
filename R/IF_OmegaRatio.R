@@ -28,36 +28,36 @@
 #'
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
-#' outIF <- IF.OmegaRatio(returns=NULL, evalShape=TRUE, 
-#'                        retVals=NULL, nuisPars=NULL,
-#'                        IFplot=TRUE, IFprint=TRUE)
+#' outIF <- IF.OmegaRatio(returns = NULL, evalShape = TRUE, 
+#'                        retVals = NULL, nuisPars = NULL,
+#'                        IFplot = TRUE, IFprint = TRUE)
 #'
 #' data(edhec)
 #' colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
 #'                     "GM", "LS", "MA", "RV", "SS", "FoF") 
 #' 
 #' # Plot of IF a specified TS 
-#' outIF <- IF.OmegaRatio(returns=edhec[,"CA"], evalShape=TRUE, 
-#'                        retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
-#'                        IFplot=TRUE, IFprint=TRUE)
+#' outIF <- IF.OmegaRatio(returns = edhec[,"CA"], evalShape = TRUE, 
+#'                        retVals = seq(-0.1, 0.1, by = 0.001), nuisPars = NULL,
+#'                        IFplot = TRUE, IFprint = TRUE)
 #' 
 #' # Computing the IF of the returns (with prewhitening) with a plot of IF TS
-#' outIF <- IF.OmegaRatio(returns=edhec[,"CA"], evalShape=FALSE, 
-#'                        retVals=NULL, nuisPars=NULL,
-#'                        IFplot=TRUE, IFprint=TRUE,
-#'                        prewhiten=FALSE)
+#' outIF <- IF.OmegaRatio(returns = edhec[,"CA"], evalShape = FALSE, 
+#'                        retVals = NULL, nuisPars = NULL,
+#'                        IFplot = TRUE, IFprint = TRUE,
+#'                        prewhiten = FALSE)
 #'
-IF.OmegaRatio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
-                          IFplot=FALSE, IFprint=TRUE,
-                          const=0, prewhiten=FALSE, ar.prewhiten.order=1,
-                          cleanOutliers=FALSE, cleanMethod=c("locScaleRob")[1], eff=0.99,
+IF.OmegaRatio <- function(returns = NULL, evalShape = FALSE, retVals = NULL, nuisPars = NULL, k = 4,
+                          IFplot = FALSE, IFprint = TRUE,
+                          const = 0, prewhiten = FALSE, ar.prewhiten.order = 1,
+                          cleanOutliers = FALSE, cleanMethod = c("locScaleRob")[1], eff = 0.99,
                           ...){
   
   # Checking input data
-  DataCheck(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars=nuisPars, k=k,
-            IFplot=IFplot, IFprint=IFprint,
-            prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
-            cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, eff=eff)
+  DataCheck(returns = returns, evalShape = evalShape, retVals = retVals, nuisPars = nuisPars, k = k,
+            IFplot = IFplot, IFprint = IFprint,
+            prewhiten = prewhiten, ar.prewhiten.order = ar.prewhiten.order,
+            cleanOutliers = cleanOutliers, cleanMethod = cleanMethod, eff = eff)
   
   # Checking input for const
   if(!inherits(const, "numeric"))
@@ -80,23 +80,23 @@ IF.OmegaRatio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=
   
   # Plot for shape evaluation
   if(evalShape){
-    IFvals <- EvaluateShape(estimator="OmegaRatio",
-                            retVals=retVals, returns=returns, k=k, nuisPars=nuisPars,
-                            IFplot=IFplot, IFprint=IFprint, const=const)
+    IFvals <- EvaluateShape(estimator = "OmegaRatio",
+                            retVals = retVals, returns = returns, k = k, nuisPars = nuisPars,
+                            IFplot = IFplot, IFprint = IFprint, const = const)
     if(IFprint)
       return(IFvals) else{
-        opt <- options(show.error.messages=FALSE)
+        opt <- options(show.error.messages = FALSE)
         on.exit(options(opt)) 
         stop() 
       }
   }
 
   # IF computation
-  IF.OmegaRatio.vector <- IF.OmegaRatio.fn(x=returns, returns=returns, const=const)
+  IF.OmegaRatio.vector <- IF.OmegaRatio.fn(x = returns, returns = returns, const = const)
 
   # Adding the pre-whitening functionality  
   if(prewhiten)
-    IF.OmegaRatio.vector <- as.numeric(arima(x=IF.OmegaRatio.vector, order=c(ar.prewhiten.order,0,0), include.mean=TRUE)$residuals)
+    IF.OmegaRatio.vector <- as.numeric(arima(x = IF.OmegaRatio.vector, order = c(ar.prewhiten.order,0,0), include.mean = TRUE)$residuals)
   
   # Adjustment for data (xts)
   if(xts::is.xts(returns))
@@ -104,12 +104,12 @@ IF.OmegaRatio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=
   
   # Plot of the IF TS
   if(isTRUE(IFplot)){
-    print(plot(IF.OmegaRatio.vector, type="l", main="Omega Ratio Estimator Influence Function Transformed Returns", ylab="IF"))
+    print(plot(IF.OmegaRatio.vector, type = "l", main = "Omega Ratio Estimator Influence Function Transformed Returns", ylab = "IF"))
   }
   
   # Stop if no printing of the TS
   if(!IFprint){
-    opt <- options(show.error.messages=FALSE)
+    opt <- options(show.error.messages = FALSE)
     on.exit(options(opt)) 
     stop() 
   }
@@ -120,12 +120,12 @@ IF.OmegaRatio <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=
       return(IF.OmegaRatio.vector)
 }
 
-# ================================
+# ==================
 # Function for UPM
-# ================================
+# ==================
 
 UPM <- function(returns, const = 0, order = 1, ...){
 
   # Computing the UPM
-  return(1/length(returns)*sum((const-returns[returns>=const])^order))
+  return(1/length(returns)*sum((const-returns[returns >= const])^order))
 }

@@ -28,36 +28,36 @@
 #'
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
-#' outIF <- IF.SR(returns=NULL, evalShape=TRUE, 
-#'                retVals=NULL, nuisPars=NULL,
-#'                IFplot=TRUE, IFprint=TRUE)
+#' outIF <- IF.SR(returns = NULL, evalShape = TRUE, 
+#'                retVals = NULL, nuisPars = NULL,
+#'                IFplot = TRUE, IFprint = TRUE)
 #'
 #' data(edhec)
 #' colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
 #'                     "GM", "LS", "MA", "RV", "SS", "FoF") 
 #' 
 #' # Plot of IF a specified TS 
-#' outIF <- IF.SR(returns=edhec[,"CA"], evalShape=TRUE, 
-#'                retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
-#'                IFplot=TRUE, IFprint=TRUE)
+#' outIF <- IF.SR(returns = edhec[,"CA"], evalShape = TRUE, 
+#'                retVals = seq(-0.1, 0.1, by = 0.001), nuisPars = NULL,
+#'                IFplot = TRUE, IFprint = TRUE)
 #' 
 #' # Computing the IF of the returns (with prewhitening) with a plot of IF TS
-#' outIF <- IF.SR(returns=edhec[,"CA"], evalShape=FALSE, 
-#'                retVals=NULL, nuisPars=NULL,
-#'                IFplot=TRUE, IFprint=TRUE,
-#'                prewhiten=FALSE)
+#' outIF <- IF.SR(returns = edhec[,"CA"], evalShape = FALSE, 
+#'                retVals = NULL, nuisPars = NULL,
+#'                IFplot = TRUE, IFprint = TRUE,
+#'                prewhiten = FALSE)
 #'
-IF.SR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
-                  IFplot=FALSE, IFprint=TRUE,
-                  rf=0, prewhiten=FALSE, ar.prewhiten.order=1,
-                  cleanOutliers=FALSE, cleanMethod=c("locScaleRob")[1], eff=0.99, 
+IF.SR <- function(returns = NULL, evalShape = FALSE, retVals = NULL, nuisPars = NULL, k = 4,
+                  IFplot = FALSE, IFprint = TRUE,
+                  rf = 0, prewhiten = FALSE, ar.prewhiten.order = 1,
+                  cleanOutliers = FALSE, cleanMethod = c("locScaleRob")[1], eff = 0.99, 
                   ...){
   
   # Checking input data
-  DataCheck(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars=nuisPars, k=k,
-            IFplot=IFplot, IFprint=IFprint,
-            prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
-            cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, eff=eff)
+  DataCheck(returns = returns, evalShape = evalShape, retVals = retVals, nuisPars = nuisPars, k = k,
+            IFplot = IFplot, IFprint = IFprint,
+            prewhiten = prewhiten, ar.prewhiten.order = ar.prewhiten.order,
+            cleanOutliers = cleanOutliers, cleanMethod = cleanMethod, eff = eff)
   
   # Checking input for rf
   if(!inherits(rf, "numeric")){
@@ -83,23 +83,23 @@ IF.SR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=
   
   # Plot for shape evaluation
   if(evalShape){
-    IFvals <- EvaluateShape(estimator="SR",
-                            retVals=retVals, returns=returns, k=k, nuisPars=nuisPars,
-                            IFplot=IFplot, IFprint=IFprint, rf=rf)
+    IFvals <- EvaluateShape(estimator = "SR",
+                            retVals = retVals, returns = returns, k = k, nuisPars = nuisPars,
+                            IFplot = IFplot, IFprint = IFprint, rf = rf)
     if(IFprint)
       return(IFvals) else{
-        opt <- options(show.error.messages=FALSE)
+        opt <- options(show.error.messages = FALSE)
         on.exit(options(opt)) 
         stop() 
       }
   }
   
   # IF Computation
-  IF.SR.vector <- IF.SR.fn(x=returns, returns=returns, rf=rf)
+  IF.SR.vector <- IF.SR.fn(x = returns, returns = returns, rf = rf)
   
   # Adding the pre-whitening functionality  
   if(prewhiten)
-    IF.SR.vector <- as.numeric(arima(x=IF.SR.vector, order=c(ar.prewhiten.order,0,0), include.mean=TRUE)$residuals)
+    IF.SR.vector <- as.numeric(arima(x = IF.SR.vector, order = c(ar.prewhiten.order,0,0), include.mean = TRUE)$residuals)
   
   # Adjustment for data (xts)
   if(xts::is.xts(returns))
@@ -107,12 +107,12 @@ IF.SR <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=
   
   # Plot of the IF TS
   if(isTRUE(IFplot)){
-    print(plot(IF.SR.vector, type="l", main="SR Estimator Influence Function Transformed Returns", ylab="IF"))
+    print(plot(IF.SR.vector, type = "l", main = "SR Estimator Influence Function Transformed Returns", ylab = "IF"))
   }
   
   # Stop if no printing of the TS
   if(!IFprint){
-    opt <- options(show.error.messages=FALSE)
+    opt <- options(show.error.messages = FALSE)
     on.exit(options(opt)) 
     stop() 
   }

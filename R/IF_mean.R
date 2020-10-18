@@ -27,36 +27,36 @@
 #' 
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
-#' outIF <- IF.mean(returns=NULL, evalShape=TRUE, retVals=NULL, nuisPars=NULL,
-#'                  IFplot=TRUE, IFprint=TRUE)
+#' outIF <- IF.mean(returns = NULL, evalShape = TRUE, retVals = NULL, nuisPars = NULL,
+#'                  IFplot = TRUE, IFprint = TRUE)
 #'
 #' data(edhec)
 #' colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
 #'                     "GM", "LS", "MA", "RV", "SS", "FoF") 
 #' 
 #' # Plot of IF a specified TS 
-#' outIF <- IF.mean(estimator="mean",
-#'                  returns=edhec[,"CA"], evalShape=TRUE, 
-#'                  retVals=seq(-0.1, 0.1, by=0.001), nuisPars=NULL,
-#'                  IFplot=TRUE, IFprint=TRUE)
+#' outIF <- IF.mean(estimator = "mean",
+#'                  returns = edhec[,"CA"], evalShape = TRUE, 
+#'                  retVals = seq(-0.1, 0.1, by = 0.001), nuisPars = NULL,
+#'                  IFplot = TRUE, IFprint = TRUE)
 #' 
 #' # Computing the IF of the returns (with prewhitening) with a plot of IF TS
-#' outIF <- IF.mean(returns=edhec[,"CA"], evalShape=FALSE, 
-#'                  retVals=NULL, nuisPars=NULL,
-#'                  IFplot=TRUE, IFprint=TRUE,
-#'                  prewhiten=FALSE)
+#' outIF <- IF.mean(returns = edhec[,"CA"], evalShape = FALSE, 
+#'                  retVals = NULL, nuisPars = NULL,
+#'                  IFplot = TRUE, IFprint = TRUE,
+#'                  prewhiten = FALSE)
 #'
-IF.mean <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, k=4,
-                    IFplot=FALSE, IFprint=TRUE, 
-                    prewhiten=FALSE, ar.prewhiten.order=1,
-                    cleanOutliers=FALSE, cleanMethod=c("locScaleRob")[1], eff=0.99, 
+IF.mean <- function(returns = NULL, evalShape = FALSE, retVals = NULL, nuisPars = NULL, k = 4,
+                    IFplot = FALSE, IFprint = TRUE, 
+                    prewhiten = FALSE, ar.prewhiten.order = 1,
+                    cleanOutliers = FALSE, cleanMethod = c("locScaleRob")[1], eff = 0.99, 
                     ...){
   
   # Checking input data
-  DataCheck(returns=returns, evalShape=evalShape, retVals=retVals, nuisPars=nuisPars, k=k,
-            IFplot=IFplot, IFprint=IFprint,
-            prewhiten=prewhiten, ar.prewhiten.order=ar.prewhiten.order,
-            cleanOutliers=cleanOutliers, cleanMethod=cleanMethod, eff=eff)
+  DataCheck(returns = returns, evalShape = evalShape, retVals = retVals, nuisPars = nuisPars, k = k,
+            IFplot = IFplot, IFprint = IFprint,
+            prewhiten = prewhiten, ar.prewhiten.order = ar.prewhiten.order,
+            cleanOutliers = cleanOutliers, cleanMethod = cleanMethod, eff = eff)
   
   # Evaluation of nuisance parameters
   nuisPars <- NuisanceData(nuisPars)
@@ -75,23 +75,23 @@ IF.mean <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, 
   
   # Plot for shape evaluation
   if(evalShape){
-    IFvals <- EvaluateShape(estimator="mean",
-                            retVals=retVals, returns=returns, k=k, nuisPars=nuisPars,
-                            IFplot=IFplot, IFprint=IFprint)
+    IFvals <- EvaluateShape(estimator = "mean",
+                            retVals = retVals, returns = returns, k = k, nuisPars = nuisPars,
+                            IFplot = IFplot, IFprint = IFprint)
     if(IFprint)
       return(IFvals) else{
-        opt <- options(show.error.messages=FALSE)
+        opt <- options(show.error.messages = FALSE)
         on.exit(options(opt)) 
         stop() 
       }
   }
 
   # Computing the IF vector for the mean of the returns
-  IF.mean.vector <- IF.mean.fn(x=returns, returns=returns)
+  IF.mean.vector <- IF.mean.fn(x = returns, returns = returns)
   
   # Adding the pre-whitening functionality  
   if(prewhiten)
-    IF.mean.vector <- as.numeric(arima(x=IF.mean.vector, order=c(ar.prewhiten.order,0,0), include.mean=TRUE)$residuals)
+    IF.mean.vector <- as.numeric(arima(x = IF.mean.vector, order = c(ar.prewhiten.order,0,0), include.mean = TRUE)$residuals)
   
   # Adjustment for data (xts)
   if(xts::is.xts(returns))
@@ -99,12 +99,12 @@ IF.mean <- function(returns=NULL, evalShape=FALSE, retVals=NULL, nuisPars=NULL, 
   
   # Plot of the IF TS
   if(isTRUE(IFplot)){
-    print(plot(IF.mean.vector, type="l", main="Mean Estimator Influence Function Transformed Returns", ylab="IF"))
+    print(plot(IF.mean.vector, type = "l", main = "Mean Estimator Influence Function Transformed Returns", ylab = "IF"))
   }
   
   # Stop if no printing of the TS
   if(!IFprint){
-    opt <- options(show.error.messages=FALSE)
+    opt <- options(show.error.messages = FALSE)
     on.exit(options(opt)) 
     stop() 
   }
