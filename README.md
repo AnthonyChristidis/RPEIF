@@ -1,8 +1,7 @@
 
-[![Build Status](https://travis-ci.org/AnthonyChristidis/RPEIF.svg?branch=master)](https://travis-ci.com/AnthonyChristidis/RPEIF) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/RPEIF)](https://cran.r-project.org/package=RPEIF) [![Downloads](http://cranlogs.r-pkg.org/badges/RPEIF)](https://cran.r-project.org/package=RPEIF)
+[![Build Status](https://travis-ci.org/AnthonyChristidis/RPEIF.svg?branch%20=%20master)](https://travis-ci.com/AnthonyChristidis/RPEIF) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/RPEIF)](https://cran.r-project.org/package%20=%20RPEIF) [![Downloads](http://cranlogs.r-pkg.org/badges/RPEIF)](https://cran.r-project.org/package%20=%20RPEIF)
 
-RPEIF
-=====
+RPEIF = = = = = = = = = =
 
 This package provides functions for computing the influence functions of risk and performance measures.
 
@@ -10,7 +9,7 @@ This package provides functions for computing the influence functions of risk an
 
 ### Installation
 
-You can install the **stable** version on [R CRAN](https://cran.r-project.org/package=RPEIF).
+You can install the **stable** version on [R CRAN](https://cran.r-project.org/package%20=%20RPEIF).
 
 ``` r
 install.packages("RPEIF", dependencies = TRUE)
@@ -30,16 +29,16 @@ devtools::install_github("AnthonyChristidis/RPEIF")
 library(RPEIF)
 # Computing the IF of the returns (with outlier cleaning and prewhitening)
 # Loading the data
-data(edhec, package="PerformanceAnalytics")
+data(edhec, package = "PerformanceAnalytics")
 colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
                     "GM", "LS", "MA", "RV", "SS", "FoF")
-outIF <- IF(risk="mean",
-            returns=edhec[,"CA"], evalShape=FALSE, retVals=NULL, nuisPars=NULL,
-            IFplot=TRUE, IFprint=TRUE,
-            prewhiten=TRUE,
-            cleanOutliers=TRUE, cleanMethod="locScaleRob", eff=0.99)
+outIF <- IF(risk = "mean",
+            returns = edhec[,"CA"], evalShape = FALSE, retVals = NULL, nuisPars = NULL,
+            IFplot = TRUE, IFprint = TRUE,
+            prewhiten = TRUE,
+            cleanOutliers = TRUE, cleanMethod = "locScaleRob", eff = 0.99)
 ```
 
 ### License
 
-This package is free and open source software, licensed under GPL (&gt;= 2).
+This package is free and open source software, licensed under GPL (&gt; = 2).
