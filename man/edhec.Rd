@@ -16,16 +16,16 @@ From the EDHEC website:
 
 To further assist financial institutions and investors implement the latest research advances in order to meet the challenges of the changing asset management landscape, the centre has spawned two consultancies and an executive education arm. Clients of these derivative activities include many of the leading organisations throughout Europe.}
 
-see \url{http://www.edhec-risk.com/about_us}
+see \url{https://risk.edhec.edu/}
 }
 \format{CSV conformed into an xts object with monthly observations}
-\source{\url{http://www.edhec-risk.com/indexes/pure_style}}
+\source{\url{https://risk.edhec.edu/indices-investment-solutions/}}
 \references{
 About EDHEC Alternative Indexes. December 16, 2003. EDHEC-Risk. \cr
-\url{http://www.edhec-risk.com/indexes/pure_style/about}
+\url{https://risk.edhec.edu/indices-investment-solutions/}
 
 Vaissie Mathieu. A Detailed Analysis of the Construction Methods and Management Principles of Hedge Fund Indices. October 2003. EDHEC. \cr
-\url{http://www.edhec-risk.com/site_edhecrisk/public/indexes/EDHEC_Publications/RISKReview1072705188065793513}
+\url{https://risk.edhec.edu/}
 }
 \examples{
 data(edhec)
