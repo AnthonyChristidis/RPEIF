@@ -53,4 +53,4 @@ outIF <- IF(risk = "mean",
 
 ### License
 
-This package is free and open source software, licensed under GPL (&gt; =  2).
+This package is free and open source software, licensed under GPL (&gt;= 2).
