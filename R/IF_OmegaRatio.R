@@ -25,7 +25,7 @@
 #' @author Anthony-Alexander Christidis, \email{anthony.christidis@stat.ubc.ca}
 #'
 #' @export
-#'
+#' 
 #' @examples
 #' # Plot of IF with nuisance parameter with return value
 #' outIF <- IF.OmegaRatio(returns = NULL, evalShape = TRUE, 
