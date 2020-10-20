@@ -1,5 +1,5 @@
 
-[![Build Status](https://travis-ci.org/AnthonyChristidis/RPEIF.svg?branch%20=%20master)](https://travis-ci.com/AnthonyChristidis/RPEIF) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/RPEIF)](https://cran.r-project.org/package%20=%20RPEIF) [![Downloads](http://cranlogs.r-pkg.org/badges/RPEIF)](https://cran.r-project.org/package%20=%20RPEIF)
+[![Build Status](https://travis-ci.org/AnthonyChristidis/RPEIF.svg?branch=master)](https://travis-ci.com/AnthonyChristidis/RPEIF) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/RPEIF)](https://cran.r-project.org/package=RPEIF) [![Downloads](http://cranlogs.r-pkg.org/badges/RPEIF)](https://cran.r-project.org/package=RPEIF)
 
 RPEIF
 =====
@@ -10,7 +10,7 @@ This package provides functions for computing the influence functions of risk an
 
 ### Installation
 
-You can install the **stable** version on [R CRAN](https://cran.r-project.org/package%20=%20RPEIF).
+You can install the **stable** version on [R CRAN](https://cran.r-project.org/package=RPEIF).
 
 ``` r
 install.packages("RPEIF", dependencies = TRUE)

@@ -37,4 +37,5 @@
 * Remove Boudt robust filtering function.
 * No longer imports PerformanceAnalytics package.
 * Hedge fund data edhec added to package.
+* Update vignette for changes.
 
