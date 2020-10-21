@@ -40,5 +40,6 @@
 * Update vignette for changes.
 
 # RPEIF 1.1.1
-* Update vignette (DSR estimator details and vignette references)
+* Update vignette (DSR estimator details and vignette references).
+* Fix Sortino ratio with mean threshold.
 

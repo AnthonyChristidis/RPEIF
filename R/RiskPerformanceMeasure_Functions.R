@@ -320,11 +320,11 @@ IF.SoR_M.fn <- function(x, returns, parsSoR_M.IF, rf = 0){
     # Computing the SemiMean
     semimean <- (1/length(returns))*sum((returns-mu.hat)*(returns<= mu.hat))
     # Computing Sortino ratio of the returns
-    sor <- (mu.hat-rf)/(semisd*sqrt(2))
+    sor <- (mu.hat-rf)/(semisd)
   }
   
   # IF computation
-  IF.SoR <- (-sor*(x - mu.hat)^2*(x<= mu.hat)/(2*semisd^2) + (x - mu.hat)*(1/semisd + sor*semimean/semisd^2) + sor/2)/sqrt(2)
+  IF.SoR <- (-sor*(x - mu.hat)^2*(x<= mu.hat)/(2*semisd^2) + (x - mu.hat)*(1/semisd + sor*semimean/semisd^2) + sor/2)
   return(IF.SoR)
 }
 
