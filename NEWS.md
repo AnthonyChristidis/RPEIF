@@ -39,3 +39,6 @@
 * Hedge fund data edhec added to package.
 * Update vignette for changes.
 
+# RPEIF 1.1.1
+* Update vignette (DSR estimator details and vignette references)
+
