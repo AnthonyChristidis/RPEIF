@@ -30,7 +30,7 @@ install.packages("RPEIF", dependencies = TRUE)
 You can install the **development** version from [GitHub](https://github.com/AnthonyChristidis/RPEIF).
 
 ``` r
-library(devtools)
+library(devtools) 
 devtools::install_github("AnthonyChristidis/RPEIF")
 ```
 
