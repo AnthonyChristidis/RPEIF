@@ -19,7 +19,7 @@
 #' @param eff Tuning parameter for the normal distribution efficiency for the "locScaleRob" robust data cleaning.
 #' @param ... Addtional parameters.
 #'
-#' @return Influence function of SoR_C.
+#' @return Influence function of SoR.
 #' 
 #' @details 
 #' For further details on the usage of the \code{nuisPars} argument, please refer to Section 3.1 for the \code{RPEIF} vignette.

@@ -57,7 +57,7 @@ IF.SoR(
 \item{...}{Addtional parameters.}
 }
 \value{
-Influence function of SoR_C.
+Influence function of SoR.
 }
 \description{
 \code{IF.SoR} returns the data and plots the shape of either the IF or the IF TS for the Sortino Ratio.
