@@ -17,6 +17,7 @@ IF(
   ar.prewhiten.order = 1,
   cleanOutliers = FALSE,
   cleanMethod = c("locScaleRob")[1],
+  family = c("mopt", "opt", "bisquare")[1],
   eff = 0.99,
   ...
 )
@@ -46,7 +47,9 @@ IF(
 
 \item{cleanMethod}{Robust method used to clean outliers from the TS. Default choice is "locScaleRob".}
 
-\item{eff}{Tuning parameter for the normal distribution efficiency for the "locScaleRob" robust data cleaning.}
+\item{family}{Family for robust m-estimator of location. Must be one of "mopt" (default), "opt" or "bisquare".}
+
+\item{eff}{Tuning parameter for the normal distribution efficiency for robust methods.}
 
 \item{...}{Additional parameters passed on to influence function of risk or performance measure.}
 }

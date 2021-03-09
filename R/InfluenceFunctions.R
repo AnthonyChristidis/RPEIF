@@ -1,5 +1,5 @@
 #'
-#' @importFrom stats approxfun arima density dnorm pnorm qnorm quantile sd
+#' @importFrom stats approxfun arima density dnorm pnorm qnorm quantile sd mad
 #' @importFrom graphics plot grid abline
 
 #' @title Influence Function for Available Risk and Performance Measures 
@@ -18,7 +18,8 @@
 #' @param ar.prewhiten.order Order of AR parameter for the pre-whitening. Default is AR(1).
 #' @param cleanOutliers Boolean variable to indicate whether outliers are cleaned with a robust location and scale estimator.
 #' @param cleanMethod Robust method used to clean outliers from the TS. Default choice is "locScaleRob". 
-#' @param eff Tuning parameter for the normal distribution efficiency for the "locScaleRob" robust data cleaning.
+#' @param family Family for robust m-estimator of location. Must be one of "mopt" (default), "opt" or "bisquare".
+#' @param eff Tuning parameter for the normal distribution efficiency for robust methods.
 #' @param ... Additional parameters passed on to influence function of risk or performance measure.
 #' 
 #' @details 
@@ -51,15 +52,18 @@
 #'             IFplot = TRUE, IFprint = TRUE,
 #'             compile = TRUE, prewhiten = FALSE)
 #'
-IF <- function(estimator,
+IF <- function(estimator, 
                returns = NULL, evalShape = FALSE, retVals = NULL, nuisPars  = NULL, k = 4,
                IFplot = FALSE, IFprint = TRUE,
                prewhiten = FALSE, ar.prewhiten.order = 1,
-               cleanOutliers = FALSE, cleanMethod = c("locScaleRob")[1], eff = 0.99,
+               cleanOutliers = FALSE, cleanMethod = c("locScaleRob")[1], family = c("mopt", "opt", "bisquare")[1], eff = 0.99,
                ...){
   
   # Available estimators
-  estimator.available <- c("mean", "SD", "VaR", "ES", "SR", "SoR", "DSR", "ESratio", "VaRratio", "RachevRatio", "LPM", "Omega", "SemiSD")
+  estimator.available <- c("mean", "SD", "VaR", "ES", 
+                           "SR", "SoR", "DSR", "ESratio", 
+                           "VaRratio", "RachevRatio", "robLoc", "LPM", 
+                           "Omega", "SemiSD")
   
   # Checking if the specified estimator is available
   if(!(estimator %in% estimator.available))
@@ -102,6 +106,11 @@ IF <- function(estimator,
                                       prewhiten = prewhiten, ar.prewhiten.order = ar.prewhiten.order,
                                       cleanOutliers = cleanOutliers, cleanMethod = cleanMethod, eff = eff,
                                       ...),
+         robLoc = IF.robLoc(returns = returns, family = family, eff = eff, 
+                            evalShape = evalShape, retVals = retVals, nuisPars = nuisPars , k = k,
+                            IFplot = IFplot, IFprint = IFprint,
+                            prewhiten = prewhiten, ar.prewhiten.order = ar.prewhiten.order,
+                            ...),
          SD = IF.SD(returns = returns, evalShape = evalShape, retVals = retVals, nuisPars = nuisPars , k = k,
                     IFplot = IFplot, IFprint = IFprint,
                     prewhiten = prewhiten, ar.prewhiten.order = ar.prewhiten.order,

@@ -4,13 +4,13 @@
 # ==================
 
 # Wrapper function for IF RPE
-IF.fn <- function(x, estimator, returns, nuisance.par, ...){
+IF.fn <- function(x, estimator, returns, nuisance.par, family, eff, ...){
   
   # Available estimators
   estimator.available <- c("DSR", "ES", "ESratio", "LPM",
-                           "mean", "OmegaRatio", "RachevRatio", "SemiSD", 
-                           "SD", "SR", "SoR", "VaR", 
-                           "VaRratio")
+                           "mean", "OmegaRatio", "RachevRatio", "robLoc",
+                           "SemiSD", "SD", "SR", "SoR", 
+                           "VaR", "VaRratio")
   
   # Checking if the specified estimator is available
   if(!(estimator %in% estimator.available))
@@ -25,6 +25,7 @@ IF.fn <- function(x, estimator, returns, nuisance.par, ...){
          mean = IF.mean.fn(x, returns, nuisance.par, ...),
          OmegaRatio = IF.OmegaRatio.fn(x, returns, nuisance.par, ...),
          RachevRatio = IF.RachevRatio.fn(x, returns, nuisance.par, ...),
+         robLoc = IF.robLoc.fn(x, returns, nuisance.par, family, eff, ...),
          SemiSD = IF.SemiSD.fn(x, returns, nuisance.par, ...),
          SD = IF.SD.fn(x, returns, nuisance.par, ...),
          SR = IF.SR.fn(x, returns, nuisance.par, ...),
@@ -214,6 +215,40 @@ IF.RachevRatio.fn <- function(x, returns, parsRachev.IF, alpha = 0.1, beta = 0.1
   IF.RachevRatio <- (1/es.alpha)*((x >= q.beta)*(x-q.beta)/beta + q.beta - eg.beta) - 
     (rachev.ratio/es.alpha)*((-1)*(x <= q.alpha)*(x-q.alpha)/alpha - q.alpha - es.alpha)
   return(IF.RachevRatio)
+}
+
+# Rachev Ratio IF Function
+IF.robLoc.fn <- function(x, returns, parsRobLoc.IF, family, eff){
+  
+  # Extracting tuning parameters
+  tuning.parameters <- 
+    switch(family,
+         mopt = RobStatTM::mopt(eff),
+         opt = RobStatTM::opt(eff),
+         bisquare = RobStatTM::bisquare(eff))
+  
+  if(is.null(returns)){
+    
+    rob.mu <- parsRobLoc.IF$mu
+    rob.sd <- parsRobLoc.IF$sd
+    psi.prime <- parsRobLoc.IF$psi.prime
+    
+    # IF computation 
+    IF.robLoc <- rob.sd * (RobStatTM::rhoprime((x - rob.mu) / rob.sd, family = family, cc = tuning.parameters)) / 
+      psi.prime
+
+  } else{
+    
+    # Computing the robust estimates for location and scale
+    rob.mu <- RobStatTM::locScaleM(returns, psi = family, eff = eff)$mu
+    rob.sd <- mad(returns)
+    
+    # IF computation 
+    IF.robLoc <- rob.sd * (RobStatTM::rhoprime((x - rob.mu) / rob.sd, family = family, cc = tuning.parameters)) / 
+      mean(RobStatTM::rhoprime2((returns - rob.mu) / rob.sd, family = family, cc = tuning.parameters))
+  }
+
+  return(IF.robLoc)
 }
 
 # Semi-SD IF Function

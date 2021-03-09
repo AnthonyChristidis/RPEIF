@@ -19,8 +19,8 @@ robust.cleaning <- function(returns, robust.method=c("locScaleRob")[1],
     # Casting as a numerci
     returns <- as.numeric(returns)
     # Location and scale parameters
-    mu <- RobStatTM::locScaleM(returns)$mu
-    s <- RobStatTM::locScaleM(returns)$disper
+    mu <- RobStatTM::locScaleM(returns, psi="opt", eff=normal.efficiency)$mu
+    s <- RobStatTM::locScaleM(returns, psi="opt", eff=normal.efficiency)$disper
     
     # Efficiency parameter
     if(normal.efficiency==0.95)

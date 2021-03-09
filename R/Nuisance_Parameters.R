@@ -75,6 +75,9 @@ nuisParsFn  <- function(mu=0.01, sd=0.05, c=0, alpha=0.1, beta=0.1){
   q.beta <- mu+qnorm(1-beta)*sd
   eg.beta <- mu+dnorm(qnorm(1-beta))/beta*sd
   rach.r <- eg.beta/es.alpha
+  
+  # robLoc
+  psi.prime <- 0.9038
 
   # SoR_c
   sor.c <- mu/sqrt(lpm2)
@@ -90,6 +93,6 @@ nuisParsFn  <- function(mu=0.01, sd=0.05, c=0, alpha=0.1, beta=0.1){
 
   # Return list for nuisance parameters
   return(list(mu=mu, sd=sd, alpha=alpha, beta=beta, q.alpha=q.alpha, es.alpha=es.alpha, lpm1=lpm1, lpm2=lpm2, semisd=semisd, semimean=semimean, 
-              fq.alpha=fq.alpha, dsr=dsr, ES.ratio=ES.ratio, upm1=upm1, omega=omega, c=c, q.beta=q.beta, eg.beta=eg.beta, rach.r=rach.r, 
+              fq.alpha=fq.alpha, dsr=dsr, ES.ratio=ES.ratio, upm1=upm1, omega=omega, c=c, q.beta=q.beta, eg.beta=eg.beta, rach.r=rach.r, psi.prime=psi.prime,
               sor.c=sor.c, sor.mu=sor.mu, sr=sr, VaR.ratio=VaR.ratio))
 }

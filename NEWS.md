@@ -39,3 +39,7 @@
 * Hedge fund data edhec added to package.
 * Update vignette for changes.
 
+# RPEIF 1.2.0
+* Addition of the robust location estimator influence function.
+* Update of vignette for robust location estimator influence function.
+
