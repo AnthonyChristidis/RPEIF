@@ -19,10 +19,10 @@ To further assist financial institutions and investors implement the latest rese
 see \url{https://risk.edhec.edu/}
 }
 \format{CSV conformed into an xts object with monthly observations}
-\source{\url{https://risk.edhec.edu/indices-investment-solutions/}}
+\source{\url{https://risk.edhec.edu/retirement-investing}}
 \references{
 About EDHEC Alternative Indexes. December 16, 2003. EDHEC-Risk. \cr
-\url{https://risk.edhec.edu/indices-investment-solutions/}
+\url{https://risk.edhec.edu/retirement-investing}
 
 Vaissie Mathieu. A Detailed Analysis of the Construction Methods and Management Principles of Hedge Fund Indices. October 2003. EDHEC. \cr
 \url{https://risk.edhec.edu/}
