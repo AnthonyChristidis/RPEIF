@@ -3,8 +3,8 @@
 #' @description \code{IF.robLoc} returns the data and plots the shape of either the IF or the IF TS for the M-estimator of location.
 #'
 #' @param returns Returns data of the asset or portfolio. This can be a numeric or an xts object.
-#' @param eff Tuning parameter for the normal distribution efficiency. Default is 0.99.
 #' @param family Family for robust m-estimator of location. Must be one of "mopt" (default), "opt" or "bisquare".
+#' @param eff Tuning parameter for the normal distribution efficiency. Default is 0.99.
 #' @param evalShape Evaluation of the shape of the IF risk or performance measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.
 #' @param retVals Values used to evaluate the shape of the IF.
 #' @param nuisPars Nuisance parameters used for the evaluation of the shape of the IF (if no returns are provided).
