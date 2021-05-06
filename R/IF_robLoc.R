@@ -1,9 +1,9 @@
-#' @title Influence Function - Robust M-Estimator of Location
+#' @title Influence Function - Robust M-Estimator of Mean
 #' 
-#' @description \code{IF.robLoc} returns the data and plots the shape of either the IF or the IF TS for the M-estimator of location.
+#' @description \code{IF.robMean} returns the data and plots the shape of either the IF or the IF TS for the M-estimator of Mean.
 #'
 #' @param returns Returns data of the asset or portfolio. This can be a numeric or an xts object.
-#' @param family Family for robust m-estimator of location. Must be one of "mopt" (default), "opt" or "bisquare".
+#' @param family Family for robust m-estimator of Mean. Must be one of "mopt" (default), "opt" or "bisquare".
 #' @param eff Tuning parameter for the normal distribution efficiency. Default is 0.99.
 #' @param evalShape Evaluation of the shape of the IF risk or performance measure if TRUE. Otherwise, a TS of the IF of the provided returns is computed.
 #' @param retVals Values used to evaluate the shape of the IF.
@@ -15,7 +15,7 @@
 #' @param ar.prewhiten.order Order of AR parameter for the pre-whitening. Default is AR(1).
 #' @param ... Addtional parameters.
 #'
-#' @return Influence function for M-estimator of location
+#' @return Influence function for M-estimator of Mean
 #' 
 #' @details 
 #' For further details on the usage of the \code{nuisPars} argument, please refer to Section 3.1 for the \code{RPEIF} vignette.
@@ -30,26 +30,26 @@
 #'                     "GM", "LS", "MA", "RV", "SS", "FoF") 
 #'                     
 #' # Plot of IF shape
-#' outIF <- IF.robLoc(returns = edhec[,"CA"], evalShape = TRUE, 
-#'                    retVals = NULL, 
-#'                    IFplot = TRUE, IFprint = TRUE)
+#' outIF <- IF.robMean(returns = edhec[,"CA"], evalShape = TRUE, 
+#'                     retVals = NULL, 
+#'                     IFplot = TRUE, IFprint = TRUE)
 #' 
 #' # Plot of IF a specified TS 
-#' outIF <- IF.robLoc(returns = edhec[,"CA"], evalShape = TRUE, 
-#'                    retVals = seq(-0.1, 0.1, by = 0.001), 
-#'                    IFplot = TRUE, IFprint = TRUE)
+#' outIF <- IF.robMean(returns = edhec[,"CA"], evalShape = TRUE, 
+#'                     retVals = seq(-0.1, 0.1, by = 0.001), 
+#'                     IFplot = TRUE, IFprint = TRUE)
 #' 
 #' # Computing the IF of the returns (with prewhitening) with a plot of IF TS
-#' outIF <- IF.robLoc(returns = edhec[,"CA"], evalShape = FALSE, 
-#'                    retVals = NULL, 
-#'                    IFplot = TRUE, IFprint = TRUE,
-#'                    prewhiten = FALSE)
+#' outIF <- IF.robMean(returns = edhec[,"CA"], evalShape = FALSE, 
+#'                     retVals = NULL, 
+#'                     IFplot = TRUE, IFprint = TRUE,
+#'                     prewhiten = FALSE)
 #'
-IF.robLoc <- function(returns = NULL, family = c("mopt", "opt", "bisquare")[1], eff = 0.95,
-                      evalShape = FALSE, retVals = NULL, nuisPars = NULL, k = 4,
-                      IFplot = FALSE, IFprint = TRUE,
-                      prewhiten = FALSE, ar.prewhiten.order = 1,
-                      ...){
+IF.robMean <- function(returns = NULL, family = c("mopt", "opt", "bisquare")[1], eff = 0.95,
+                       evalShape = FALSE, retVals = NULL, nuisPars = NULL, k = 4,
+                       IFplot = FALSE, IFprint = TRUE,
+                       prewhiten = FALSE, ar.prewhiten.order = 1,
+                       ...){
   
   # Checking input data
   DataCheckRob(returns = returns, family = family, eff = eff, 
@@ -66,7 +66,7 @@ IF.robLoc <- function(returns = NULL, family = c("mopt", "opt", "bisquare")[1], 
   
   # Plot for shape evaluation
   if(evalShape){
-    IFvals <- EvaluateShape(estimator = "robLoc", family = family, eff = eff, 
+    IFvals <- EvaluateShape(estimator = "robMean", family = family, eff = eff, 
                             retVals = retVals, returns = returns, k = k, nuisPars = nuisPars,
                             IFplot = IFplot, IFprint = IFprint)
     if(IFprint)
@@ -78,19 +78,19 @@ IF.robLoc <- function(returns = NULL, family = c("mopt", "opt", "bisquare")[1], 
   }
   
   # IF Computation
-  IF.robLoc.vector <- IF.robLoc.fn(x = returns, returns = returns, family = family, eff = eff)
+  IF.robMean.vector <- IF.robMean.fn(x = returns, returns = returns, family = family, eff = eff)
   
   # Adding the pre-whitening functionality  
   if(prewhiten)
-    IF.robLoc.vector <- as.numeric(arima(x = IF.robLoc.vector, order = c(ar.prewhiten.order,0,0), include.mean = TRUE)$residuals)
+    IF.robMean.vector <- as.numeric(arima(x = IF.robMean.vector, order = c(ar.prewhiten.order,0,0), include.mean = TRUE)$residuals)
   
   # Adjustment for data (xts)
   if(xts::is.xts(returns))
-    IF.robLoc.vector <- xts::xts(IF.robLoc.vector, returns.dates)
+    IF.robMean.vector <- xts::xts(IF.robMean.vector, returns.dates)
   
   # Plot of the IF TS
   if(isTRUE(IFplot)){
-    print(plot(IF.robLoc.vector, type = "l", main = "robLoc Estimator Influence Function Transformed Returns", ylab = "IF"))
+    print(plot(IF.robMean.vector, type = "l", main = "robMean Estimator Influence Function Transformed Returns", ylab = "IF"))
   }
   
   # Stop if no printing of the TS
@@ -100,8 +100,8 @@ IF.robLoc <- function(returns = NULL, family = c("mopt", "opt", "bisquare")[1], 
     stop() 
   }
   
-  # Returning the IF vector for robLoc
+  # Returning the IF vector for robMean
   if(xts::is.xts(returns))
-    return(xts::xts(IF.robLoc.vector, returns.dates)) else
-      return(IF.robLoc.vector)
+    return(xts::xts(IF.robMean.vector, returns.dates)) else
+      return(IF.robMean.vector)
 }

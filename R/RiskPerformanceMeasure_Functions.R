@@ -8,7 +8,7 @@ IF.fn <- function(x, estimator, returns, nuisance.par, family, eff, ...){
   
   # Available estimators
   estimator.available <- c("DSR", "ES", "ESratio", "LPM",
-                           "mean", "OmegaRatio", "RachevRatio", "robLoc",
+                           "mean", "OmegaRatio", "RachevRatio", "robMean",
                            "SemiSD", "SD", "SR", "SoR", 
                            "VaR", "VaRratio")
   
@@ -25,7 +25,7 @@ IF.fn <- function(x, estimator, returns, nuisance.par, family, eff, ...){
          mean = IF.mean.fn(x, returns, nuisance.par, ...),
          OmegaRatio = IF.OmegaRatio.fn(x, returns, nuisance.par, ...),
          RachevRatio = IF.RachevRatio.fn(x, returns, nuisance.par, ...),
-         robLoc = IF.robLoc.fn(x, returns, nuisance.par, family, eff, ...),
+         robMean = IF.robMean.fn(x, returns, nuisance.par, family, eff, ...),
          SemiSD = IF.SemiSD.fn(x, returns, nuisance.par, ...),
          SD = IF.SD.fn(x, returns, nuisance.par, ...),
          SR = IF.SR.fn(x, returns, nuisance.par, ...),
@@ -218,7 +218,7 @@ IF.RachevRatio.fn <- function(x, returns, parsRachev.IF, alpha = 0.1, beta = 0.1
 }
 
 # Rachev Ratio IF Function
-IF.robLoc.fn <- function(x, returns, parsRobLoc.IF, family, eff){
+IF.robMean.fn <- function(x, returns, parsrobMean.IF, family, eff){
   
   # Extracting tuning parameters
   tuning.parameters <- 
@@ -229,12 +229,12 @@ IF.robLoc.fn <- function(x, returns, parsRobLoc.IF, family, eff){
   
   if(is.null(returns)){
     
-    rob.mu <- parsRobLoc.IF$mu
-    rob.sd <- parsRobLoc.IF$sd
-    psi.prime <- parsRobLoc.IF$psi.prime
+    rob.mu <- parsrobMean.IF$mu
+    rob.sd <- parsrobMean.IF$sd
+    psi.prime <- parsrobMean.IF$psi.prime
     
     # IF computation 
-    IF.robLoc <- rob.sd * (RobStatTM::rhoprime((x - rob.mu) / rob.sd, family = family, cc = tuning.parameters)) / 
+    IF.robMean <- rob.sd * (RobStatTM::rhoprime((x - rob.mu) / rob.sd, family = family, cc = tuning.parameters)) / 
       psi.prime
 
   } else{
@@ -244,11 +244,11 @@ IF.robLoc.fn <- function(x, returns, parsRobLoc.IF, family, eff){
     rob.sd <- mad(returns)
     
     # IF computation 
-    IF.robLoc <- rob.sd * (RobStatTM::rhoprime((x - rob.mu) / rob.sd, family = family, cc = tuning.parameters)) / 
+    IF.robMean <- rob.sd * (RobStatTM::rhoprime((x - rob.mu) / rob.sd, family = family, cc = tuning.parameters)) / 
       mean(RobStatTM::rhoprime2((returns - rob.mu) / rob.sd, family = family, cc = tuning.parameters))
   }
 
-  return(IF.robLoc)
+  return(IF.robMean)
 }
 
 # Semi-SD IF Function

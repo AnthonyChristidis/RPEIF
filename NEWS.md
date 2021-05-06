@@ -43,3 +43,6 @@
 * Addition of the robust location estimator influence function.
 * Update of vignette for robust location estimator influence function.
 
+# RPEIF 1.2.1
+* Modify name of robLoc function to robMean.
+
