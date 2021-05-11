@@ -25,4 +25,3 @@ Suggests: R.rsp,
    RobStatTM,
    PerformanceAnalytics
 VignetteBuilder: R.rsp
-LazyData: true
