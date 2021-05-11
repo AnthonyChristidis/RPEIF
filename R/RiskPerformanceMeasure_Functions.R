@@ -8,7 +8,7 @@ IF.fn <- function(x, estimator, returns, nuisance.par, family, eff, ...){
   
   # Available estimators
   estimator.available <- c("DSR", "ES", "ESratio", "LPM",
-                           "mean", "OmegaRatio", "RachevRatio", "robMean",
+                           "Mean", "OmegaRatio", "RachevRatio", "robMean",
                            "SemiSD", "SD", "SR", "SoR", 
                            "VaR", "VaRratio")
   
@@ -22,7 +22,7 @@ IF.fn <- function(x, estimator, returns, nuisance.par, family, eff, ...){
          ES = IF.ES.fn(x, returns, nuisance.par, ...),
          ESratio = IF.ESratio.fn(x, returns, nuisance.par, ...),
          LPM = IF.LPM.fn(x, returns, nuisance.par, ...),
-         mean = IF.mean.fn(x, returns, nuisance.par, ...),
+         Mean = IF.Mean.fn(x, returns, nuisance.par, ...),
          OmegaRatio = IF.OmegaRatio.fn(x, returns, nuisance.par, ...),
          RachevRatio = IF.RachevRatio.fn(x, returns, nuisance.par, ...),
          robMean = IF.robMean.fn(x, returns, nuisance.par, family, eff, ...),
@@ -142,7 +142,7 @@ IF.LPM.fn <- function(x, returns, parsLPM.IF, const = 0, order = 1){
 }
 
 # Mean IF Function
-IF.mean.fn <- function(x, returns, parsMean.IF){
+IF.Mean.fn <- function(x, returns, parsMean.IF){
   
   # Computing the nuisance parameters
   if(is.null(returns))
@@ -150,10 +150,10 @@ IF.mean.fn <- function(x, returns, parsMean.IF){
       mu.hat <- mean(returns)
   
   # Computing the IF for the mean of the returns
-  IF.mean <- x - mu.hat
+  IF.Mean <- x - mu.hat
   
   # Return value for the estimator
-  return(IF.mean)
+  return(IF.Mean)
 }
 
 # Omega Ratio IF Function

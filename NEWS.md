@@ -46,3 +46,7 @@
 # RPEIF 1.2.1
 * Modify name of robLoc function to robMean.
 
+# RPEIF 1.2.2
+* Modify name of IF.mean function to IF.Mean.
+* Remove edhec data.
+* Change default efficiency for robust estimation.

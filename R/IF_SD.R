@@ -30,7 +30,7 @@
 #' outIF <- IF.SD(returns = NULL, evalShape = TRUE, retVals = NULL, nuisPars = NULL,
 #'                IFplot = TRUE, IFprint = TRUE)
 #'
-#' data(edhec)
+#' data(edhec, package = "PerformanceAnalytics")
 #' colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
 #'                     "GM", "LS", "MA", "RV", "SS", "FoF") 
 #' 

@@ -4,7 +4,7 @@
 
 # Implementation of the robust filter for the IF TS
 robust.cleaning <- function(returns, robust.method=c("locScaleRob")[1], 
-                            alpha.robust=0.05, normal.efficiency=0.99){
+                            alpha.robust=0.05, normal.efficiency=0.95){
   
   # Data cleaning using method from RobStatTM
   if(robust.method=="locScaleRob"){ 
@@ -19,8 +19,8 @@ robust.cleaning <- function(returns, robust.method=c("locScaleRob")[1],
     # Casting as a numerci
     returns <- as.numeric(returns)
     # Location and scale parameters
-    mu <- RobStatTM::locScaleM(returns, psi="opt", eff=normal.efficiency)$mu
-    s <- RobStatTM::locScaleM(returns, psi="opt", eff=normal.efficiency)$disper
+    mu <- RobStatTM::locScaleM(returns, psi="mopt", eff=normal.efficiency)$mu
+    s <- RobStatTM::locScaleM(returns, psi="mopt", eff=normal.efficiency)$disper
     
     # Efficiency parameter
     if(normal.efficiency==0.95)

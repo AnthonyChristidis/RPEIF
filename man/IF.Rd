@@ -61,23 +61,23 @@ For further details on the usage of the \code{nuisPars} argument, please refer t
 }
 \examples{
 # Plot of IF using the wrapper function
-outIF <- IF(estimator = "mean",
+outIF <- IF(estimator = "Mean",
             returns = NULL, evalShape = TRUE, retVals = NULL, nuisPars = list(mu = 0.005),
             IFplot = TRUE, IFprint = TRUE)
 
 #' # Loading data (hedge funds returns)
-data(edhec)
+data(edhec, package = "PerformanceAnalytics")
 colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
                     "GM", "LS", "MA", "RV", "SS", "FoF") 
                     
 # Plot of IF using wrapper function and with a specified TS 
-outIF <- IF(estimator = "mean",
+outIF <- IF(estimator = "Mean",
             returns = edhec[,"CA"], evalShape = TRUE, 
             retVals = seq(-0.1, 0.1, by = 0.001), nuisPars = NULL,
             IFplot = TRUE, IFprint = TRUE)
 
 # Computing the IF of the returns (with prewhitening) with a plot of IF TS
-outIF <- IF(estimator = "mean",
+outIF <- IF(estimator = "Mean",
             returns = edhec[,"CA"], evalShape = FALSE, retVals = NULL, nuisPars  = NULL,
             IFplot = TRUE, IFprint = TRUE,
             compile = TRUE, prewhiten = FALSE)
