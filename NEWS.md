@@ -50,3 +50,6 @@
 * Modify name of IF.mean function to IF.Mean.
 * Remove edhec data.
 * Change default efficiency for robust estimation.
+
+# RPEIF 1.2.3
+* Fix code errors in vignette.
