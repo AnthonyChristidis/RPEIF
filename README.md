@@ -28,11 +28,11 @@ devtools::install_github("AnthonyChristidis/RPEIF")
 ``` r
 # Sample Code
 library(RPEIF)
-# Computing the IF of the returns (with outlier cleaning and prewhitening)
 # Loading the data
 data(edhec, package = "PerformanceAnalytics")
 colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
                     "GM", "LS", "MA", "RV", "SS", "FoF")
+# Computing the IF of the returns (with outlier cleaning and prewhitening)
 outIF <- IF(risk = "Mean",
             returns = edhec[,"CA"], evalShape = FALSE, retVals = NULL, nuisPars = NULL,
             IFplot = TRUE, IFprint = TRUE,
