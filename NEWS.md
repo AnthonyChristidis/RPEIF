@@ -53,3 +53,6 @@
 
 # RPEIF 1.2.3
 * Fix code errors in vignette.
+
+# RPEIF 1.2.4
+* Fix RobStatTM missing import.
