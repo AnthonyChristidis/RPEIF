@@ -25,25 +25,28 @@
 #' @export
 #'
 #' @examples
-#' data(edhec, package = "PerformanceAnalytics")
-#' colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
-#'                     "GM", "LS", "MA", "RV", "SS", "FoF") 
-#'                     
-#' # Plot of IF shape
-#' outIF <- IF.robMean(returns = edhec[,"CA"], evalShape = TRUE, 
-#'                     retVals = NULL, 
-#'                     IFplot = TRUE, IFprint = TRUE)
-#' 
-#' # Plot of IF a specified TS 
-#' outIF <- IF.robMean(returns = edhec[,"CA"], evalShape = TRUE, 
-#'                     retVals = seq(-0.1, 0.1, by = 0.001), 
-#'                     IFplot = TRUE, IFprint = TRUE)
-#' 
-#' # Computing the IF of the returns (with prewhitening) with a plot of IF TS
-#' outIF <- IF.robMean(returns = edhec[,"CA"], evalShape = FALSE, 
-#'                     retVals = NULL, 
-#'                     IFplot = TRUE, IFprint = TRUE,
-#'                     prewhiten = FALSE)
+#' # Examples using PerformanceAnalytics data
+#' if (requireNamespace("PerformanceAnalytics", quietly = TRUE)) {
+#'   data(edhec, package = "PerformanceAnalytics")
+#'   colnames(edhec) = c("CA", "CTAG", "DIS", "EM","EMN", "ED", "FIA",
+#'                       "GM", "LS", "MA", "RV", "SS", "FoF") 
+#'                       
+#'   # Plot of IF shape
+#'   outIF <- IF.robMean(returns = edhec[,"CA"], evalShape = TRUE, 
+#'                       retVals = NULL, 
+#'                       IFplot = TRUE, IFprint = TRUE)
+#'   
+#'   # Plot of IF a specified TS 
+#'   outIF <- IF.robMean(returns = edhec[,"CA"], evalShape = TRUE, 
+#'                       retVals = seq(-0.1, 0.1, by = 0.001), 
+#'                       IFplot = TRUE, IFprint = TRUE)
+#'   
+#'   # Computing the IF of the returns (with prewhitening) with a plot of IF TS
+#'   outIF <- IF.robMean(returns = edhec[,"CA"], evalShape = FALSE, 
+#'                       retVals = NULL, 
+#'                       IFplot = TRUE, IFprint = TRUE,
+#'                       prewhiten = FALSE)
+#' }
 #'
 IF.robMean <- function(returns = NULL, family = c("mopt", "opt", "bisquare")[1], eff = 0.95,
                        evalShape = FALSE, retVals = NULL, nuisPars = NULL, k = 4,

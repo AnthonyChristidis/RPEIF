@@ -24,7 +24,6 @@
 #' # Nuisance parameters using specified values
 #' specifiedNuisance <- nuisParsFn(mu=0.02, sd=0.1, c=0.01, alpha=0.05, beta=0.1)
 #'
-
 nuisParsFn  <- function(mu=0.01, sd=0.05, c=0, alpha=0.1, beta=0.1){
   
   # Check format of input

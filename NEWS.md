@@ -56,3 +56,7 @@
 
 # RPEIF 1.2.4
 * Fix RobStatTM missing import.
+
+# RPEIF 1.2.5
+* Fix DESCRIPTION file author entry.
+* Fix examples (dependency on PerformanceAnalytics data).
